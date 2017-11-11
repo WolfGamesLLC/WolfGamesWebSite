@@ -3,6 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>aspnet-WolfGamesWebSite-C86BA8C5-A36A-447C-9936-21E29869B6E8</UserSecretsId>
+    <Description>The Wolf Games LLC Web Site project</Description>
+    <Copyright>Wolf Games LLC 2017</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.0\WolfGamesWebSite.xml</DocumentationFile>
   </PropertyGroup>
 
 
