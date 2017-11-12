@@ -50,7 +50,10 @@ namespace WolfGamesWebSite
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
+            {
+                config.SignIn.RequireConfirmedEmail = true;
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -58,6 +61,8 @@ namespace WolfGamesWebSite
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
+
+            services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 
         /// <summary>

@@ -16,6 +16,9 @@ using WolfGamesWebSite.Services;
 
 namespace WolfGamesWebSite.Controllers
 {
+    /// <summary>
+    /// The account manager controller provided by MS
+    /// </summary>
     [Authorize]
     [Route("[controller]/[action]")]
     public class AccountController : Controller
@@ -25,6 +28,13 @@ namespace WolfGamesWebSite.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
+        /// <summary>
+        /// The default controller constructor proviced by MS
+        /// </summary>
+        /// <param name="userManager">The user managment service</param>
+        /// <param name="signInManager">The sign in managment service</param>
+        /// <param name="emailSender">The email sending service</param>
+        /// <param name="logger">The logging service</param>
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -37,9 +47,17 @@ namespace WolfGamesWebSite.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Holds any error message needed to be passed between the model, controller and view
+        /// </summary>
         [TempData]
         public string ErrorMessage { get; set; }
 
+        /// <summary>
+        /// The asyncronous login operation
+        /// </summary>
+        /// <param name="returnUrl">The url to use when the login operation is completed</param>
+        /// <returns>The asyncronous task performing the login operation</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
@@ -51,6 +69,12 @@ namespace WolfGamesWebSite.Controllers
             return View();
         }
 
+        /// <summary>
+        /// The asyncronous login operation
+        /// </summary>
+        /// <param name="model">A user information model to be logged in with</param>
+        /// <param name="returnUrl">The url to use when the login operation is completed</param>
+        /// <returns>The asyncronous task performing the login operation</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -59,6 +83,18 @@ namespace WolfGamesWebSite.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
+                // Require the user to have a confirmed email before they can log on.
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user != null)
+                {
+                    if (!await _userManager.IsEmailConfirmedAsync(user))
+                    {
+                        ModelState.AddModelError(string.Empty,
+                                      "You must have a confirmed email to log in.");
+                        return View(model);
+                    }
+                }
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
@@ -87,6 +123,12 @@ namespace WolfGamesWebSite.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Login with 2 factor authentication enabled
+        /// </summary>
+        /// <param name="rememberMe">The user's remember me setting value</param>
+        /// <param name="returnUrl">The url to use when the login operation is completed</param>
+        /// <returns>The asyncronous task performing the login operation</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> LoginWith2fa(bool rememberMe, string returnUrl = null)
@@ -105,6 +147,13 @@ namespace WolfGamesWebSite.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Login with 2 factor authentication enabled
+        /// </summary>
+        /// <param name="model">A user information model to be logged in with</param>
+        /// <param name="rememberMe">The user's remember me setting value</param>
+        /// <param name="returnUrl">The url to use when the login operation is completed</param>
+        /// <returns>The asyncronous task performing the login operation</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -143,6 +192,11 @@ namespace WolfGamesWebSite.Controllers
             }
         }
 
+        /// <summary>
+        /// The asyncronous login operation with a recovery code
+        /// </summary>
+        /// <param name="returnUrl">The url to use when the login operation is completed</param>
+        /// <returns>The asyncronous task performing the login operation</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> LoginWithRecoveryCode(string returnUrl = null)
@@ -159,6 +213,12 @@ namespace WolfGamesWebSite.Controllers
             return View();
         }
 
+        /// <summary>
+        /// The asyncronous login operation with a recovery code
+        /// </summary>
+        /// <param name="model">A user information model to be logged in with</param>
+        /// <param name="returnUrl">The url to use when the login operation is completed</param>
+        /// <returns>The asyncronous task performing the login operation</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -197,6 +257,10 @@ namespace WolfGamesWebSite.Controllers
             }
         }
 
+        /// <summary>
+        /// Show the user has been locked out page
+        /// </summary>
+        /// <returns>The view to be sent in response to the request</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Lockout()
@@ -204,6 +268,11 @@ namespace WolfGamesWebSite.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Show the register page
+        /// </summary>
+        /// <param name="returnUrl">The url that the user will return to after using the register button</param>
+        /// <returns>The view to be sent in response to the request</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
@@ -212,6 +281,12 @@ namespace WolfGamesWebSite.Controllers
             return View();
         }
 
+        /// <summary>
+        /// The asyncronous register operation
+        /// </summary>
+        /// <param name="model">A user information model to be registered with</param>
+        /// <param name="returnUrl">The url that the user will return to after using the register button</param>
+        /// <returns>The asyncronous task performing the register operation</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -230,7 +305,6 @@ namespace WolfGamesWebSite.Controllers
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
                     return RedirectToLocal(returnUrl);
                 }
@@ -241,6 +315,10 @@ namespace WolfGamesWebSite.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// The asyncronous logout operation
+        /// </summary>
+        /// <returns>The asyncronous task performing the logout operation</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
@@ -250,6 +328,12 @@ namespace WolfGamesWebSite.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
+        /// <summary>
+        /// Perform an external login operation
+        /// </summary>
+        /// <param name="provider">The name of the external login provider</param>
+        /// <param name="returnUrl">The login callback url</param>
+        /// <returns>The page resulting from the login attempt</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -261,6 +345,12 @@ namespace WolfGamesWebSite.Controllers
             return Challenge(properties, provider);
         }
 
+        /// <summary>
+        /// Perform the external login callback operation
+        /// </summary>
+        /// <param name="returnUrl">The url to send the user to on successful login</param>
+        /// <param name="remoteError">The text returned by the external login provider on an error</param>
+        /// <returns>The asyncronous task performing the callback</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
@@ -329,6 +419,12 @@ namespace WolfGamesWebSite.Controllers
             return View(nameof(ExternalLogin), model);
         }
 
+        /// <summary>
+        /// Confirm the users email address
+        /// </summary>
+        /// <param name="userId">The user id to be confirmed</param>
+        /// <param name="code">The token to be used for the confirmation</param>
+        /// <returns>The asyncronous task performing the email confirmation</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
@@ -346,6 +442,10 @@ namespace WolfGamesWebSite.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
+        /// <summary>
+        /// Show the forgot password page
+        /// </summary>
+        /// <returns>The forgot password view</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ForgotPassword()
@@ -353,6 +453,11 @@ namespace WolfGamesWebSite.Controllers
             return View();
         }
 
+        /// <summary>
+        /// The asyncronous forgot password operation
+        /// </summary>
+        /// <param name="model">A forgot password view model to be used by the operation</param>
+        /// <returns>The asyncronous task performing the forgot password operation</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -380,6 +485,10 @@ namespace WolfGamesWebSite.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Show the forgot password confirmation page
+        /// </summary>
+        /// <returns>The forgot password confirmation view</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ForgotPasswordConfirmation()
@@ -387,6 +496,11 @@ namespace WolfGamesWebSite.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Show the reset password page
+        /// </summary>
+        /// <param name="code">The code to be used when resetting the password</param>
+        /// <returns>The reset password view</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ResetPassword(string code = null)
@@ -399,6 +513,11 @@ namespace WolfGamesWebSite.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// The asyncronous reset password operation
+        /// </summary>
+        /// <param name="model">A reset password view model to be used when resetting the password</param>
+        /// <returns>The asyncronous task performing the password reset</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -423,6 +542,10 @@ namespace WolfGamesWebSite.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Show the password reset confirmation page
+        /// </summary>
+        /// <returns>The reset password confirmation view</returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ResetPasswordConfirmation()
@@ -430,7 +553,10 @@ namespace WolfGamesWebSite.Controllers
             return View();
         }
 
-
+        /// <summary>
+        /// Show the access denied page
+        /// </summary>
+        /// <returns>The access denied view</returns>
         [HttpGet]
         public IActionResult AccessDenied()
         {
