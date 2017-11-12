@@ -495,7 +495,7 @@ namespace WolfGamesWebSite.Controllers
         {
             return string.Format(
                 AuthenicatorUriFormat,
-                _urlEncoder.Encode("WolfGamesWebSite"),
+                _urlEncoder.Encode("Wolf Games"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }
