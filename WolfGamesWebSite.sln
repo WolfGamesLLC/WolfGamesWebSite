@@ -5,7 +5,10 @@ VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WolfGamesWebSite", "WolfGamesWebSite\WolfGamesWebSite.csproj", "{4D9FF43D-0A8E-40CA-A80D-5BC21F0AE88C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfGamesWebSite.XUnitTestSuite", "WolfGamesWebSite.XUnitTestSuite\WolfGamesWebSite.XUnitTestSuite.csproj", "{0F32790F-3B3C-4765-B3F9-AA007D98D5A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WolfGamesWebSite.XUnitTestSuite", "WolfGamesWebSite.XUnitTestSuite\WolfGamesWebSite.XUnitTestSuite.csproj", "{0F32790F-3B3C-4765-B3F9-AA007D98D5A0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4D9FF43D-0A8E-40CA-A80D-5BC21F0AE88C} = {4D9FF43D-0A8E-40CA-A80D-5BC21F0AE88C}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

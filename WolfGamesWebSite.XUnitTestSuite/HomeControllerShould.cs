@@ -1,5 +1,6 @@
 using System;
 using Xunit;
+using WolfGamesWebSite;
 
 namespace WolfGamesWebSite.XUnitTestSuite
 {
