@@ -29,5 +29,15 @@ namespace WolfGamesWebSite.XUnitTestSuite
             var result = new HomeController().Index();
             Assert.IsType<ViewResult>(result);
         }
+
+        /// <summary>
+        /// DevCorner should return a <see cref="Microsoft.AspNetCore.Mvc.ViewResult"/>
+        /// </summary>
+        [Fact]
+        public void DevCornerReturnsViewResult()
+        {
+            var result = new HomeController().DevCorner();
+            Assert.IsType<ViewResult>(result);
+        }
     }
 }
