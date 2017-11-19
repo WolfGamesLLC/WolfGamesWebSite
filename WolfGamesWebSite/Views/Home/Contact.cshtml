@@ -1,17 +1,33 @@
 ﻿@{
-    ViewData["Title"] = "Contact";
+    ViewData["Title"] = "Contact Wolf Games";
 }
-<h2>@ViewData["Title"]</h2>
+
+<h2>@ViewData["Title"].</h2>
 <h3>@ViewData["Message"]</h3>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+<div class="transparent-background soft-border-radius">
+    <form enctype="text/plain" action="mailto:contact@wolfgamesllc.com" method="get" class="form-format" target="_blank" novalidate>
+        <div>
+            <h2>Fill out the form below or <a href="mailto:contact@wolfgamesllc.com">contact us</a></h2>
+            <p>You may omit your name when using the form.</p>
 
-<address>
-    <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+            <div>
+                <label for="FNAME">First Name </label><br />
+                <input type="text" value="" name="FNAME" class="transparent-background soft-border-radius" id="FNAME">
+            </div>
+            <div>
+                <label for="EMAIL">Email </label><br />
+                <input type="email" value="" cols="30" name="EMAIL" class="transparent-background soft-border-radius" id="EMAIL">
+            </div>
+
+            <div>
+                <label for="COMMENT">Comment </label><br />
+                <textarea value="" cols="30" rows="3" name="comment" class="transparent-background soft-border-radius" id="COMMENT">  </textarea>
+            </div>
+            <div>
+                <input type="submit" class="btn btn-primary btn-lg button-xl" value="Submit" name="submit" />
+            </div>
+        </div>
+    </form>
+</div>
+
