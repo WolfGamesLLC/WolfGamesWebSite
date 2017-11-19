@@ -1,6 +1,8 @@
 using System;
 using Xunit;
 using WolfGamesWebSite;
+using WolfGamesWebSite.Controllers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WolfGamesWebSite.XUnitTestSuite
 {
@@ -10,12 +12,22 @@ namespace WolfGamesWebSite.XUnitTestSuite
     public class HomeControllerShould
     {
         /// <summary>
-        /// The default constructor should create a home controller
+        /// The default constructor should create a <see cref="HomeController">home controller</see>
         /// </summary>
         [Fact]
         public void CreateHomeController()
         {
-            Assert.False(true);
+            Assert.IsType<HomeController>(new HomeController());
+        }
+
+        /// <summary>
+        /// Index should return a <see cref="ViewResult"/>
+        /// </summary>
+        [Fact]
+        public void IndexReturnsViewResult()
+        {
+            var result = new HomeController().Index();
+            Assert.IsType<ViewResult>(result);
         }
     }
 }
