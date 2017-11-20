@@ -9,10 +9,20 @@ using System.Linq;
 using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
 
-namespace WolfGamesWebSite
+namespace WolfGamesWebSite.Extensions
 {
+    /// <summary>
+    /// This object is used at run time by adding it to the IMvcBuilder object used by the 
+    /// start up objects IServiceCollection object
+    /// </summary>
     public class ReferencesMetadataReferenceFeatureProvider : IApplicationFeatureProvider<MetadataReferenceFeature>
     {
+        /// <summary>
+        /// A quick review of this code indicates that it builds a path for each assembly in the
+        /// app
+        /// </summary>
+        /// <param name="parts">An enumerable llist of ApplicationPart objects</param>
+        /// <param name="feature">The MetadataReferenceFeature the assembly paths are added to</param>
         public void PopulateFeature(IEnumerable<ApplicationPart> parts, MetadataReferenceFeature feature)
         {
             var libraryPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);

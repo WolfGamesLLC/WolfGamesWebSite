@@ -14,6 +14,7 @@ using WolfGamesWebSite.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.Mvc.Razor.Compilation;
+using WolfGamesWebSite.Extensions;
 
 namespace WolfGamesWebSite
 {

@@ -10,8 +10,13 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace WolfGamesWebSite
+namespace WolfGamesWebSite.Extensions
 {
+    /// <summary>
+    /// I'm not sure if this class is actually needed as I have no reference to it in my code.
+    /// I found it as a workaround to a but in ASP.NET Core 2.0 that prevents loading of external
+    /// dlls. I assume that the compilation engine uses this object internally somehow.
+    /// </summary>
     public class MvcConfiguration : IDesignTimeMvcBuilderConfiguration
     {
         private class DirectReferenceAssemblyResolver : ICompilationAssemblyResolver
@@ -43,6 +48,11 @@ namespace WolfGamesWebSite
             }
         }
 
+        /// <summary>
+        /// This function if called seems to use reflection to resolve external
+        /// reference paths
+        /// </summary>
+        /// <param name="builder">An instance of an object that implements IMvcBuilder</param>
         public void ConfigureMvc(IMvcBuilder builder)
         {
             // .NET Core SDK v1 does not pick up reference assemblies so
