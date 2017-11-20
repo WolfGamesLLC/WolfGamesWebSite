@@ -32,6 +32,7 @@ namespace WolfGamesWebSite
         /// <returns>An object that implements IWebHost</returns>
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseApplicationInsights()
                 .UseStartup<Startup>()
                 .Build();
     }
