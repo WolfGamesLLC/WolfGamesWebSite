@@ -13,6 +13,7 @@ using WolfGamesWebSite.Models;
 using WolfGamesWebSite.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
+using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 
 namespace WolfGamesWebSite
 {
@@ -78,7 +79,14 @@ namespace WolfGamesWebSite
                 microsoftOptions.ClientSecret = Configuration["Authentication:Microsoft:Password"];
             });
 
-            services.AddMvc();
+            //workaround https://github.com/dotnet/core-setup/issues/2981 will be fixed in 2.0.1
+            services.AddMvc().ConfigureApplicationPartManager(manager =>
+            {
+                var oldMetadataReferenceFeatureProvider = manager.FeatureProviders.First(f => f is MetadataReferenceFeatureProvider);
+                manager.FeatureProviders.Remove(oldMetadataReferenceFeatureProvider);
+                manager.FeatureProviders.Add(new ReferencesMetadataReferenceFeatureProvider());
+            });
+            //            services.AddMvc();
 
             services.Configure<AuthMessageSenderOptions>(Configuration);
         }
