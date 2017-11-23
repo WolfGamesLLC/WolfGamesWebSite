@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using WolfGamesWebSite.Models;
+using WolfGamesWebSite.DAL.Models;
 using Xunit;
 
 namespace WolfGamesWebSite.XUnitTestSuite.Models

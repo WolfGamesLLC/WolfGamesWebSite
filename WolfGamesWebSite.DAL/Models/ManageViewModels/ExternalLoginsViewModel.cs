@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 
-namespace WolfGamesWebSite.Models.ManageViewModels
+namespace WolfGamesWebSite.DAL.Models.ManageViewModels
 {
     public class ExternalLoginsViewModel
     {

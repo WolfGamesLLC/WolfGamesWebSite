@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WolfGamesWebSite.Models.SimpleGameModels
+namespace WolfGamesWebSite.DAL.Models.SimpleGameModels
 {
     /// <summary>
     /// Base model for the Marble Motion game

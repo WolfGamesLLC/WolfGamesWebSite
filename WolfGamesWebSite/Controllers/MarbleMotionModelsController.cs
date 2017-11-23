@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WolfGamesWebSite.Models.SimpleGameModels;
+using WolfGamesWebSite.DAL.Models.SimpleGameModels;
 using WolfGamesWebSite.DAL.Data;
 
 namespace WolfGamesWebSite.Controllers

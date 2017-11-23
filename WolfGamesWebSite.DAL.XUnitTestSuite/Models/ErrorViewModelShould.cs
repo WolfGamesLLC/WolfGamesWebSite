@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using WolfGamesWebSite.Models;
+using WolfGamesWebSite.DAL.Models;
 using Xunit;
 
 namespace WolfGamesWebSite.XUnitTestSuite.Models
@@ -14,14 +14,14 @@ namespace WolfGamesWebSite.XUnitTestSuite.Models
         /// <summary>
         /// Standard object under test
         /// </summary>
-        public ErrorViewModel errorViewModel { get; set; }
+        public ErrorViewModel ErrorViewModel { get; set; }
 
         /// <summary>
         /// Initialize the test suite
         /// </summary>
         public ErrorViewModelShould()
         {
-            errorViewModel = new ErrorViewModel();
+            ErrorViewModel = new ErrorViewModel();
         }
 
         /// <summary>
@@ -40,8 +40,8 @@ namespace WolfGamesWebSite.XUnitTestSuite.Models
         public void SetAndGetRequestId()
         {
             string expected = "RequestId";
-            errorViewModel.RequestId = expected;
-            Assert.Equal(expected, errorViewModel.RequestId);
+            ErrorViewModel.RequestId = expected;
+            Assert.Equal(expected, ErrorViewModel.RequestId);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace WolfGamesWebSite.XUnitTestSuite.Models
         [Fact]
         public void NotShowRequestIdWhenRequestIdIsNull()
         {
-            Assert.False(errorViewModel.ShowRequestId);
+            Assert.False(ErrorViewModel.ShowRequestId);
         }
 
         /// <summary>
@@ -59,8 +59,8 @@ namespace WolfGamesWebSite.XUnitTestSuite.Models
         [Fact]
         public void NotShowRequestIdWhenRequestIdIsEmpty()
         {
-            errorViewModel.RequestId = "";
-            Assert.False(errorViewModel.ShowRequestId);
+            ErrorViewModel.RequestId = "";
+            Assert.False(ErrorViewModel.ShowRequestId);
         }
 
         /// <summary>
@@ -69,8 +69,8 @@ namespace WolfGamesWebSite.XUnitTestSuite.Models
         [Fact]
         public void ShowRequestIdWhenRequestIdIsSpace()
         {
-            errorViewModel.RequestId = " ";
-            Assert.True(errorViewModel.ShowRequestId);
+            ErrorViewModel.RequestId = " ";
+            Assert.True(ErrorViewModel.ShowRequestId);
         }
 
         /// <summary>
@@ -79,8 +79,8 @@ namespace WolfGamesWebSite.XUnitTestSuite.Models
         [Fact]
         public void ShowRequestIdWhenRequestIdIsA()
         {
-            errorViewModel.RequestId = "a";
-            Assert.True(errorViewModel.ShowRequestId);
+            ErrorViewModel.RequestId = "a";
+            Assert.True(ErrorViewModel.ShowRequestId);
         }
     }
 }

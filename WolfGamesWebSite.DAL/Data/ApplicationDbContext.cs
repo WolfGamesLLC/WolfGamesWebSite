@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using WolfGamesWebSite.Models;
-using WolfGamesWebSite.Models.SimpleGameModels;
+using WolfGamesWebSite.DAL.Models;
+using WolfGamesWebSite.DAL.Models.SimpleGameModels;
 
 namespace WolfGamesWebSite.DAL.Data
 {
@@ -40,6 +40,6 @@ namespace WolfGamesWebSite.DAL.Data
         /// <summary>
         /// The MarbleMotionModel db set
         /// </summary>
-        public DbSet<WolfGamesWebSite.Models.SimpleGameModels.MarbleMotionModel> MarbleMotionModel { get; set; }
+        public DbSet<MarbleMotionModel> MarbleMotionModel { get; set; }
     }
 }

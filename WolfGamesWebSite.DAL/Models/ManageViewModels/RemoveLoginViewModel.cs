@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WolfGamesWebSite.Models.ManageViewModels
+namespace WolfGamesWebSite.DAL.Models.ManageViewModels
 {
     public class RemoveLoginViewModel
     {

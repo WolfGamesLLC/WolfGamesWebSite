@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using WolfGamesWebSite.Models.SimpleGameModels;
+using WolfGamesWebSite.DAL.Models.SimpleGameModels;
 using Xunit;
 
 namespace WolfGamesWebSite.XUnitTestSuite.Models.SimpleGameModels
@@ -14,14 +14,14 @@ namespace WolfGamesWebSite.XUnitTestSuite.Models.SimpleGameModels
         /// <summary>
         /// Standard object under test
         /// </summary>
-        public MarbleMotionModel marbleMotionModel { get; set; }
+        public MarbleMotionModel MarbleMotionModel { get; set; }
 
         /// <summary>
         /// Initialize the test suite
         /// </summary>
         public MarbleMotionModelShould()
         {
-            marbleMotionModel = new MarbleMotionModel();
+            MarbleMotionModel = new MarbleMotionModel();
         }
 
         /// <summary>
@@ -40,8 +40,8 @@ namespace WolfGamesWebSite.XUnitTestSuite.Models.SimpleGameModels
         public void ShouldSetAndGetId()
         {
             long expected = 12345;
-            marbleMotionModel.Id = expected;
-            Assert.Equal(expected, marbleMotionModel.Id);
+            MarbleMotionModel.Id = expected;
+            Assert.Equal(expected, MarbleMotionModel.Id);
         }
 
         /// <summary>
@@ -51,8 +51,8 @@ namespace WolfGamesWebSite.XUnitTestSuite.Models.SimpleGameModels
         public void ShouldSetAndGetScore()
         {
             long expected = 12345;
-            marbleMotionModel.Score = expected;
-            Assert.Equal(expected, marbleMotionModel.Score);
+            MarbleMotionModel.Score = expected;
+            Assert.Equal(expected, MarbleMotionModel.Score);
         }
 
         /// <summary>
@@ -62,8 +62,8 @@ namespace WolfGamesWebSite.XUnitTestSuite.Models.SimpleGameModels
         public void ShouldSetAndGetXPosition()
         {
             int expected = 12345;
-            marbleMotionModel.XPosition = expected;
-            Assert.Equal(expected, marbleMotionModel.XPosition);
+            MarbleMotionModel.XPosition = expected;
+            Assert.Equal(expected, MarbleMotionModel.XPosition);
         }
 
         /// <summary>
@@ -73,8 +73,8 @@ namespace WolfGamesWebSite.XUnitTestSuite.Models.SimpleGameModels
         public void ShouldSetAndGetYPosition()
         {
             int expected = 12345;
-            marbleMotionModel.ZPosition = expected;
-            Assert.Equal(expected, marbleMotionModel.ZPosition);
+            MarbleMotionModel.ZPosition = expected;
+            Assert.Equal(expected, MarbleMotionModel.ZPosition);
         }
     }
 }
