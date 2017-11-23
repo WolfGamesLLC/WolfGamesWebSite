@@ -16,4 +16,10 @@
     <ProjectReference Include="..\WolfGamesWebSite.DAL\WolfGamesWebSite.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="WGSystem">
+      <HintPath>..\..\Repos\WGMicrosoftAPI\WGSystem\bin\Release\netcoreapp2.0\WGSystem.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
