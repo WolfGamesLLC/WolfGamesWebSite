@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using WolfGamesWebSite.Controllers;
 using WolfGamesWebSite.Data;
+using WolfGamesWebSite.Data.DAL;
 using WolfGamesWebSite.Models.SimpleGameModels;
 using Xunit;
 

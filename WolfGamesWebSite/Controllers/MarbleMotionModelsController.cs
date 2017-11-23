@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WolfGamesWebSite.Data;
 using WolfGamesWebSite.Models.SimpleGameModels;
+using WolfGamesWebSite.Data.DAL;
 
 namespace WolfGamesWebSite.Controllers
 {

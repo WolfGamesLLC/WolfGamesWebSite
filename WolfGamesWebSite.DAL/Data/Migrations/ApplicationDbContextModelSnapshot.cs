@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 using WolfGamesWebSite.Data;
+using WolfGamesWebSite.Data.DAL;
 
 namespace WolfGamesWebSite.Data.Migrations
 {

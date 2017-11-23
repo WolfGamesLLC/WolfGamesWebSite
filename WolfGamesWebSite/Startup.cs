@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using WolfGamesWebSite.Extensions;
 using Swashbuckle.AspNetCore.Swagger;
+using WolfGamesWebSite.Data.DAL;
 
 namespace WolfGamesWebSite
 {
