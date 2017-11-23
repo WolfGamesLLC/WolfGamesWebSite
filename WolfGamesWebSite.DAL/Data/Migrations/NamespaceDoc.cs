@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WolfGamesWebSite.Data.Migrations
+namespace WolfGamesWebSite.DAL.Data.Migrations
 {
     /// <summary>
     /// The <see cref="WolfGamesWebSite.Data.Migrations"/> namespace contains the 

@@ -9,7 +9,7 @@ using System;
 using WolfGamesWebSite.Data;
 using WolfGamesWebSite.Data.DAL;
 
-namespace WolfGamesWebSite.Data.Migrations
+namespace WolfGamesWebSite.DAL.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20171121124924_AddMarbleMotionInitialData")]

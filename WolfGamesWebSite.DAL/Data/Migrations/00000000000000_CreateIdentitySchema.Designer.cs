@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using WolfGamesWebSite.Data.DAL;
 
-namespace WolfGamesWebSite.Data.Migrations
+namespace WolfGamesWebSite.DAL.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("00000000000000_CreateIdentitySchema")]

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WolfGamesWebSite.Data
+namespace WolfGamesWebSite.DAL.Data
 {
     /// <summary>
     /// The <see cref="WolfGamesWebSite.Data"/> namespace contains the 

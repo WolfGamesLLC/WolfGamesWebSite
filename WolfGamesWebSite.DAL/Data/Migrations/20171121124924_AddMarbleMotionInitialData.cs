@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
 
-namespace WolfGamesWebSite.Data.Migrations
+namespace WolfGamesWebSite.DAL.Data.Migrations
 {
     public partial class AddMarbleMotionInitialData : Migration
     {
