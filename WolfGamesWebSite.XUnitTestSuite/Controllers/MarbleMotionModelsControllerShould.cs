@@ -6,8 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WolfGamesWebSite.Controllers;
-using WolfGamesWebSite.Data;
-using WolfGamesWebSite.Data.DAL;
+using WolfGamesWebSite.DAL.Data;
 using WolfGamesWebSite.Models.SimpleGameModels;
 using Xunit;
 

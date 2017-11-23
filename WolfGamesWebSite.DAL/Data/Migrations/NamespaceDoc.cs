@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace WolfGamesWebSite.DAL.Data.Migrations
 {
     /// <summary>
-    /// The <see cref="WolfGamesWebSite.Data.Migrations"/> namespace contains the 
+    /// The <see cref="WolfGamesWebSite.DAL.Data.Migrations"/> namespace contains the 
     /// classes for the Wolf Games site database migration objects
     /// </summary>
     [System.Runtime.CompilerServices.CompilerGenerated]

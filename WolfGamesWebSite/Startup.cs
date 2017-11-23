@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WolfGamesWebSite.Data;
 using WolfGamesWebSite.Models;
 using WolfGamesWebSite.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +15,7 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using WolfGamesWebSite.Extensions;
 using Swashbuckle.AspNetCore.Swagger;
-using WolfGamesWebSite.Data.DAL;
+using WolfGamesWebSite.DAL.Data;
 
 namespace WolfGamesWebSite
 {

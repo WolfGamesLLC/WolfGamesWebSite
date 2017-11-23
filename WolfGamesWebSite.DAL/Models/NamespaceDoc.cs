@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WolfGamesWebSite.Models
+namespace WolfGamesWebSite.DAL.Models
 {
     /// <summary>
-    /// The <see cref="WolfGamesWebSite.Models"/> namespace contains the 
+    /// The <see cref="WolfGamesWebSite.DAL.Models"/> namespace contains the 
     /// classes for the Wolf Games site view model objects
     /// </summary>
     [System.Runtime.CompilerServices.CompilerGenerated]

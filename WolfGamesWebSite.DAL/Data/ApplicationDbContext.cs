@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using WolfGamesWebSite.Models;
 using WolfGamesWebSite.Models.SimpleGameModels;
 
-namespace WolfGamesWebSite.Data.DAL
+namespace WolfGamesWebSite.DAL.Data
 {
     /// <summary>
     /// The main application db context

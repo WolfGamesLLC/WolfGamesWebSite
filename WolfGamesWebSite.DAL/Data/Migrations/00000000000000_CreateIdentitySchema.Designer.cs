@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using WolfGamesWebSite.Data.DAL;
 
 namespace WolfGamesWebSite.DAL.Data.Migrations
 {
