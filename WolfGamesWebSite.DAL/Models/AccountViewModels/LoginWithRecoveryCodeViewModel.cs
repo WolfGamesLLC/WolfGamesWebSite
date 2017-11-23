@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WolfGamesWebSite.Models.AccountViewModels
+namespace WolfGamesWebSite.DAL.Models.AccountViewModels
 {
     public class LoginWithRecoveryCodeViewModel
     {

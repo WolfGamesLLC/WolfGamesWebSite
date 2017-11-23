@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using WGSystem.Collections.Generic;
 using WGSystem.ComponentModel.DataAnnotations;
-using WolfGamesWebSite.Models.AccountViewModels;
+using WolfGamesWebSite.DAL.Models.AccountViewModels;
 using Xunit;
 
 namespace WolfGamesWebSite.XUnitTestSuite.Models.AccountViewModels

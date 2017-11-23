@@ -126,7 +126,7 @@ namespace WolfGamesWebSite.DAL.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("WolfGamesWebSite.Models.ApplicationUser", b =>
+            modelBuilder.Entity("WolfGamesWebSite.DAL.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id");
 
@@ -185,7 +185,7 @@ namespace WolfGamesWebSite.DAL.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("WolfGamesWebSite.Models.ApplicationUser")
+                    b.HasOne("WolfGamesWebSite.DAL.Models.ApplicationUser")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -193,7 +193,7 @@ namespace WolfGamesWebSite.DAL.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("WolfGamesWebSite.Models.ApplicationUser")
+                    b.HasOne("WolfGamesWebSite.DAL.Models.ApplicationUser")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -206,7 +206,7 @@ namespace WolfGamesWebSite.DAL.Data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("WolfGamesWebSite.Models.ApplicationUser")
+                    b.HasOne("WolfGamesWebSite.DAL.Models.ApplicationUser")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

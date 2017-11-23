@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using WolfGamesWebSite.DAL.Models;
-using WolfGamesWebSite.Models.AccountViewModels;
+using WolfGamesWebSite.DAL.Models.AccountViewModels;
 using WolfGamesWebSite.Services;
 
 namespace WolfGamesWebSite.Controllers
