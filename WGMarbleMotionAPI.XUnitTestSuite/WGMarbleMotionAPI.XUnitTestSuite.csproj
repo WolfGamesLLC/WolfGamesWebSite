@@ -4,6 +4,14 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <Description>Wolf Games Marble Motion Game Web API Unit testing package</Description>
+
+    <Copyright>2017 Wolf Games LLC</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp2.0\WGMarbleMotionAPI.XUnitTestSuite.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

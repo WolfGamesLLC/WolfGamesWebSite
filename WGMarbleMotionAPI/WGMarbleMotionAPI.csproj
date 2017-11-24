@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Description>Wolf Games Marble Motion Game Web API</Description>
+    <Copyright>2017 Wolf Games</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp2.0\WGMarbleMotionAPI.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
