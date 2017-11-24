@@ -22,4 +22,14 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WolfGamesWebSite.DAL\WolfGamesWebSite.DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="WGSystem">
+      <HintPath>..\..\Repos\WGMicrosoftAPI\WGSystem\bin\Release\netcoreapp2.0\WGSystem.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
