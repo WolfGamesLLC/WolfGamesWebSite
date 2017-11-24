@@ -16,10 +16,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" PrivateAssets="All" />
     <PackageReference Include="Sendgrid" Version="9.9.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +38,10 @@
     <Folder Include="wwwroot\Developers\WGTest3rdPartyAPI\" />
     <Folder Include="wwwroot\Developers\WGWebApps\" />
     <Folder Include="wwwroot\Developers\WGLibraries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WolfGamesWebSite.DAL\WolfGamesWebSite.DAL.csproj" />
   </ItemGroup>
 
   <ItemGroup>

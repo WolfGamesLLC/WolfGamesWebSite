@@ -8,13 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WolfGamesWebSite.Data;
-using WolfGamesWebSite.Models;
+using WolfGamesWebSite.DAL.Models;
 using WolfGamesWebSite.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using WolfGamesWebSite.Extensions;
+using Swashbuckle.AspNetCore.Swagger;
+using WolfGamesWebSite.DAL.Data;
 
 namespace WolfGamesWebSite
 {
@@ -90,6 +91,12 @@ namespace WolfGamesWebSite
             //            services.AddMvc();
 
             services.Configure<AuthMessageSenderOptions>(Configuration);
+
+            // Register the Swagger generator, defining one or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "MarbleMotion API", Version = "v1" });
+            });
         }
 
         /// <summary>
@@ -119,6 +126,15 @@ namespace WolfGamesWebSite
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Marble Motion V1");
+            });
 
             app.UseMvc(routes =>
             {
