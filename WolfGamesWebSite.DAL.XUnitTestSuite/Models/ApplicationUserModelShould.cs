@@ -9,7 +9,7 @@ namespace WolfGamesWebSite.XUnitTestSuite.Models
     /// <summary>
     /// Test suite for the standard application user model
     /// </summary>
-    class ApplicationUserModelShould
+    public class ApplicationUserModelShould
     {
         /// <summary>
         /// Verify the model can be created
