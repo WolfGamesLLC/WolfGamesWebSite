@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WolfGamesWebSite", "WolfGamesWebSite\WolfGamesWebSite.csproj", "{4D9FF43D-0A8E-40CA-A80D-5BC21F0AE88C}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -11,6 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WolfGamesWebSite", "WolfGam
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WolfGamesWebSite.XUnitTestSuite", "WolfGamesWebSite.XUnitTestSuite\WolfGamesWebSite.XUnitTestSuite.csproj", "{0F32790F-3B3C-4765-B3F9-AA007D98D5A0}"
 	ProjectSection(ProjectDependencies) = postProject
+		{8888CF00-CF52-4116-860D-2DDC5AA4E235} = {8888CF00-CF52-4116-860D-2DDC5AA4E235}
 		{4D9FF43D-0A8E-40CA-A80D-5BC21F0AE88C} = {4D9FF43D-0A8E-40CA-A80D-5BC21F0AE88C}
 		{06346242-C84C-403E-BB83-66CEF04F5286} = {06346242-C84C-403E-BB83-66CEF04F5286}
 		{333DEEAA-8436-4639-B4FB-D404D11E1373} = {333DEEAA-8436-4639-B4FB-D404D11E1373}
@@ -35,6 +36,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WGMarbleMotionAPI.XUnitTest
 		{06346242-C84C-403E-BB83-66CEF04F5286} = {06346242-C84C-403E-BB83-66CEF04F5286}
 		{333DEEAA-8436-4639-B4FB-D404D11E1373} = {333DEEAA-8436-4639-B4FB-D404D11E1373}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolfGamesWebSite.Test.Framework", "WolfGamesWebSite.Test.Framework\WolfGamesWebSite.Test.Framework.csproj", "{8888CF00-CF52-4116-860D-2DDC5AA4E235}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +69,10 @@ Global
 		{7362AC4B-C371-458E-8E3D-198901464F39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7362AC4B-C371-458E-8E3D-198901464F39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7362AC4B-C371-458E-8E3D-198901464F39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8888CF00-CF52-4116-860D-2DDC5AA4E235}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8888CF00-CF52-4116-860D-2DDC5AA4E235}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8888CF00-CF52-4116-860D-2DDC5AA4E235}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8888CF00-CF52-4116-860D-2DDC5AA4E235}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
