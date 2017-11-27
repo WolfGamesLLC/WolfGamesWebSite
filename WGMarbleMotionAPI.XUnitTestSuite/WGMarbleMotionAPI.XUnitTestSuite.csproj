@@ -23,6 +23,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WGMarbleMotionAPI\WGMarbleMotionAPI.csproj" />
+    <ProjectReference Include="..\WolfGamesWebSite.Test.Framework\WolfGamesWebSite.Test.Framework.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="WGSystem">
+      <HintPath>..\..\Repos\WGMicrosoftAPI\WGSystem\bin\Release\netcoreapp2.0\WGSystem.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
