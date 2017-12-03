@@ -18,20 +18,33 @@ namespace WolfGamesWebSite.Test.Framework.Facts
     /// </summary>
     public class BasicStartupShould
     {
-//        [Fact]    
-//        public void AddApplicationPartManagerToServicePipeline()
-//        {
-//            var mockConfig = new Mock<IConfiguration>();
-//            var mockServices = new ServiceCollection();
-//            var startUp = new Startup(mockConfig.Object);
-//
-//            startUp.ConfigureServices(mockServices);
-//
-//            var serviceProvider = mockServices.BuildServiceProvider();
-//            
-//            var controller = serviceProvider.GetService<ApplicationPartManager>();
-//            Assert.NotNull(controller);
-//        }
+        /// <summary>
+        /// Get a specific service from a Service collection
+        /// </summary>
+        /// <typeparam name="T">The type of the service to retrieve</typeparam>
+        /// <param name="mockServices">The ServiceCollection to be searched</param>
+        /// <returns>The service or null if the service is not found</returns>
+        protected T GetService<T>(ServiceCollection mockServices)
+        {
+            var serviceProvider = mockServices.BuildServiceProvider();
+
+            return serviceProvider.GetService<T>();
+        }
+
+        //        [Fact]    
+        //        public void AddApplicationPartManagerToServicePipeline()
+        //        {
+        //            var mockConfig = new Mock<IConfiguration>();
+        //            var mockServices = new ServiceCollection();
+        //            var startUp = new Startup(mockConfig.Object);
+        //
+        //            startUp.ConfigureServices(mockServices);
+        //
+        //            var serviceProvider = mockServices.BuildServiceProvider();
+        //            
+        //            var controller = serviceProvider.GetService<ApplicationPartManager>();
+        //            Assert.NotNull(controller);
+        //        }
 
         //  Arrange
 

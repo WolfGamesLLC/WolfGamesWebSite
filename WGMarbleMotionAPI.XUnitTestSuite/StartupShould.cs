@@ -27,14 +27,7 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
 
             startUp.ConfigureServices(mockServices);
 
-            Assert.NotNull(GetService<ApplicationPartManager>(mockServices, startUp));
-        }
-
-        private T GetService<T>(ServiceCollection mockServices, Startup startUp)
-        {
-            var serviceProvider = mockServices.BuildServiceProvider();
-
-            return serviceProvider.GetService<T>();
+            Assert.NotNull(GetService<ApplicationPartManager>(mockServices));
         }
 
         //  Arrange
