@@ -9,29 +9,29 @@ using WolfGamesWebSite.Test.Framework.Identifiers;
 using Xunit;
 using WGSystem.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using WolfGamesWebSite.Test.Framework.Facts;
 
-namespace WGMarbleMotionAPI.XUnitTestSuite
+namespace WolfGamesWebSite.Test.Framework.Facts
 {
     /// <summary>
-    /// Test suite for the <see cref="Startup"/> class
+    /// Test suite for the <see cref="Startup"/> class containing
+    /// tests for the common features used by all sites and APIs
     /// </summary>
-    public class StartupShould : BasicStartupShould
+    public class BasicStartupShould
     {
-        [Fact]    
-        public void AddApplicationPartManagerToServicePipeline()
-        {
-            var mockConfig = new Mock<IConfiguration>();
-            var mockServices = new ServiceCollection();
-            var startUp = new Startup(mockConfig.Object);
-
-            startUp.ConfigureServices(mockServices);
-
-            var serviceProvider = mockServices.BuildServiceProvider();
-            
-            var controller = serviceProvider.GetService<ApplicationPartManager>();
-            Assert.NotNull(controller);
-        }
+//        [Fact]    
+//        public void AddApplicationPartManagerToServicePipeline()
+//        {
+//            var mockConfig = new Mock<IConfiguration>();
+//            var mockServices = new ServiceCollection();
+//            var startUp = new Startup(mockConfig.Object);
+//
+//            startUp.ConfigureServices(mockServices);
+//
+//            var serviceProvider = mockServices.BuildServiceProvider();
+//            
+//            var controller = serviceProvider.GetService<ApplicationPartManager>();
+//            Assert.NotNull(controller);
+//        }
 
         //  Arrange
 
