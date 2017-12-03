@@ -8,6 +8,7 @@ using WolfGamesWebSite.Test.Framework.Mocks;
 using WolfGamesWebSite.Test.Framework.Identifiers;
 using Xunit;
 using WGSystem.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
 namespace WGMarbleMotionAPI.XUnitTestSuite
 {
@@ -17,16 +18,42 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
     public class StartupShould
     {
         [Fact]    
-        public void AddMVCToServicePipeline()
+        public void AddApplicationPartManagerToServicePipeline()
         {
-            var list = new WGGenericCollectionsFactory().CreateList<string>();
             var mockConfig = new Mock<IConfiguration>();
-            var mockServices = new MockServiceCollection(list);
+            var mockServices = new ServiceCollection();
             var startUp = new Startup(mockConfig.Object);
 
             startUp.ConfigureServices(mockServices);
 
-            Assert.Contains<string>(MockServiceCollectionIdentifiers.MVCAdded(), list);
+            var serviceProvider = mockServices.BuildServiceProvider();
+            
+            var controller = serviceProvider.GetService<ApplicationPartManager>();
+            Assert.NotNull(controller);
         }
+
+        //  Arrange
+
+        //  Setting up the stuff required for Configuration.GetConnectionString("DefaultConnection")
+        //        Mock<IConfigurationSection> configurationSectionStub = new Mock<IConfigurationSection>();
+        //        configurationSectionStub.Setup(x => x["DefaultConnection"]).Returns("TestConnectionString");
+        //        Mock<Microsoft.Extensions.Configuration.IConfiguration> configurationStub = new Mock<Microsoft.Extensions.Configuration.IConfiguration>();
+        //        configurationStub.Setup(x => x.GetSection("ConnectionStrings")).Returns(configurationSectionStub.Object);
+        //
+        //        IServiceCollection services = new ServiceCollection();
+        //        var target = new Startup(configurationStub.Object);
+        //
+        //        //  Act
+        //
+        //        target.ConfigureServices(services);
+        //    //  Mimic internal asp.net core logic.
+        //    services.AddTransient<TestController>();
+        //
+        //    //  Assert
+        //
+        //    var serviceProvider = services.BuildServiceProvider();
+        //
+        //        var controller = serviceProvider.GetService<TestController>();
+        //        Assert.IsNotNull(controller);
     }
 }
