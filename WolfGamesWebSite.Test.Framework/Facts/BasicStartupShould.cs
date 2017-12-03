@@ -9,6 +9,7 @@ using WolfGamesWebSite.Test.Framework.Identifiers;
 using Xunit;
 using WGSystem.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Xunit.Abstractions;
 
 namespace WolfGamesWebSite.Test.Framework.Facts
 {
@@ -18,6 +19,21 @@ namespace WolfGamesWebSite.Test.Framework.Facts
     /// </summary>
     public class BasicStartupShould
     {
+
+        /// <summary>
+        /// Required to output to the console from a test
+        /// </summary>
+        protected readonly ITestOutputHelper output;
+
+        /// <summary>
+        /// Test initializer
+        /// </summary>
+        /// <param name="testOutputHelper">Allows the test to write data to stdout</param>
+        public BasicStartupShould(ITestOutputHelper testOutputHelper)
+        {
+            output = testOutputHelper;
+        }
+
         /// <summary>
         /// Get a specific service from a Service collection
         /// </summary>

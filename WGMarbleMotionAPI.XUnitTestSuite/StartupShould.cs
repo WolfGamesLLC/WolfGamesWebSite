@@ -10,6 +10,8 @@ using Xunit;
 using WGSystem.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using WolfGamesWebSite.Test.Framework.Facts;
+using System.Diagnostics;
+using Xunit.Abstractions;
 
 namespace WGMarbleMotionAPI.XUnitTestSuite
 {
@@ -18,6 +20,15 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
     /// </summary>
     public class StartupShould : BasicStartupShould
     {
+        /// <summary>
+        /// Test initializer
+        /// </summary>
+        /// <param name="testOutputHelper">Allows the test to write data to stdout</param>
+        public StartupShould(ITestOutputHelper testOutputHelper)
+            : base(testOutputHelper)
+        {
+        }
+
         [Fact]    
         public void AddApplicationPartManagerToServicePipeline()
         {
@@ -26,6 +37,12 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
             var startUp = new Startup(mockConfig.Object);
 
             startUp.ConfigureServices(mockServices);
+
+
+            foreach (ServiceDescriptor serv in mockServices)
+            {
+               output.WriteLine(serv.ServiceType.FullName);
+            }
 
             Assert.NotNull(GetService<ApplicationPartManager>(mockServices));
         }
