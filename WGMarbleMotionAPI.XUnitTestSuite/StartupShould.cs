@@ -41,7 +41,7 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
 
             foreach (ServiceDescriptor serv in mockServices)
             {
-               output.WriteLine(serv.ServiceType.FullName);
+               OutputHelper.WriteLine(serv.ServiceType.FullName);
             }
 
             Assert.NotNull(GetService<ApplicationPartManager>(mockServices));

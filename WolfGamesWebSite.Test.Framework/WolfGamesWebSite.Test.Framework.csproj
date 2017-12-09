@@ -25,6 +25,9 @@
     <Reference Include="WGSystem">
       <HintPath>..\..\Repos\WGMicrosoftAPI\WGSystem\bin\Release\netcoreapp2.0\WGSystem.dll</HintPath>
     </Reference>
+    <Reference Include="WGXUnit">
+      <HintPath>..\..\WolfGamesGenericCode\WGXUnit\bin\Release\netcoreapp2.0\WGXUnit.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
