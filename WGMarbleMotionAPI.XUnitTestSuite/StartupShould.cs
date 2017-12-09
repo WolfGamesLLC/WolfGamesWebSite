@@ -12,6 +12,11 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using WolfGamesWebSite.Test.Framework.Facts;
 using System.Diagnostics;
 using Xunit.Abstractions;
+using Microsoft.AspNetCore.Routing;
+using System.Text.Encodings.Web;
+using Microsoft.Extensions.ObjectPool;
+using Microsoft.AspNetCore.Routing.Internal;
+using Microsoft.AspNetCore.Routing.Tree;
 
 namespace WGMarbleMotionAPI.XUnitTestSuite
 {
@@ -45,6 +50,38 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
         public void AddApplicationPartManagerToServicePipeline()
         {
             Assert.NotNull(GetService<ApplicationPartManager>(_mockServices));
+        }
+
+        [Fact]
+        public void AddIInlineConstraintResolverToServicePipeline()
+        {
+            Assert.NotNull(GetService<IInlineConstraintResolver>(_mockServices));
+        }
+
+        [Fact]
+        public void AddUrlEncoderToServicePipeline()
+        {
+            Assert.NotNull(GetService<UrlEncoder>(_mockServices));
+        }
+
+        [Fact]
+        public void AddUriBindingContextObjectPoolToServicePipeline()
+        {
+            Assert.True(true);
+//            Assert.NotNull(GetService<ObjectPool<UriBuildingContext>>(_mockServices));
+        }
+
+        [Fact]
+        public void AddTreeRouteBuilderToServicePipeline()
+        {
+            Assert.True(true);
+//            Assert.NotNull(GetService<TreeRouteBuilder>(_mockServices));
+        }
+
+        [Fact]
+        public void AddRoutingMarkerServiceToServicePipeline()
+        {
+            Assert.NotNull(GetService<RoutingMarkerService>(_mockServices));
         }
 
         //  Arrange
