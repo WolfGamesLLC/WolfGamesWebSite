@@ -20,6 +20,8 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
     /// </summary>
     public class StartupShould : BasicStartupShould
     {
+        private ServiceCollection _mockServices;
+
         /// <summary>
         /// Test initializer
         /// </summary>
@@ -27,24 +29,22 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
         public StartupShould(ITestOutputHelper testOutputHelper)
             : base(testOutputHelper)
         {
+            _mockServices = new ServiceCollection();
+
+            var startup = new Startup((new Mock<IConfiguration>()).Object);
+            startup.ConfigureServices(_mockServices);
+
+
+            foreach (ServiceDescriptor serv in _mockServices)
+            {
+                OutputHelper.WriteLine(serv.ServiceType.FullName);
+            }
         }
 
         [Fact]    
         public void AddApplicationPartManagerToServicePipeline()
         {
-            var mockConfig = new Mock<IConfiguration>();
-            var mockServices = new ServiceCollection();
-            var startUp = new Startup(mockConfig.Object);
-
-            startUp.ConfigureServices(mockServices);
-
-
-            foreach (ServiceDescriptor serv in mockServices)
-            {
-               OutputHelper.WriteLine(serv.ServiceType.FullName);
-            }
-
-            Assert.NotNull(GetService<ApplicationPartManager>(mockServices));
+            Assert.NotNull(GetService<ApplicationPartManager>(_mockServices));
         }
 
         //  Arrange
