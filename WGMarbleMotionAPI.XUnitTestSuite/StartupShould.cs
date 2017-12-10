@@ -46,6 +46,13 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
             }
         }
 
+        [Fact]
+        public void AddAllRequiredServicesToServicePipeline()
+        {
+            var expectedServicesCount = 176;
+            Assert.True(_mockServices.Count == expectedServicesCount);
+        }
+
         [Fact]    
         public void AddApplicationPartManagerToServicePipeline()
         {
@@ -69,13 +76,6 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
         {
             Assert.True(true);
 //            Assert.NotNull(GetService<ObjectPool<UriBuildingContext>>(_mockServices));
-        }
-
-        [Fact]
-        public void AddTreeRouteBuilderToServicePipeline()
-        {
-            Assert.True(true);
-//            Assert.NotNull(GetService<TreeRouteBuilder>(_mockServices));
         }
 
         [Fact]
