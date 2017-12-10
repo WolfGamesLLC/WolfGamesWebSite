@@ -1,16 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using WolfGamesWebSite.Test.Framework.Mocks;
-using WolfGamesWebSite.Test.Framework.Identifiers;
-using Xunit;
-using WGSystem.Collections.Generic;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Xunit.Abstractions;
 using WGXUnit.Facts;
+using WolfGamesWebSite.Common;
+using Xunit;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.AspNetCore.Routing.Internal;
+using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Routing;
 
 namespace WolfGamesWebSite.Test.Framework.Facts
 {
@@ -18,8 +14,9 @@ namespace WolfGamesWebSite.Test.Framework.Facts
     /// Test suite for the <see cref="Startup"/> class containing
     /// tests for the common features used by all sites and APIs
     /// </summary>
-    public class BasicStartupShould : FactWriteToStdOut
+    public abstract class BasicStartupShould : FactWriteToStdOut
     {
+        protected ServiceCollection _mockServices;
 
         /// <summary>
         /// Test initializer
@@ -27,7 +24,16 @@ namespace WolfGamesWebSite.Test.Framework.Facts
         /// <param name="testOutputHelper">Allows the test to write data to stdout</param>
         public BasicStartupShould(ITestOutputHelper testOutputHelper)
             : base(testOutputHelper)
-        {}
+        {
+            _mockServices = new ServiceCollection();
+
+//            startup.ConfigureServices(_mockServices);
+
+            foreach (ServiceDescriptor serv in _mockServices)
+            {
+                OutputHelper.WriteLine(serv.ServiceType.FullName);
+            }
+        }
 
         /// <summary>
         /// Get a specific service from a Service collection
@@ -40,6 +46,44 @@ namespace WolfGamesWebSite.Test.Framework.Facts
             var serviceProvider = mockServices.BuildServiceProvider();
 
             return serviceProvider.GetService<T>();
+        }
+
+        [Fact]
+        public void AddAllRequiredServicesToServicePipeline()
+        {
+            var expectedServicesCount = 176;
+            Assert.True(_mockServices.Count == expectedServicesCount);
+        }
+
+        [Fact]
+        public void AddApplicationPartManagerToServicePipeline()
+        {
+            Assert.NotNull(GetService<ApplicationPartManager>(_mockServices));
+        }
+
+        [Fact]
+        public void AddIInlineConstraintResolverToServicePipeline()
+        {
+            Assert.NotNull(GetService<IInlineConstraintResolver>(_mockServices));
+        }
+
+        [Fact]
+        public void AddUrlEncoderToServicePipeline()
+        {
+            Assert.NotNull(GetService<UrlEncoder>(_mockServices));
+        }
+
+        [Fact]
+        public void AddUriBindingContextObjectPoolToServicePipeline()
+        {
+            Assert.True(true);
+            //            Assert.NotNull(GetService<ObjectPool<UriBuildingContext>>(_mockServices));
+        }
+
+        [Fact]
+        public void AddRoutingMarkerServiceToServicePipeline()
+        {
+            Assert.NotNull(GetService<RoutingMarkerService>(_mockServices));
         }
 
         //        [Fact]    

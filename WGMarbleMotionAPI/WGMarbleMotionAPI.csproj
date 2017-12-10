@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WolfGamesWebSite.Common\WolfGamesWebSite.Common.csproj" />
     <ProjectReference Include="..\WolfGamesWebSite.DAL\WolfGamesWebSite.DAL.csproj" />
   </ItemGroup>
 

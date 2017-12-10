@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WolfGamesWebSite.Common\WolfGamesWebSite.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="WGSystem">
       <HintPath>..\..\Repos\WGMicrosoftAPI\WGSystem\bin\Release\netcoreapp2.0\WGSystem.dll</HintPath>
     </Reference>
