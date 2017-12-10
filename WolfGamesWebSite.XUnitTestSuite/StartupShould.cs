@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Routing;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Routing.Internal;
 
-namespace WGMarbleMotionAPI.XUnitTestSuite
+namespace WolfGamesWebSite.XUnitTestSuite
 {
     /// <summary>
     /// Test suite for the <see cref="Startup"/> class
@@ -25,7 +25,7 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
             var startup = new Startup((new Mock<IConfiguration>()).Object);
             startup.ConfigureServices(_mockServices);
 
-            _expectedServicesCount = 176;
+            _expectedServicesCount = 242;
         }
 
         //  Arrange

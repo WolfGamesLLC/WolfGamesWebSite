@@ -17,6 +17,7 @@ namespace WolfGamesWebSite.Test.Framework.Facts
     public abstract class BasicStartupShould : FactWriteToStdOut
     {
         protected ServiceCollection _mockServices;
+        protected int _expectedServicesCount;
 
         /// <summary>
         /// Test initializer
@@ -51,8 +52,8 @@ namespace WolfGamesWebSite.Test.Framework.Facts
         [Fact]
         public void AddAllRequiredServicesToServicePipeline()
         {
-            var expectedServicesCount = 176;
-            Assert.True(_mockServices.Count == expectedServicesCount);
+            OutputHelper.WriteLine(_mockServices.Count.ToString());
+            Assert.True(_mockServices.Count == _expectedServicesCount);
         }
 
         [Fact]
