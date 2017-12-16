@@ -7,6 +7,8 @@ using Xunit.Abstractions;
 using Microsoft.AspNetCore.Routing;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Routing.Internal;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace WGMarbleMotionAPI.XUnitTestSuite
 {
@@ -25,7 +27,18 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
             var startup = new Startup((new Mock<IConfiguration>()).Object);
             startup.ConfigureServices(_mockServices);
 
-            _expectedServicesCount = 176;
+            _expectedServicesCount = 177;
+
+            foreach (ServiceDescriptor serv in _mockServices)
+            {
+                OutputHelper.WriteLine(serv.ServiceType.FullName);
+            }
+        }
+
+        [Fact]
+        public void UseOnlyLowerCaseRouting()
+        {
+            Assert.NotNull(GetService<IConfigureOptions<RouteOptions>>(_mockServices));
         }
 
         //  Arrange

@@ -27,13 +27,6 @@ namespace WolfGamesWebSite.Test.Framework.Facts
             : base(testOutputHelper)
         {
             _mockServices = new ServiceCollection();
-
-//            startup.ConfigureServices(_mockServices);
-
-            foreach (ServiceDescriptor serv in _mockServices)
-            {
-                OutputHelper.WriteLine(serv.ServiceType.FullName);
-            }
         }
 
         /// <summary>
