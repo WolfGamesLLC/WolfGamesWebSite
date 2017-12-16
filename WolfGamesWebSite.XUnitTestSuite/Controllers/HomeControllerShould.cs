@@ -3,12 +3,13 @@ using Xunit;
 using WolfGamesWebSite;
 using WolfGamesWebSite.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using WolfGamesWebSite.Common.XUnitTest.Controllers;
 
 namespace WolfGamesWebSite.XUnitTestSuite
 {
 
     /// <summary>
-    /// Test suite for the HomeControllerMessage object
+    /// Test suite for the <see cref="HomeControllerMessages"/> object
     /// </summary>
     public class HomeControllerMessageShould
     {
@@ -69,13 +70,10 @@ namespace WolfGamesWebSite.XUnitTestSuite
     }
 
     /// <summary>
-    /// Test suite for the home controller
+    /// Test suite for the <see cref="HomeController"/>
     /// </summary>
-    public class HomeControllerShould
+    public class HomeControllerShould : BaseControllerShould<HomeController>
     {
-        HomeController Controller;
-        ViewResult Result;
-
         /// <summary>
         /// The test initializer for the suite
         /// </summary>

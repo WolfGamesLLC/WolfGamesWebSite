@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WolfGamesWebSite.Common.XUnitTest\WolfGamesWebSite.Common.XUnitTest.csproj" />
     <ProjectReference Include="..\WolfGamesWebSite.Test.Framework\WolfGamesWebSite.Test.Framework.csproj" />
     <ProjectReference Include="..\WolfGamesWebSite\WolfGamesWebSite.csproj" />
   </ItemGroup>
