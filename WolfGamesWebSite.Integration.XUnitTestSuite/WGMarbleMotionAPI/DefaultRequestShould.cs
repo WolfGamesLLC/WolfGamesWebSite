@@ -45,5 +45,16 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.WGMarbleMotionAPI
             // Assert
             Assert.Equal("application/ion+json", response.Content.Headers.ContentType.MediaType);
         }
+
+        [Fact]
+        public async Task HaveDefaultVersion()
+        {
+            // Act
+            var response = await _client.GetAsync("/");
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            // Assert
+            Assert.Contains("1.0", response.Headers.GetValues("api-supported-versions"));
+        }
     }
 }

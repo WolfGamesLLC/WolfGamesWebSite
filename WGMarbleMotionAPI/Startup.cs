@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using WGMarbleMotionAPI.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WGMarbleMotionAPI
 {
@@ -57,6 +59,15 @@ namespace WGMarbleMotionAPI
 //                opt.CacheProfiles.Add("Static", new CacheProfile { Duration = 86400 });
 //                opt.CacheProfiles.Add("Collection", new CacheProfile { Duration = 60 });
 //                opt.CacheProfiles.Add("Resource", new CacheProfile { Duration = 180 });
+            });
+
+            services.AddApiVersioning(opt =>
+            {
+                opt.ApiVersionReader = new MediaTypeApiVersionReader();
+                opt.AssumeDefaultVersionWhenUnspecified = true;
+                opt.ReportApiVersions = true;
+                opt.DefaultApiVersion = new ApiVersion(1, 0);
+                opt.ApiVersionSelector = new CurrentImplementationApiVersionSelector(opt);
             });
         }
 

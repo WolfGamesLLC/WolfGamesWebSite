@@ -23,7 +23,7 @@ namespace WolfGamesWebSite.XUnitTestSuite
             : base(testOutputHelper)
         {
             var startup = new Startup((new Mock<IConfiguration>()).Object);
-            startup.ConfigureServices(_mockServices);
+            startup.ConfigureServices(_services);
 
             _expectedServicesCount = 242;
         }

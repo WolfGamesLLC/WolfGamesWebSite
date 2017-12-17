@@ -16,7 +16,7 @@ namespace WolfGamesWebSite.Test.Framework.Facts
     /// </summary>
     public abstract class BasicStartupShould : FactWriteToStdOut
     {
-        protected ServiceCollection _mockServices;
+        protected ServiceCollection _services;
         protected int _expectedServicesCount;
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace WolfGamesWebSite.Test.Framework.Facts
         public BasicStartupShould(ITestOutputHelper testOutputHelper)
             : base(testOutputHelper)
         {
-            _mockServices = new ServiceCollection();
+            _services = new ServiceCollection();
         }
 
         /// <summary>
@@ -45,26 +45,26 @@ namespace WolfGamesWebSite.Test.Framework.Facts
         [Fact]
         public void AddAllRequiredServicesToServicePipeline()
         {
-            OutputHelper.WriteLine(_mockServices.Count.ToString());
-            Assert.True(_mockServices.Count == _expectedServicesCount);
+            OutputHelper.WriteLine(_services.Count.ToString());
+            Assert.True(_services.Count == _expectedServicesCount);
         }
 
         [Fact]
         public void AddApplicationPartManagerToServicePipeline()
         {
-            Assert.NotNull(GetService<ApplicationPartManager>(_mockServices));
+            Assert.NotNull(GetService<ApplicationPartManager>(_services));
         }
 
         [Fact]
         public void AddIInlineConstraintResolverToServicePipeline()
         {
-            Assert.NotNull(GetService<IInlineConstraintResolver>(_mockServices));
+            Assert.NotNull(GetService<IInlineConstraintResolver>(_services));
         }
 
         [Fact]
         public void AddUrlEncoderToServicePipeline()
         {
-            Assert.NotNull(GetService<UrlEncoder>(_mockServices));
+            Assert.NotNull(GetService<UrlEncoder>(_services));
         }
 
         [Fact]
@@ -77,7 +77,7 @@ namespace WolfGamesWebSite.Test.Framework.Facts
         [Fact]
         public void AddRoutingMarkerServiceToServicePipeline()
         {
-            Assert.NotNull(GetService<RoutingMarkerService>(_mockServices));
+            Assert.NotNull(GetService<RoutingMarkerService>(_services));
         }
 
         //        [Fact]    

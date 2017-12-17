@@ -10,6 +10,7 @@ namespace WGMarbleMotionAPI.Controllers
     /// The wolf games marble motion API root controller
     /// </summary>
     [Route("/")]
+    [ApiVersion("1.0")]
     public class RootController : Controller
     {
         /// <summary>
