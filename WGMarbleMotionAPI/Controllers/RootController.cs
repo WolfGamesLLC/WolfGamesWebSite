@@ -14,7 +14,7 @@ namespace WGMarbleMotionAPI.Controllers
     {
         /// <summary>
         /// The root action of the API. Follows the HATEOAS 
-        /// standard.
+        /// standard and the ION specification.
         /// </summary>
         /// <returns></returns>
         [HttpGet(Name = nameof(GetRoot))]

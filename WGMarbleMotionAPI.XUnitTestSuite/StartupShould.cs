@@ -9,6 +9,8 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Routing.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using WGMarbleMotionAPI.Infrastructure;
 
 namespace WGMarbleMotionAPI.XUnitTestSuite
 {
@@ -39,6 +41,12 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
         public void UseOnlyLowerCaseRouting()
         {
             Assert.NotNull(GetService<IConfigureOptions<RouteOptions>>(_mockServices));
+        }
+
+        [Fact]
+        public void UseIonOutputFormatter()
+        {
+            Assert.NotNull(GetService<IonOutputFormatter>(_mockServices));
         }
 
         //  Arrange

@@ -4,6 +4,7 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Hosting;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
 
 namespace WolfGamesWebSite.Integration.XUnitTestSuite.WGMarbleMotionAPI
 {
@@ -24,17 +25,25 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.WGMarbleMotionAPI
         }
 
         [Fact]
-        public async Task RedirectToHTTPS()
+        public async Task ReturnOKResponse()
         {
             // Act
-//            var response = await _client.GetAsync("/api/index");
             var response = await _client.GetAsync("/");
             var responseString = await response.Content.ReadAsStringAsync();
 
             // Assert
             Assert.Equal("OK", response.ReasonPhrase);
-//            Assert.Equal("https://localhost/api/Values", response.Headers.Location.ToString());
-//            Assert.Equal("", responseString);
+        }
+
+        [Fact]
+        public async Task HaveIonPlusJsonContentType()
+        {
+            // Act
+            var response = await _client.GetAsync("/");
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            // Assert
+            Assert.Equal("application/ion+json", response.Content.Headers.ContentType.MediaType);
         }
     }
 }
