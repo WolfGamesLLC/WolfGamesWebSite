@@ -16,6 +16,16 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.WGMarbleMotionAPI
         private readonly TestServer _server;
         private readonly HttpClient _client;
 
+        private async Task<HttpResponseMessage> Request(string route)
+        {
+            var response = await _client.GetAsync(route);
+            var responseString = await response.Content.ReadAsStringAsync();
+            return response;
+        }
+
+        /// <summary>
+        /// Varify a default request
+        /// </summary>
         public DefaultRequestShould()
         {
             // Arrange
@@ -24,23 +34,29 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.WGMarbleMotionAPI
             _client = _server.CreateClient();
         }
 
+        /// <summary>
+        /// A default request should return an Ok response
+        /// </summary>
+        /// <returns>A task</returns>
         [Fact]
         public async Task ReturnOKResponse()
         {
             // Act
-            var response = await _client.GetAsync("/");
-            var responseString = await response.Content.ReadAsStringAsync();
+            HttpResponseMessage response = await Request("/");
 
             // Assert
             Assert.Equal("OK", response.ReasonPhrase);
         }
 
+        /// <summary>
+        /// A default request should use an application/ion+json content type
+        /// </summary>
+        /// <returns>A task</returns>
         [Fact]
-        public async Task HaveIonPlusJsonContentType()
+        public async Task UseIonPlusJsonContentType()
         {
             // Act
-            var response = await _client.GetAsync("/");
-            var responseString = await response.Content.ReadAsStringAsync();
+            HttpResponseMessage response = await Request("/");
 
             // Assert
             Assert.Equal("application/ion+json", response.Content.Headers.ContentType.MediaType);
@@ -50,8 +66,7 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.WGMarbleMotionAPI
         public async Task HaveDefaultVersion()
         {
             // Act
-            var response = await _client.GetAsync("/");
-            var responseString = await response.Content.ReadAsStringAsync();
+            HttpResponseMessage response = await Request("/");
 
             // Assert
             Assert.Contains("1.0", response.Headers.GetValues("api-supported-versions"));
