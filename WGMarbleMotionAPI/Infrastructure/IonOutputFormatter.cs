@@ -12,11 +12,17 @@ namespace WGMarbleMotionAPI.Infrastructure
     /// </summary>
     public class IonOutputFormatter
     {
-        private JsonOutputFormatter jsonOutputFormatter;
+        private readonly JsonOutputFormatter _jsonOutputFormatter;
 
+        /// <summary>
+        /// Default constructor for the IonOutputFormatter which is 
+        /// used to convert the output data to Ion+Json
+        /// </summary>
+        /// <param name="jsonOutputFormatter">An instance of a JsonOutputFormatter</param>
         public IonOutputFormatter(JsonOutputFormatter jsonOutputFormatter)
         {
-            this.jsonOutputFormatter = jsonOutputFormatter;
+            if (jsonOutputFormatter == null) throw new ArgumentNullException(nameof(jsonOutputFormatter));
+            _jsonOutputFormatter = jsonOutputFormatter;
         }
     }
 }

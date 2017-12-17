@@ -27,5 +27,16 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Infrastructure
             var jsonOutputFormatter = new JsonOutputFormatter(mockSerializer.Object, mockArray.Object);
             Assert.NotNull(new IonOutputFormatter(jsonOutputFormatter));
         }
+
+        /// <summary>
+        /// The default constructor throws an error if null is 
+        /// passed as an argument
+        /// </summary>
+        [Fact]
+        public void ThrowArgumentNullExceptionFromConstructor()
+        {
+            var ex = Assert.Throws<ArgumentNullException>(() => new IonOutputFormatter(null));
+            Assert.Equal("Value cannot be null.\r\nParameter name: jsonOutputFormatter", ex.Message);
+        }
     }
 }
