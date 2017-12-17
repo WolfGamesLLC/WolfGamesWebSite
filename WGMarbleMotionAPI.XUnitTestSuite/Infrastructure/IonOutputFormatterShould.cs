@@ -15,6 +15,18 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Infrastructure
     /// </summary>
     public class IonOutputFormatterShould
     {
+        private JsonOutputFormatter _jsonOutputFormatter;
+
+        /// <summary>
+        /// Setup for IonOutputFormatter testing
+        /// </summary>
+        public IonOutputFormatterShould()
+        {
+            var mockSerializer = new Mock<JsonSerializerSettings>();
+            var mockArray = new Mock<ArrayPool<char>>();
+            _jsonOutputFormatter = new JsonOutputFormatter(mockSerializer.Object, mockArray.Object);
+        }
+
         /// <summary>
         /// Require that the default constructor take a valid
         /// instance of a JsonOutputFormatter
@@ -22,10 +34,7 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Infrastructure
         [Fact]
         public void RequireJsonOutputFormatterAtConstruction()
         {
-            var mockSerializer = new Mock<JsonSerializerSettings>();
-            var mockArray = new Mock<ArrayPool<char>>();
-            var jsonOutputFormatter = new JsonOutputFormatter(mockSerializer.Object, mockArray.Object);
-            Assert.NotNull(new IonOutputFormatter(jsonOutputFormatter));
+            Assert.NotNull(new IonOutputFormatter(_jsonOutputFormatter));
         }
 
         /// <summary>
@@ -37,6 +46,17 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Infrastructure
         {
             var ex = Assert.Throws<ArgumentNullException>(() => new IonOutputFormatter(null));
             Assert.Equal("Value cannot be null.\r\nParameter name: jsonOutputFormatter", ex.Message);
+        }
+
+        /// <summary>
+        /// The default constructor should add the ion+json media type to 
+        /// the supported media type collection
+        /// </summary>
+        [Fact]
+        public void AddIonPlusJsonToMediaTypes()
+        {
+            var sut = new IonOutputFormatter(_jsonOutputFormatter);
+            Assert.Contains("application/ion+json", sut.GetSupportedContentTypes("application/ion+json", null));
         }
     }
 }
