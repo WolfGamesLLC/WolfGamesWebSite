@@ -29,7 +29,7 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
             var startup = new Startup((new Mock<IConfiguration>()).Object);
             startup.ConfigureServices(_mockServices);
 
-            _expectedServicesCount = 177;
+            _expectedServicesCount = 178;
 
             foreach (ServiceDescriptor serv in _mockServices)
             {
@@ -46,7 +46,7 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
         [Fact]
         public void UseIonOutputFormatter()
         {
-            Assert.NotNull(GetService<IonOutputFormatter>(_mockServices));
+            Assert.NotNull(GetService<JsonOutputFormatter>(_mockServices));
         }
 
         //  Arrange

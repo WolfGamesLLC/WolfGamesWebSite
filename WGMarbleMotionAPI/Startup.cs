@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using WGMarbleMotionAPI.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace WGMarbleMotionAPI
 {
@@ -39,7 +41,23 @@ namespace WGMarbleMotionAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRouting(opt => opt.LowercaseUrls = true);
-            services.AddMvc();
+            services.AddMvc(opt =>
+            {
+//                opt.Filters.Add(typeof(JsonExceptionFilter));
+//                opt.Filters.Add(typeof(LinkRewritingFilter));
+//
+//                // Require HTTPS for all controllers
+//                opt.SslPort = _httpsPort;
+//                opt.Filters.Add(typeof(RequireHttpsAttribute));
+
+                var jsonFormatter = opt.OutputFormatters.OfType<JsonOutputFormatter>().Single();
+                opt.OutputFormatters.Remove(jsonFormatter);
+                opt.OutputFormatters.Add(new IonOutputFormatter(jsonFormatter));
+
+//                opt.CacheProfiles.Add("Static", new CacheProfile { Duration = 86400 });
+//                opt.CacheProfiles.Add("Collection", new CacheProfile { Duration = 60 });
+//                opt.CacheProfiles.Add("Resource", new CacheProfile { Duration = 180 });
+            });
         }
 
         /// <summary>

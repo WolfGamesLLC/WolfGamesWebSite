@@ -30,9 +30,7 @@ namespace WGMarbleMotionAPI.Infrastructure
             SupportedEncodings.Add(Encoding.UTF8);
         }
 
-        public override Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
-        {
-            throw new NotImplementedException();
-        }
+        public override Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding) 
+            => _jsonOutputFormatter.WriteResponseBodyAsync(context, selectedEncoding);
     }
 }
