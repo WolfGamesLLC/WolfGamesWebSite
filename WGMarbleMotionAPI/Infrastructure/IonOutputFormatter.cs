@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Net.Http.Headers;
 
 namespace WGMarbleMotionAPI.Infrastructure
 {
@@ -25,7 +26,8 @@ namespace WGMarbleMotionAPI.Infrastructure
             if (jsonOutputFormatter == null) throw new ArgumentNullException(nameof(jsonOutputFormatter));
             _jsonOutputFormatter = jsonOutputFormatter;
 
-            SupportedMediaTypes.Add(new Microsoft.Net.Http.Headers.MediaTypeHeaderValue("application/ion+json"));
+            SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/ion+json"));
+            SupportedEncodings.Add(Encoding.UTF8);
         }
 
         public override Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)

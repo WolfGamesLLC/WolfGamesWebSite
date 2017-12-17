@@ -58,5 +58,15 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Infrastructure
             var sut = new IonOutputFormatter(_jsonOutputFormatter);
             Assert.Contains("application/ion+json", sut.GetSupportedContentTypes("application/ion+json", null));
         }
+
+        /// <summary>
+        /// The default constructor should add support for UTF 8 encoding
+        /// </summary>
+        [Fact]
+        public void AddUtf8ToEncodings()
+        {
+            var sut = new IonOutputFormatter(_jsonOutputFormatter);
+            Assert.True(sut.SupportedEncodings.Contains(Encoding.UTF8));
+        }
     }
 }
