@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 
-namespace WolfGamesWebSite.Integration.XUnitTestSuite.WGMarbleMotionAPI
+namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
 {
     /// <summary>
-    /// Integratyion Test suite for the <see cref="WGMarbleMotionAPI"/>
+    /// Integratyion Test suite for the <see cref="MarbleMotionApi"/>
     /// </summary>
     public class DefaultRequestShould
     {
