@@ -5,13 +5,14 @@ using Microsoft.AspNetCore.Hosting;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
+using WolfGamesWebSite.Test.Framework.Facts;
 
 namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
 {
     /// <summary>
-    /// Integratyion Test suite for the <see cref="MarbleMotionApi"/>
+    /// Integration Test suite for the <see cref="WGMarbleMotionApi.Controller.RootController"/>
     /// </summary>
-    public class DefaultRequestShould
+    public class RootRequestShould : DefaultRequestShould
     {
         private readonly TestServer _server;
         private readonly HttpClient _client;
@@ -26,11 +27,11 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
         /// <summary>
         /// Varify a default request
         /// </summary>
-        public DefaultRequestShould()
+        public RootRequestShould()
         {
             // Arrange
             _server = new TestServer(new WebHostBuilder()
-                .UseStartup<global::WGMarbleMotionAPI.Startup>());
+                .UseStartup<WGMarbleMotionAPI.Startup>());
             _client = _server.CreateClient();
         }
 

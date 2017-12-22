@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\WGMarbleMotionAPI\WGMarbleMotionAPI.csproj" />
     <ProjectReference Include="..\WolfGamesWebSite.DAL\WolfGamesWebSite.DAL.csproj" />
+    <ProjectReference Include="..\WolfGamesWebSite.Test.Framework\WolfGamesWebSite.Test.Framework.csproj" />
     <ProjectReference Include="..\WolfGamesWebSite\WolfGamesWebSite.csproj" />
   </ItemGroup>
 
