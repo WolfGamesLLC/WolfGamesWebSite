@@ -33,7 +33,7 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
         [Fact]
         public void GetPlayersReturnsOkObjectResult()
         {
-//            Assert.IsType<OkObjectResult>(Controller.GetPlayers());
+            Assert.IsType<OkObjectResult>(Controller.GetPlayers());
         }
 
         /// <summary>
@@ -42,9 +42,9 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
         [Fact]
         public void GetPlayersReturnsStatusCodeValueHrefEqualGetPlayers()
         {
-//            OkObjectResult response = Controller.GetPlayers() as OkObjectResult;
-//            var exp = new { href = "http://GetPlayers" };
-//            Assert.Equal(exp.ToString(), response.Value.ToString());
+            OkObjectResult response = Controller.GetPlayers() as OkObjectResult;
+            var exp = new { href = "http://GetPlayers" };
+            Assert.Equal(exp.ToString(), response.Value.ToString());
         }
     }
 }
