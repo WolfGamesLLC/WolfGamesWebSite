@@ -12,10 +12,15 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
     /// <summary>
     /// Integration Test suite for the <see cref="WGMarbleMotionApi.Controller.RootController"/>
     /// </summary>
-    public class RootRequestShould : DefaultRequestShould
+    public class RootRequestShould : DefaultRequestShould<WGMarbleMotionAPI.Startup>
     {
         private readonly TestServer _server;
         private readonly HttpClient _client;
+
+        /// <summary>
+        /// The route to be used in base integration tests
+        /// </summary>
+        public string Route { get; set; }
 
         private async Task<HttpResponseMessage> Request(string route)
         {
@@ -33,6 +38,8 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
             _server = new TestServer(new WebHostBuilder()
                 .UseStartup<WGMarbleMotionAPI.Startup>());
             _client = _server.CreateClient();
+
+            Route = "/";
         }
 
         /// <summary>
@@ -43,7 +50,7 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
         public async Task ReturnOKResponse()
         {
             // Act
-            HttpResponseMessage response = await Request("/");
+            HttpResponseMessage response = await Request(Route);
 
             // Assert
             Assert.Equal("OK", response.ReasonPhrase);
@@ -57,7 +64,7 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
         public async Task UseIonPlusJsonContentType()
         {
             // Act
-            HttpResponseMessage response = await Request("/");
+            HttpResponseMessage response = await Request(Route);
 
             // Assert
             Assert.Equal("application/ion+json", response.Content.Headers.ContentType.MediaType);
@@ -67,7 +74,7 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
         public async Task HaveDefaultVersion()
         {
             // Act
-            HttpResponseMessage response = await Request("/");
+            HttpResponseMessage response = await Request(Route);
 
             // Assert
             Assert.Contains("1.0", response.Headers.GetValues("api-supported-versions"));
