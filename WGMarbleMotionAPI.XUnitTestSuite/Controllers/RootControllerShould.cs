@@ -23,7 +23,8 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
         {
             Controller = new RootController();
             mockUrl = new Mock<IUrlHelper>();
-            mockUrl.Setup(r => r.Link("GetRoot",null)).Returns("http://GetRoot");
+            mockUrl.Setup(r => r.Link("GetRoot",null)).Returns("http://localhost:55687");
+            mockUrl.Setup(r => r.Link("GetPlayers", null)).Returns("http://localhost:55687/players");
             Controller.Url = mockUrl.Object;
         }
 
@@ -37,13 +38,14 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
         }
 
         /// <summary>
-        /// The <see cref="RootController.GetRoot"/> action should return a ViewResult
+        /// The <see cref="RootController.GetRoot"/> action should return a list of href links
+        /// containing all the actions the API will perform
         /// </summary>
         [Fact]
         public void GetRootReturnsStatusCodeValueHrefEqualGetRoot()
         {
             OkObjectResult response = Controller.GetRoot() as OkObjectResult;
-            var exp = new { href = "http://GetRoot" };
+            var exp = new { href = "http://localhost:55687", players = new { href = "http://localhost:55687/players" }, };
             Assert.Equal(exp.ToString(), response.Value.ToString());
         }
     }

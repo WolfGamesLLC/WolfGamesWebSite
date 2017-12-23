@@ -23,7 +23,8 @@ namespace WGMarbleMotionAPI.Controllers
         {
             var response = new
             {
-                href = Url.Link(nameof(GetRoot), null)
+                href = Url.Link(nameof(GetRoot), null),
+                players = new { href = Url.Link(nameof(PlayersController.GetPlayers), null), },
             };
  
             return Ok(response);
