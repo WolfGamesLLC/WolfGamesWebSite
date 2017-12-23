@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Text;
 using WolfGamesWebSite.DAL.Models;
 using Xunit;
+using Newtonsoft.Json;
 
 namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models
 {
@@ -35,7 +36,7 @@ namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models
         }
 
         /// <summary>
-        /// The error message should be set and retrieved
+        /// The <see cref="ApiError.Message"/> should be set and retrieved
         /// </summary>
         [Fact]
         public void SetAndGetMessage()
@@ -46,7 +47,7 @@ namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models
         }
 
         /// <summary>
-        /// The error detail should be set and retrieved
+        /// The <see cref="ApiError.Detail"/> should be set and retrieved
         /// </summary>
         [Fact]
         public void SetAndGetDetail()
@@ -57,7 +58,7 @@ namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models
         }
 
         /// <summary>
-        /// The stack trace of the error should be set and retrieved
+        /// The <see cref="ApiError.StackTrace"/> of the error should be set and retrieved
         /// </summary>
         [Fact]
         public void SetAndGetStackTrace()
@@ -68,7 +69,7 @@ namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models
         }
 
         /// <summary>
-        /// The stack trace of the error should be set and retrieved
+        /// The <see cref="ApiError.StackTrace"/> of the error should default to an empty string
         /// </summary>
         [Fact]
         public void SetStackTraceDefault()
@@ -84,6 +85,24 @@ namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models
             DefaultValueAttribute myAttribute =
                (DefaultValueAttribute)attributes[typeof(DefaultValueAttribute)];
             Assert.Equal(expected, myAttribute.Value.ToString());
+        }
+
+        /// <summary>
+        /// The <see cref="ApiError.StackTrace"/> of the error's NullValueHandling json 
+        /// property should be set to ignore
+        /// </summary>
+        [Fact]
+        public void SetStackTraceNullValueJsonProperty()
+        {
+            // Gets the attributes for the property.
+            AttributeCollection attributes =
+               TypeDescriptor.GetProperties(ApiError)["StackTrace"].Attributes;
+
+            /* Prints the default value by retrieving the DefaultValueAttribute 
+             * from the AttributeCollection. */
+            JsonPropertyAttribute myAttribute =
+               (JsonPropertyAttribute)attributes[typeof(JsonPropertyAttribute)];
+            Assert.Equal(NullValueHandling.Ignore, myAttribute.NullValueHandling);
         }
     }
 }

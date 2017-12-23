@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
@@ -23,6 +24,7 @@ namespace WolfGamesWebSite.DAL.Models
         /// <summary>
         /// The text of the error's stack trace
         /// </summary>
+        [JsonProperty()]
         [DefaultValue("")]
         public string StackTrace { get; set; }
     }
