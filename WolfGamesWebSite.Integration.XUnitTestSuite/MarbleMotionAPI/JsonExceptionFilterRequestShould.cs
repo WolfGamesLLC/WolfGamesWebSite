@@ -1,30 +1,31 @@
-﻿using Xunit;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using System;
+using System.Collections.Generic;
 using System.Net.Http;
-using Microsoft.AspNetCore.Hosting;
+using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Http.Headers;
 using WolfGamesWebSite.Test.Framework.Facts;
+using Xunit;
 
-namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
+namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionAPI
 {
     /// <summary>
-    /// Integration Test suite for the <see cref="WGMarbleMotionApi.Controller.RootController"/>
+    /// Verify that a request that generates an <see cref="WGMarbleMotionAPI.Filters.JsonExceptionFilter"/>
     /// </summary>
-    public class RootRequestShould : DefaultRequestShould
+    public class JsonExceptionFilterRequestShould : DefaultRequestShould
     {
         /// <summary>
         /// Varify a default request
         /// </summary>
-        public RootRequestShould()
+        public JsonExceptionFilterRequestShould()
         {
             // Arrange
             _server = new TestServer(new WebHostBuilder()
                 .UseStartup<WGMarbleMotionAPI.Startup>());
             _client = _server.CreateClient();
 
-            Route = "/";
+            Route = "/NotARoute";
         }
 
         /// <summary>
@@ -32,13 +33,13 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
         /// </summary>
         /// <returns>A task</returns>
         [Fact]
-        public async Task ReturnOKResponse()
+        public async Task ReturnInternalErrorResponse()
         {
             // Act
             HttpResponseMessage response = await Request(Route);
 
             // Assert
-            Assert.Equal("OK", response.ReasonPhrase);
+            Assert.Equal("500 Internal Error", response.ReasonPhrase);
         }
     }
 }

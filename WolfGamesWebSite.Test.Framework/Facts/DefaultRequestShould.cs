@@ -21,25 +21,11 @@ namespace WolfGamesWebSite.Test.Framework.Facts
         /// </summary>
         public string Route { get; set; }
 
-        private async Task<HttpResponseMessage> Request(string route)
+        protected async Task<HttpResponseMessage> Request(string route)
         {
             var response = await _client.GetAsync(route);
             var responseString = await response.Content.ReadAsStringAsync();
             return response;
-        }
-
-        /// <summary>
-        /// A default request should return an Ok response
-        /// </summary>
-        /// <returns>A task</returns>
-        [Fact]
-        public async Task ReturnOKResponse()
-        {
-            // Act
-            HttpResponseMessage response = await Request(Route);
-
-            // Assert
-            Assert.Equal("OK", response.ReasonPhrase);
         }
 
         /// <summary>

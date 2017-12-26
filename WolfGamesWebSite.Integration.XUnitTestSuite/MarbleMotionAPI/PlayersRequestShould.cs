@@ -26,5 +26,19 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
 
             Route = "/Players";
         }
+
+        /// <summary>
+        /// A default request should return an Ok response
+        /// </summary>
+        /// <returns>A task</returns>
+        [Fact]
+        public async Task ReturnOKResponse()
+        {
+            // Act
+            HttpResponseMessage response = await Request(Route);
+
+            // Assert
+            Assert.Equal("OK", response.ReasonPhrase);
+        }
     }
 }
