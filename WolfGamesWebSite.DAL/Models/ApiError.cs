@@ -24,7 +24,7 @@ namespace WolfGamesWebSite.DAL.Models
         /// <summary>
         /// The text of the error's stack trace
         /// </summary>
-        [JsonProperty()]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore, DefaultValueHandling = DefaultValueHandling.Ignore)]
         [DefaultValue("")]
         public string StackTrace { get; set; }
     }

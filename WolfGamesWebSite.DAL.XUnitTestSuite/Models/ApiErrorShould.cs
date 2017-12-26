@@ -104,5 +104,23 @@ namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models
                (JsonPropertyAttribute)attributes[typeof(JsonPropertyAttribute)];
             Assert.Equal(NullValueHandling.Ignore, myAttribute.NullValueHandling);
         }
+
+        /// <summary>
+        /// The <see cref="ApiError.StackTrace"/> of the error's DefaultValueHandling json 
+        /// property should be set to ignore
+        /// </summary>
+        [Fact]
+        public void SetDefaultValueHandlingJsonProperty()
+        {
+            // Gets the attributes for the property.
+            AttributeCollection attributes =
+               TypeDescriptor.GetProperties(ApiError)["StackTrace"].Attributes;
+
+            /* Prints the default value by retrieving the DefaultValueAttribute 
+             * from the AttributeCollection. */
+            JsonPropertyAttribute myAttribute =
+               (JsonPropertyAttribute)attributes[typeof(JsonPropertyAttribute)];
+            Assert.Equal(DefaultValueHandling.Ignore, myAttribute.DefaultValueHandling);
+        }
     }
 }
