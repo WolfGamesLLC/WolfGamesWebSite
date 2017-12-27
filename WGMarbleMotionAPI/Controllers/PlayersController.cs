@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WolfGamesWebSite.DAL.Models;
 
 namespace WGMarbleMotionAPI.Controllers
 {
@@ -23,6 +24,7 @@ namespace WGMarbleMotionAPI.Controllers
         {
             if (id == 1000)
             {
+//                if (!ModelState.IsValid) return BadRequest(new ApiError(ModelState));
                 throw new ArgumentException();
             }
 

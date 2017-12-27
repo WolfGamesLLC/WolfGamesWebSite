@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using WolfGamesWebSite.Test.Framework.Facts;
+using Microsoft.AspNetCore.Http;
+using System.Net;
 
 namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
 {
@@ -49,13 +51,13 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
         [Fact]
         public async Task ReturnErrorResponseWithJsonDetail()
         {
-            Route += "/1000";
+            Route += "?id=1000";
             
             // Act
             HttpResponseMessage response = await Request(Route);
 
             // Assert
-            Assert.Equal("Not Found", response.ReasonPhrase);
+            Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
         }
     }
 }
