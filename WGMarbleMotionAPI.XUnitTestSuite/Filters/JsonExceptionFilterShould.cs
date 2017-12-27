@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
 using Moq;
 using System.Collections.Generic;
+using System.Net;
 using WGMarbleMotionAPI.Filters;
 using WolfGamesWebSite.DAL.Models;
 using Xunit;
@@ -16,14 +17,11 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Filters
     /// </summary>
     public class JsonExceptionFilterShould
     {
-        [Fact]
-        public void SetInternalErrorStatusCode()
-        {
-            var expRes = new ObjectResult(new ApiError())
-            {
-                StatusCode = 500
-            };
+        private ExceptionContext _context;
+        private JsonExceptionFilter _exceptionFilter;
 
+        public JsonExceptionFilterShould()
+        {
             var mockContext = new Mock<HttpContext>();
             var mockRoute = new Mock<RouteData>();
             var mockDescriptor = new Mock<ActionDescriptor>();
@@ -31,11 +29,36 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Filters
             mockAction.Object.HttpContext = mockContext.Object;
             mockAction.Object.RouteData = mockRoute.Object;
             mockAction.Object.ActionDescriptor = mockDescriptor.Object;
-            var context = new ExceptionContext(mockAction.Object, new List<IFilterMetadata>());
-            var sut = new JsonExceptionFilter();
 
-            sut.OnException(context);
-            Assert.Equal(expRes.ToString(), context.Result.ToString());
+            _context = new ExceptionContext(mockAction.Object, new List<IFilterMetadata>());
+            _exceptionFilter = new JsonExceptionFilter();
+        }
+
+        /// <summary>
+        /// The context's resulting StatusCode should be set to 
+        /// <see cref="HttpStatusCode.InternalServerError"/> when
+        /// the <see cref="JsonExceptionFilter.OnException(ExceptionContext)"/> is called
+        /// </summary>
+        [Fact]
+        public void SetInternalErrorStatusCodeOnException()
+        {
+            _exceptionFilter.OnException(_context);
+            Assert.Equal((int)HttpStatusCode.InternalServerError, ((ObjectResult)_context.Result).StatusCode);
+        }
+
+        /// <summary>
+        /// The context's resulting message text should be set to 
+        /// ??? when
+        /// the <see cref="JsonExceptionFilter.OnException(ExceptionContext)"/> is called
+        /// </summary>
+        [Fact]
+        public void SetErrorMessageTextOnException()
+        {
+            var error = new ApiError();
+            error.Message = "error text";
+
+            _exceptionFilter.OnException(_context);
+            Assert.Equal(error.Message, ((ApiError)((ObjectResult)_context.Result).Value).Message);
         }
     }
 }

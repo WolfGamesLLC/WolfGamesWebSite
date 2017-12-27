@@ -16,7 +16,10 @@ namespace WGMarbleMotionAPI.Filters
     {
         public void OnException(ExceptionContext context)
         {
-            context.Result = new ObjectResult(new ApiError())
+            var err = new ApiError();
+            err.Message = "error text";
+
+            context.Result = new ObjectResult(err)
             {
                 StatusCode = 500
             };
