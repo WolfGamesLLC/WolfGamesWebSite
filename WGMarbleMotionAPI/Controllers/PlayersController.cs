@@ -19,7 +19,7 @@ namespace WGMarbleMotionAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet(Name = nameof(GetPlayers))]
-        public IActionResult GetPlayers()
+        public IActionResult GetPlayers(long? id)
         {
             var response = new
             {

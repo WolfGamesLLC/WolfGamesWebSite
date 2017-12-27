@@ -33,17 +33,30 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
         [Fact]
         public void GetPlayersReturnsOkObjectResult()
         {
-            Assert.IsType<OkObjectResult>(Controller.GetPlayers());
+            Assert.IsType<OkObjectResult>(Controller.GetPlayers(null));
         }
 
         /// <summary>
-        /// The <see cref="PlayersController.GetPlayers"/> action should return a ViewResult
+        /// The <see cref="PlayersController.GetPlayers"/> action should return a OkObjectResult
+        /// containing a self reference and a list of players when called with no args
         /// </summary>
         [Fact]
-        public void GetPlayersReturnsStatusCodeValueHrefEqualGetPlayers()
+        public void GetPlayersReturnsOkObjectResultWithPlayerLIst()
         {
-            OkObjectResult response = Controller.GetPlayers() as OkObjectResult;
+            OkObjectResult response = Controller.GetPlayers(null) as OkObjectResult;
             var exp = new { href = "http://GetPlayers" };
+            Assert.Equal(exp.ToString(), response.Value.ToString());
+        }
+
+        /// <summary>
+        /// The <see cref="PlayersController.GetPlayers"/> action should throw a
+        /// not found exception when a non-existing player is requested
+        /// </summary>
+        [Fact]
+        public void GetPlayersThrowsNotFound()
+        {
+            ObjectResult response = Controller.GetPlayers(1000) as ObjectResult;
+            var exp = new { StatusCode = 500 };
             Assert.Equal(exp.ToString(), response.Value.ToString());
         }
     }
