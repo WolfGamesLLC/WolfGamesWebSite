@@ -19,6 +19,15 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Filters
     {
         private ExceptionContext _context;
         private JsonExceptionFilter _exceptionFilter;
+        private ApiError _expectedError;
+
+        /// <summary>
+        /// Get the ApiError object from the context
+        /// </summary>
+        protected ApiError Error
+        {
+            get { return (ApiError)((ObjectResult)_context.Result).Value; }
+        }
 
         public JsonExceptionFilterShould()
         {
@@ -32,6 +41,9 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Filters
 
             _context = new ExceptionContext(mockAction.Object, new List<IFilterMetadata>());
             _exceptionFilter = new JsonExceptionFilter();
+
+            _expectedError = new ApiError();
+            _expectedError.Message = "error text";
         }
 
         /// <summary>
@@ -54,11 +66,8 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Filters
         [Fact]
         public void SetErrorMessageTextOnException()
         {
-            var error = new ApiError();
-            error.Message = "error text";
-
             _exceptionFilter.OnException(_context);
-            Assert.Equal(error.Message, ((ApiError)((ObjectResult)_context.Result).Value).Message);
+            Assert.Equal(_expectedError.Message, Error.Message);
         }
     }
 }
