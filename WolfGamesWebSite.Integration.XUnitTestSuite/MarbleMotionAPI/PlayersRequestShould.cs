@@ -40,5 +40,22 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
             // Assert
             Assert.Equal("OK", response.ReasonPhrase);
         }
+
+        /// <summary>
+        /// A request for a non-existent player should return an 
+        /// error ObjectResult and Json data of the exception
+        /// </summary>
+        /// <returns>A task</returns>
+        [Fact]
+        public async Task ReturnErrorResponseWithJsonDetail()
+        {
+            Route += "/1000";
+            
+            // Act
+            HttpResponseMessage response = await Request(Route);
+
+            // Assert
+            Assert.Equal("Not Found", response.ReasonPhrase);
+        }
     }
 }

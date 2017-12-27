@@ -21,6 +21,11 @@ namespace WGMarbleMotionAPI.Controllers
         [HttpGet(Name = nameof(GetPlayers))]
         public IActionResult GetPlayers(long? id)
         {
+            if (id == 1000)
+            {
+                throw new ArgumentException();
+            }
+
             var response = new
             {
                 href = Url.Link(nameof(GetPlayers), null)

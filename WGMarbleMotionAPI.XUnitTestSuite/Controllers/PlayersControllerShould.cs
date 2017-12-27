@@ -55,9 +55,10 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
         [Fact]
         public void GetPlayersThrowsNotFound()
         {
-            ObjectResult response = Controller.GetPlayers(1000) as ObjectResult;
-            var exp = new { StatusCode = 500 };
-            Assert.Equal(exp.ToString(), response.Value.ToString());
+//            ObjectResult response = Controller.GetPlayers(1000) as ObjectResult;
+            Assert.Throws<ArgumentException>(() => Controller.GetPlayers(1000));
+//            var exp = new { StatusCode = 500 };
+//            Assert.Equal(exp.ToString(), response.Value.ToString());
         }
     }
 }

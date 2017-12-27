@@ -12,6 +12,7 @@ using WGMarbleMotionAPI.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using WGMarbleMotionAPI.Filters;
 
 namespace WGMarbleMotionAPI
 {
@@ -45,7 +46,7 @@ namespace WGMarbleMotionAPI
             services.AddRouting(opt => opt.LowercaseUrls = true);
             services.AddMvc(opt =>
             {
-//                opt.Filters.Add(typeof(JsonExceptionFilter));
+                opt.Filters.Add(typeof(JsonExceptionFilter));
 //                opt.Filters.Add(typeof(LinkRewritingFilter));
 //
 //                // Require HTTPS for all controllers
