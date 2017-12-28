@@ -34,6 +34,31 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Filters
             set { _hostingEnvironment = value; }
         }
 
+        /// <summary>
+        /// Allow the expected error data to be modified
+        /// </summary>
+        public ApiError ExpectedError
+        {
+            get { return _expectedError; }
+            set { _expectedError = value; }
+        }
+
+        /// <summary>
+        /// Allow access to the exception context used by the tests
+        /// </summary>
+        public ExceptionContext ExceptionContext
+        {
+            get { return _exceptionContext; }
+        }
+
+        /// <summary>
+        /// Allow the creation of the SUT by children
+        /// </summary>
+        public JsonExceptionFilter ExceptionFilter
+        {
+            get { return _exceptionFilter; }
+            set { _exceptionFilter = value; }
+        }
 
         /// <summary>
         /// Get the ApiError object from the context
@@ -63,14 +88,6 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Filters
             {
                 _exceptionContext.Exception = e;
             }
-
-            _exceptionFilter = new JsonExceptionFilter(_hostingEnvironment);
-
-            _expectedError = new ApiError
-            {
-                Message = _exceptionContext.Exception.Message,
-                Detail = _exceptionContext.Exception.StackTrace
-            };
         }
 
         /// <summary>

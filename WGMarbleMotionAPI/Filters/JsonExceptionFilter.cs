@@ -33,11 +33,18 @@ namespace WGMarbleMotionAPI.Filters
         /// <param name="context">The source <see cref="ExceptionContext"/></param>
         public void OnException(ExceptionContext context)
         {
-            var err = new ApiError
+            var err = new ApiError();
+
+            if (_env.IsDevelopment())
             {
-                Message = context.Exception.Message,
-                Detail = context.Exception.StackTrace
-            };
+                err.Message = context.Exception.Message;
+                err.Detail = context.Exception.StackTrace;
+            }
+            else
+            {
+                err.Message = "A server error occurred.";
+                err.Detail = context.Exception.Message;
+            }
 
             context.Result = new ObjectResult(err)
             {

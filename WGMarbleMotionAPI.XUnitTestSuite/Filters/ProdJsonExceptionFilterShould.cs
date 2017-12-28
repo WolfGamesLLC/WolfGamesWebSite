@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using WGMarbleMotionAPI.Filters;
+using WolfGamesWebSite.DAL.Models;
 
 namespace WGMarbleMotionAPI.XUnitTestSuite.Filters
 {
@@ -14,6 +16,14 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Filters
             : base()
         {
             HostingEnvironment = new HostingEnvironment();
+
+            ExpectedError = new ApiError
+            {
+                Message = "A server error occurred.",
+                Detail = ExceptionContext.Exception.Message
+            };
+
+            ExceptionFilter = new JsonExceptionFilter(HostingEnvironment);
         }
     }
 }
