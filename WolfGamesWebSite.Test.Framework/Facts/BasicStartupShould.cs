@@ -33,11 +33,11 @@ namespace WolfGamesWebSite.Test.Framework.Facts
         /// Get a specific service from a Service collection
         /// </summary>
         /// <typeparam name="T">The type of the service to retrieve</typeparam>
-        /// <param name="mockServices">The ServiceCollection to be searched</param>
+        /// <param name="services">The ServiceCollection to be searched</param>
         /// <returns>The service or null if the service is not found</returns>
-        protected T GetService<T>(ServiceCollection mockServices)
+        protected T GetService<T>(ServiceCollection services)
         {
-            var serviceProvider = mockServices.BuildServiceProvider();
+            var serviceProvider = services.BuildServiceProvider();
 
             return serviceProvider.GetService<T>();
         }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Routing;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using WGMarbleMotionAPI.Filters;
@@ -17,7 +18,7 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Filters
     /// </summary>
     public class JsonExceptionFilterShould
     {
-        private ExceptionContext _context;
+        private ExceptionContext _exceptionContext;
         private JsonExceptionFilter _exceptionFilter;
         private ApiError _expectedError;
 
@@ -26,24 +27,27 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Filters
         /// </summary>
         protected ApiError Error
         {
-            get { return (ApiError)((ObjectResult)_context.Result).Value; }
+            get { return (ApiError)((ObjectResult)_exceptionContext.Result).Value; }
         }
 
         public JsonExceptionFilterShould()
         {
-            var mockContext = new Mock<HttpContext>();
+            var mockHttpContext = new Mock<HttpContext>();
             var mockRoute = new Mock<RouteData>();
             var mockDescriptor = new Mock<ActionDescriptor>();
             var mockAction = new Mock<ActionContext>();
-            mockAction.Object.HttpContext = mockContext.Object;
+
+            mockAction.Object.HttpContext = mockHttpContext.Object;
             mockAction.Object.RouteData = mockRoute.Object;
             mockAction.Object.ActionDescriptor = mockDescriptor.Object;
 
-            _context = new ExceptionContext(mockAction.Object, new List<IFilterMetadata>());
+            _exceptionContext = new ExceptionContext(mockAction.Object, new List<IFilterMetadata>());
+            _exceptionContext.Exception = new ArgumentException();
+
             _exceptionFilter = new JsonExceptionFilter();
 
             _expectedError = new ApiError();
-            _expectedError.Message = "error text";
+            _expectedError.Message = _exceptionContext.Exception.Message;
         }
 
         /// <summary>
@@ -54,19 +58,19 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Filters
         [Fact]
         public void SetInternalErrorStatusCodeOnException()
         {
-            _exceptionFilter.OnException(_context);
-            Assert.Equal((int)HttpStatusCode.InternalServerError, ((ObjectResult)_context.Result).StatusCode);
+            _exceptionFilter.OnException(_exceptionContext);
+            Assert.Equal((int)HttpStatusCode.InternalServerError, ((ObjectResult)_exceptionContext.Result).StatusCode);
         }
 
         /// <summary>
         /// The context's resulting message text should be set to 
-        /// ??? when
+        /// the context's exception message text when
         /// the <see cref="JsonExceptionFilter.OnException(ExceptionContext)"/> is called
         /// </summary>
         [Fact]
         public void SetErrorMessageTextOnException()
         {
-            _exceptionFilter.OnException(_context);
+            _exceptionFilter.OnException(_exceptionContext);
             Assert.Equal(_expectedError.Message, Error.Message);
         }
     }
