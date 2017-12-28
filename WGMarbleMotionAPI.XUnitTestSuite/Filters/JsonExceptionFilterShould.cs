@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -16,11 +17,23 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Filters
     /// <summary>
     /// Test suite for the standard <see cref="JsonExceptionFilter"/>
     /// </summary>
-    public class JsonExceptionFilterShould
+    public abstract class JsonExceptionFilterShould
     {
         private ExceptionContext _exceptionContext;
         private JsonExceptionFilter _exceptionFilter;
         private ApiError _expectedError;
+
+        private IHostingEnvironment _hostingEnvironment;
+
+        /// <summary>
+        /// Allow the testing host environment to be modified
+        /// </summary>
+        protected IHostingEnvironment HostingEnvironment
+        {
+            get { return _hostingEnvironment; }
+            set { _hostingEnvironment = value; }
+        }
+
 
         /// <summary>
         /// Get the ApiError object from the context
@@ -51,11 +64,13 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Filters
                 _exceptionContext.Exception = e;
             }
 
-            _exceptionFilter = new JsonExceptionFilter();
+            _exceptionFilter = new JsonExceptionFilter(_hostingEnvironment);
 
-            _expectedError = new ApiError();
-            _expectedError.Message = _exceptionContext.Exception.Message;
-            _expectedError.Detail = _exceptionContext.Exception.StackTrace;
+            _expectedError = new ApiError
+            {
+                Message = _exceptionContext.Exception.Message,
+                Detail = _exceptionContext.Exception.StackTrace
+            };
         }
 
         /// <summary>
