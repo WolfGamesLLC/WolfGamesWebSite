@@ -42,12 +42,20 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Filters
             mockAction.Object.ActionDescriptor = mockDescriptor.Object;
 
             _exceptionContext = new ExceptionContext(mockAction.Object, new List<IFilterMetadata>());
-            _exceptionContext.Exception = new ArgumentException();
+            try
+            {
+                throw new ArgumentException();
+            }
+            catch (ArgumentException e)
+            {
+                _exceptionContext.Exception = e;
+            }
 
             _exceptionFilter = new JsonExceptionFilter();
 
             _expectedError = new ApiError();
             _expectedError.Message = _exceptionContext.Exception.Message;
+            _expectedError.Detail = _exceptionContext.Exception.StackTrace;
         }
 
         /// <summary>
@@ -72,6 +80,18 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Filters
         {
             _exceptionFilter.OnException(_exceptionContext);
             Assert.Equal(_expectedError.Message, Error.Message);
+        }
+
+        /// <summary>
+        /// The context's resulting detail text should be set to 
+        /// the context's exception stack trace when
+        /// the <see cref="JsonExceptionFilter.OnException(ExceptionContext)"/> is called
+        /// </summary>
+        [Fact]
+        public void SetErrorDetailTextOnException()
+        {
+            _exceptionFilter.OnException(_exceptionContext);
+            Assert.Equal(_expectedError.Detail, Error.Detail);
         }
     }
 }

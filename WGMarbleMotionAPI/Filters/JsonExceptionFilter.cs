@@ -16,8 +16,11 @@ namespace WGMarbleMotionAPI.Filters
     {
         public void OnException(ExceptionContext context)
         {
-            var err = new ApiError();
-            err.Message = context.Exception.Message;
+            var err = new ApiError
+            {
+                Message = context.Exception.Message,
+                Detail = context.Exception.StackTrace
+            };
 
             context.Result = new ObjectResult(err)
             {
