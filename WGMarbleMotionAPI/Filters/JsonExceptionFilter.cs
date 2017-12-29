@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using WolfGamesWebSite.DAL.Models;
 
@@ -48,7 +49,7 @@ namespace WGMarbleMotionAPI.Filters
 
             context.Result = new ObjectResult(err)
             {
-                StatusCode = 500
+                StatusCode = (int) HttpStatusCode.InternalServerError
             };
         }
     }
