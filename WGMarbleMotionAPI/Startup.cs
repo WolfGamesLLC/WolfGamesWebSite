@@ -51,7 +51,7 @@ namespace WGMarbleMotionAPI
 //
 //                // Require HTTPS for all controllers
 //                opt.SslPort = _httpsPort;
-//                opt.Filters.Add(typeof(RequireHttpsAttribute));
+                opt.Filters.Add(typeof(RequireHttpsAttribute));
 
                 var jsonFormatter = opt.OutputFormatters.OfType<JsonOutputFormatter>().Single();
                 opt.OutputFormatters.Remove(jsonFormatter);

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using WolfGamesWebSite.Test.Framework.Facts;
+using System.Net;
+using System;
 
 namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
 {
@@ -24,7 +26,7 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
                 .UseStartup<WGMarbleMotionAPI.Startup>());
             _client = _server.CreateClient();
 
-            Route = "/";
+            Route = "https://localhost";
         }
 
         /// <summary>
@@ -39,6 +41,15 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
 
             // Assert
             Assert.Equal("OK", response.ReasonPhrase);
+        }
+
+        [Fact]
+        public async Task RedirectNonSSLRequest()
+        {
+            HttpResponseMessage response = await Request("http://localhost");
+
+            Assert.Equal(HttpStatusCode.Found, response.StatusCode);
+            Assert.Equal(new Uri("https://localhost"), response.Headers.Location);
         }
     }
 }
