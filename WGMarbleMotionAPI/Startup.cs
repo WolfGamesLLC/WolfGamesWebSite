@@ -85,6 +85,13 @@ namespace WGMarbleMotionAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHsts(opt => 
+            {
+                opt.MaxAge(days: 365);
+                opt.IncludeSubdomains();
+                opt.Preload();
+            });
+
             app.UseMvc();
         }
     }

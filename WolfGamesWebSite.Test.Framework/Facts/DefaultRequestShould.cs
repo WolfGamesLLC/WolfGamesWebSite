@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.TestHost;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,11 @@ namespace WolfGamesWebSite.Test.Framework.Facts
         /// </summary>
         public string Route { get; set; }
 
+        /// <summary>
+        /// Helper function that does the actual request and reads the response
+        /// </summary>
+        /// <param name="route">The route (URL) to be tested</param>
+        /// <returns>The response message object</returns>
         protected async Task<HttpResponseMessage> Request(string route)
         {
             var response = await _client.GetAsync(route);
@@ -29,9 +35,9 @@ namespace WolfGamesWebSite.Test.Framework.Facts
         }
 
         /// <summary>
-        /// A default request should use an application/ion+json content type
+        /// All requests should use an application/ion+json content type
         /// </summary>
-        /// <returns>A task</returns>
+        /// <returns>none</returns>
         [Fact]
         public async Task UseIonPlusJsonContentType()
         {
@@ -42,6 +48,10 @@ namespace WolfGamesWebSite.Test.Framework.Facts
             Assert.Equal("application/ion+json", response.Content.Headers.ContentType.MediaType);
         }
 
+        /// <summary>
+        /// All requests responses should have a default version set
+        /// </summary>
+        /// <returns>none</returns>
         [Fact]
         public async Task HaveDefaultVersion()
         {
@@ -50,6 +60,38 @@ namespace WolfGamesWebSite.Test.Framework.Facts
 
             // Assert
             Assert.Contains("1.0", response.Headers.GetValues("api-supported-versions"));
+        }
+
+        /// <summary>
+        /// Ensure all http requests are routed to https
+        /// </summary>
+        /// <returns>none</returns>
+        [Fact]
+        public async Task RedirectNonSSLRequest()
+        {
+            HttpResponseMessage response = await Request("http://localhost");
+
+            Assert.Equal(HttpStatusCode.Found, response.StatusCode);
+            Assert.Equal(new Uri("https://localhost"), response.Headers.Location);
+        }
+
+        /// <summary>
+        /// Ensure all responses contain an hsts header
+        /// </summary>
+        /// <returns>none</returns>
+        [Fact]
+        public async Task AddHstsHeaders()
+        {
+            // arrange
+            var expectedValues = new WGSystem.Collections.Generic.WGGenericCollectionsFactory().CreateList<string>();
+            expectedValues.Add("max-age=31536000; includeSubDomains; preload");
+
+            // apply
+            HttpResponseMessage response = await Request(Route);
+
+            // assert
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(expectedValues, response.Headers.GetValues("Strict-Transport-Security"));
         }
     }
 }

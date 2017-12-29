@@ -42,14 +42,5 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
             // Assert
             Assert.Equal("OK", response.ReasonPhrase);
         }
-
-        [Fact]
-        public async Task RedirectNonSSLRequest()
-        {
-            HttpResponseMessage response = await Request("http://localhost");
-
-            Assert.Equal(HttpStatusCode.Found, response.StatusCode);
-            Assert.Equal(new Uri("https://localhost"), response.Headers.Location);
-        }
     }
 }
