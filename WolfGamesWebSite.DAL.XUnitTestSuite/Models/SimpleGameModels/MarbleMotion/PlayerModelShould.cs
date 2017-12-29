@@ -7,17 +7,17 @@ using Xunit;
 namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models.SimpleGameModels.MarbleMotion
 {
     /// <summary>
-    /// Test suite for the <see cref="Player"/>
+    /// Test suite for the <see cref="PlayerModel"/>
     /// model
     /// </summary>
-    public class PlayerShould : ApiResourceShould
+    public class PlayerModelShould : ApiResourceShould
     {
         /// <summary>
         /// Initialize the test suite
         /// </summary>
-        public PlayerShould()
+        public PlayerModelShould()
         {
-            Model = new Player();
+            Model = new PlayerModel();
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models.SimpleGameModels.MarbleMoti
         [Fact]
         public void ShouldCreateAMarbleMotionModel()
         {
-            Assert.NotNull(new Player());
+            Assert.NotNull(new PlayerModel());
         }
     }
 }
