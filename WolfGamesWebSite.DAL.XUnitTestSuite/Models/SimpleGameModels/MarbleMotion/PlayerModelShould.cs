@@ -7,26 +7,71 @@ using Xunit;
 namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models.SimpleGameModels.MarbleMotion
 {
     /// <summary>
-    /// Test suite for the <see cref="PlayerModel"/>
-    /// model
+    /// Test of the <see cref="PlayerModel"/> db access object
     /// </summary>
-    public class PlayerModelShould : ApiResourceShould
+    public class PlayerModelShould
     {
+        private PlayerModel _player;
+
         /// <summary>
         /// Initialize the test suite
         /// </summary>
         public PlayerModelShould()
         {
-            Model = new PlayerModel();
+            _player = new PlayerModel();
         }
 
         /// <summary>
-        /// Verify the model can be created
+        /// verify that an instance of PlayerModel can be created
         /// </summary>
         [Fact]
-        public void ShouldCreateAMarbleMotionModel()
+        public void CreatePlayerModel()
         {
             Assert.NotNull(new PlayerModel());
+        }
+
+        /// <summary>
+        /// The id should be set and retrieved
+        /// </summary>
+        [Fact]
+        public void ShouldSetAndGetId()
+        {
+            Guid expected = new Guid();
+            _player.Id = expected;
+            Assert.Equal(expected, _player.Id);
+        }
+
+        /// <summary>
+        /// The score should be set and retrieved
+        /// </summary>
+        [Fact]
+        public void ShouldSetAndGetScore()
+        {
+            long expected = 12345;
+            _player.Score = expected;
+            Assert.Equal(expected, _player.Score);
+        }
+
+        /// <summary>
+        /// The X position should be set and retrieved
+        /// </summary>
+        [Fact]
+        public void ShouldSetAndGetXPosition()
+        {
+            int expected = 12345;
+            _player.XPosition = expected;
+            Assert.Equal(expected, _player.XPosition);
+        }
+
+        /// <summary>
+        /// The Y position should be set and retrieved
+        /// </summary>
+        [Fact]
+        public void ShouldSetAndGetYPosition()
+        {
+            int expected = 12345;
+            _player.ZPosition = expected;
+            Assert.Equal(expected, _player.ZPosition);
         }
     }
 }

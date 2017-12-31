@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using WGMarbleMotionAPI.Filters;
+using WolfGamesWebSite.DAL.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace WGMarbleMotionAPI
 {
@@ -43,6 +45,9 @@ namespace WGMarbleMotionAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("WolfGamesWebSite")));
+
             services.AddRouting(opt => opt.LowercaseUrls = true);
             services.AddMvc(opt =>
             {

@@ -14,6 +14,11 @@ using WGMarbleMotionAPI.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc.Routing;
+using WGMarbleMotionAPI.Controllers;
+using WolfGamesWebSite.DAL.Data;
+using Microsoft.EntityFrameworkCore;
+using System.IO;
+using System.Collections.Generic;
 
 namespace WGMarbleMotionAPI.XUnitTestSuite
 {
@@ -29,10 +34,20 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
         public StartupShould(ITestOutputHelper testOutputHelper)
             : base(testOutputHelper)
         {
-            var startup = new Startup((new Mock<IConfiguration>()).Object);
+            var dict = new Dictionary<string, string>
+            {
+                { "ConnectionStrings:DefaultConnection", "hello" }
+            };
+
+
+            var configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(dict)
+            .Build();
+
+            var startup = new Startup(configuration);
             startup.ConfigureServices(_services);
 
-            _expectedServicesCount = 186;
+            _expectedServicesCount = 192;
 
             foreach (ServiceDescriptor serv in _services)
             {
@@ -105,6 +120,17 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
         {
             var verOpt = GetService<IOptions<ApiVersioningOptions>>(_services);
             Assert.Equal(new ApiVersion(1,0), verOpt.Value.DefaultApiVersion);
+        }
+
+        /// <summary>
+        /// Verify the DB Context is used
+        /// </summary>
+        [Fact]
+        public void UseDBContext()
+        {
+            var context = GetService<DbContextOptions>(_services);
+            Assert.NotNull(context);
+            Assert.Equal("WolfGamesWebSite.DAL.Data.ApplicationDbContext", context.ContextType.ToString());
         }
 
         //  Arrange

@@ -8,6 +8,9 @@ using System.Net.Http.Headers;
 using WolfGamesWebSite.Test.Framework.Facts;
 using Microsoft.AspNetCore.Http;
 using System.Net;
+using Moq;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
 {
@@ -21,8 +24,8 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
         /// </summary>
         public PlayersRequestShould()
         {
-            // Arrange
             _server = new TestServer(new WebHostBuilder()
+                .UseConfiguration(_configuration)
                 .UseStartup<WGMarbleMotionAPI.Startup>());
             _client = _server.CreateClient();
 

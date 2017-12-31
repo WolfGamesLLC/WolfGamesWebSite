@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -16,6 +17,23 @@ namespace WolfGamesWebSite.Test.Framework.Facts
     {
         protected TestServer _server;
         protected HttpClient _client;
+        protected IConfigurationRoot _configuration;
+
+        /// <summary>
+        /// Do basic initialization for all tests 
+        /// </summary>
+        public DefaultRequestShould()
+        {
+            var dict = new Dictionary<string, string>
+            {
+                { "ConnectionStrings:DefaultConnection", "hello" }
+            };
+
+
+            _configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(dict)
+            .Build();
+        }
 
         /// <summary>
         /// The route to be used in base integration tests

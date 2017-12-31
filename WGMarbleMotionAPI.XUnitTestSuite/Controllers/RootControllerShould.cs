@@ -6,6 +6,7 @@ using System.Text;
 using WGMarbleMotionAPI.Controllers;
 using WolfGamesWebSite.Common.XUnitTest.Controllers;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
 {
@@ -19,7 +20,8 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
         /// <summary>
         /// The test initializer for the suite
         /// </summary>
-        public RootControllerShould()
+        public RootControllerShould(ITestOutputHelper testOutputHelper)
+            : base(testOutputHelper)
         {
             Controller = new RootController();
             mockUrl = new Mock<IUrlHelper>();

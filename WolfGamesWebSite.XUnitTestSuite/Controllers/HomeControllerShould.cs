@@ -4,6 +4,7 @@ using WolfGamesWebSite;
 using WolfGamesWebSite.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using WolfGamesWebSite.Common.XUnitTest.Controllers;
+using Xunit.Abstractions;
 
 namespace WolfGamesWebSite.XUnitTestSuite
 {
@@ -77,7 +78,8 @@ namespace WolfGamesWebSite.XUnitTestSuite
         /// <summary>
         /// The test initializer for the suite
         /// </summary>
-        public HomeControllerShould()
+        public HomeControllerShould(ITestOutputHelper testOutputHelper)
+            : base(testOutputHelper)
         {
             Controller = new HomeController();
         }
