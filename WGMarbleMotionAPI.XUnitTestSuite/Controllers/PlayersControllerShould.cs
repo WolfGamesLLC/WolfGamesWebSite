@@ -43,6 +43,8 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
             Controller = new PlayersController(_context);
             mockUrl = new Mock<IUrlHelper>();
             mockUrl.Setup(r => r.Link("GetPlayers", null)).Returns("http://GetPlayers");
+            Guid playerId;
+            mockUrl.Setup(r => r.Link("GetPlayerAsync", It.IsAny<object>())).Returns("https://players/" + PLAYER_ID + 1);
             Controller.Url = mockUrl.Object;
         }
 
@@ -108,10 +110,10 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
 
             var expPlayer = new PlayerModelResource()
             {
-                Href = "https//players/getplayerasync/1",
+                Href = "https://players/" + PLAYER_ID + 1,
                 Score = 1
             };
-            Assert.Equal<PlayerModelResource>(expPlayer, player);
+            Assert.Equal(expPlayer.ToString(), player.ToString());
         }
     }
 }

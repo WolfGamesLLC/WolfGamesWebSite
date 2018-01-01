@@ -66,8 +66,7 @@ namespace WGMarbleMotionAPI.Controllers
 
             var player = new PlayerModelResource()
             {
-                Href = "hello",
-//                Href = Url.Link(nameof(GetPlayerAsync), new { playerId = entity.Id }),
+                Href = Url.Link(nameof(GetPlayerAsync), new { playerId = entity.Id }),
                 Score = entity.Score
             };
 
