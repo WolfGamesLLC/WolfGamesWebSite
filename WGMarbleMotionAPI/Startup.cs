@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using WGMarbleMotionAPI.Filters;
 using WolfGamesWebSite.DAL.Data;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace WGMarbleMotionAPI
 {
@@ -75,6 +76,12 @@ namespace WGMarbleMotionAPI
                 opt.DefaultApiVersion = new ApiVersion(1, 0);
                 opt.ApiVersionSelector = new CurrentImplementationApiVersionSelector(opt);
             });
+
+            // Register the Swagger generator, defining one or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "WG MarbleMotion API", Version = "v1" });
+            });
         }
 
         /// <summary>
@@ -95,6 +102,15 @@ namespace WGMarbleMotionAPI
                 opt.MaxAge(days: 365);
                 opt.IncludeSubdomains();
                 opt.Preload();
+            });
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Marble Motion V1");
             });
 
             app.UseMvc();

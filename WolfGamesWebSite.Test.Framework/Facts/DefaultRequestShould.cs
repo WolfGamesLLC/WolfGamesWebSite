@@ -26,7 +26,7 @@ namespace WolfGamesWebSite.Test.Framework.Facts
         {
             var dict = new Dictionary<string, string>
             {
-                { "ConnectionStrings:DefaultConnection", "hello" }
+                { "ConnectionStrings:DefaultConnection", "inmemory.testdb" }
             };
 
 

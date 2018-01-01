@@ -69,5 +69,51 @@ namespace WGMarbleMotionAPI.Controllers
 
             return Ok(player);
         }
+
+        /// <summary>
+        /// Create a player's data in the database
+        /// </summary>
+        /// <param name="playerModelResource">The player model resource contaaining the player data</param>
+        /// <param name="ct">The cancellation token used by the db server</param>
+        /// <returns>The player's data</returns>
+        [HttpPut("create", Name = nameof(CreatePlayerAsync))]
+        public async Task<IActionResult> CreatePlayerAsync(PlayerModelResource playerModelResource, CancellationToken ct)
+        {
+            var player = _context.Add(new PlayerModel()
+            {
+                Score = playerModelResource.Score,
+                XPosition = playerModelResource.XPosition,
+                ZPosition = playerModelResource.ZPosition
+            });
+
+            var created = await _context.SaveChangesAsync(ct);
+            if (created < 0) throw new InvalidOperationException("Could not create the player.");
+
+            return Created(Url.Link(nameof(UpdatePlayerAsync), new { player.Entity.Id }), player.Entity.Id);
+        }
+
+        /// <summary>
+        /// Update a player's data in the database
+        /// </summary>
+        /// <param name="newId">the id to be updated</param>
+        /// <param name="playerModelResource">The player model resource contaaining the player data</param>
+        /// <param name="ct">The cancellation token used by the db server</param>
+        /// <returns>The player's data</returns>
+        [HttpPut("update", Name = nameof(UpdatePlayerAsync))]
+        public async Task<IActionResult> UpdatePlayerAsync(Guid newId, PlayerModelResource playerModelResource, CancellationToken ct)
+        {
+            var player = await _context.PlayerModel.SingleOrDefaultAsync(r => r.Id == newId);
+            if (player == null)
+                return new NotFoundResult();
+
+            player.Score = playerModelResource.Score;
+            player.XPosition = playerModelResource.XPosition;
+            player.ZPosition = playerModelResource.ZPosition;
+
+            var created = await _context.SaveChangesAsync(ct);
+            if (created < 0) throw new InvalidOperationException("Could not create the player.");
+
+            return Created(Url.Link(nameof(UpdatePlayerAsync), new { newId }), null);
+        }
     }
 }

@@ -26,6 +26,8 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
         private static readonly string PLAYER_ID = "11111111-1111-1111-1111-11111111111";
         private static readonly string GET_PLAYER_LIST_URL = "http://GetPlayers";
         private static readonly string GET_PLAYER_URL = "https://players/";
+        private static readonly string CREATE_PLAYER_URL = "https://players/";
+        private static readonly string UPDATE_PLAYER_URL = "https://players/";
         private ApplicationDbContext _context;
 
         /// <summary>
@@ -47,6 +49,8 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
             mockUrl = new Mock<IUrlHelper>();
             mockUrl.Setup(r => r.Link("GetPlayers", null)).Returns(GET_PLAYER_LIST_URL);
             mockUrl.Setup(r => r.Link("GetPlayerAsync", It.IsAny<object>())).Returns(GET_PLAYER_URL + PLAYER_ID + 1);
+            mockUrl.Setup(r => r.Link("CreatePlayerAsync", It.IsAny<object>())).Returns(CREATE_PLAYER_URL + PLAYER_ID + 1);
+            mockUrl.Setup(r => r.Link("UpdatePlayerAsync", It.IsAny<object>())).Returns(UPDATE_PLAYER_URL + PLAYER_ID + 1);
             Controller.Url = mockUrl.Object;
         }
 
@@ -115,6 +119,66 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
             Assert.Equal(expPlayer.Score, player.Score);
             Assert.Equal(expPlayer.XPosition, player.XPosition);
             Assert.Equal(expPlayer.ZPosition, player.ZPosition);
+        }
+
+
+        /// <summary>
+        /// Create a player's data in the database
+        /// </summary>
+        [Fact]
+        public async Task CreatePlayerDataInContextAsync()
+        {
+            var expectedPlayer = new PlayerModel()
+            {
+                Score = 6,
+                XPosition = 60,
+                ZPosition = 600
+            };
+            var putResult = await Controller.CreatePlayerAsync(new PlayerModelResource()
+            {
+                Score = expectedPlayer.Score,
+                XPosition = expectedPlayer.XPosition,
+                ZPosition = expectedPlayer.ZPosition
+            }, new CancellationToken());
+
+            Assert.IsType<CreatedResult>(putResult);
+            expectedPlayer.Id = (Guid)(((CreatedResult)putResult).Value);
+
+            var res = await _context.PlayerModel.SingleOrDefaultAsync<PlayerModel>(r => r.Id == expectedPlayer.Id);
+            Assert.Equal(expectedPlayer.Id, res.Id);
+            Assert.Equal(expectedPlayer.Score, res.Score);
+            Assert.Equal(expectedPlayer.XPosition, res.XPosition);
+            Assert.Equal(expectedPlayer.ZPosition, res.ZPosition);
+        }
+        
+        /// <summary>
+        /// Update a player's data in the database
+        /// </summary>
+        [Fact]
+        public async Task UpdatePlayerDataInContextAsync()
+        {
+            Guid id = new Guid(PLAYER_ID + 2);
+            var expectedPlayer = new PlayerModel()
+            {
+                Id = id,
+                Score = 6,
+                XPosition = 60,
+                ZPosition = 600
+            };
+            var putResult = await Controller.UpdatePlayerAsync(id, new PlayerModelResource()
+            {
+                Score = expectedPlayer.Score,
+                XPosition = expectedPlayer.XPosition,
+                ZPosition = expectedPlayer.ZPosition
+            }, new CancellationToken());
+
+            Assert.IsType<CreatedResult>(putResult);
+
+            var res = await _context.PlayerModel.SingleOrDefaultAsync<PlayerModel>(r => r.Id == id);
+            Assert.Equal(expectedPlayer.Id, res.Id);
+            Assert.Equal(expectedPlayer.Score, res.Score);
+            Assert.Equal(expectedPlayer.XPosition, res.XPosition);
+            Assert.Equal(expectedPlayer.ZPosition, res.ZPosition);
         }
     }
 }

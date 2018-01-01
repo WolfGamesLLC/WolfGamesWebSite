@@ -43,7 +43,7 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
             HttpResponseMessage response = await Request(Route);
 
             // Assert
-            Assert.Equal("OK", response.ReasonPhrase);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
         /// <summary>
@@ -51,16 +51,48 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
         /// error ObjectResult and Json data of the exception
         /// </summary>
         /// <returns>A task</returns>
-        [Fact (Skip = "Until I have an exception I can force")]
+        [Fact]
         public async Task ReturnErrorResponseWithJsonDetail()
         {
-            Route += "?id=1000";
+            Route += "/update?=1000";
             
             // Act
             HttpResponseMessage response = await Request(Route);
 
             // Assert
             Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+        }
+
+        /// <summary>
+        /// A create player request should return an Created response
+        /// </summary>
+        /// <returns>A task</returns>
+        [Fact (Skip = "Until I can add an in memory db to be used by these tests")]
+        public async Task ReturnCreatedResponse()
+        {
+            Route += "/create?score=1&xposition=2&zposition=3";
+
+            // Act
+            HttpResponseMessage response = await Request(Route);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        }
+
+        /// <summary>
+        /// An update player request should return an Created response
+        /// </summary>
+        /// <returns>A task</returns>
+        [Fact (Skip = "Until I can add an in memory db to be used by these tests")]
+        public async Task ReturnUpdatedResponse()
+        {
+            Route += "/update?id=11111111-1111-1111-1111-111111111112&score=1&xposition=2&zposition=3";
+
+            // Act
+            HttpResponseMessage response = await Request(Route);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         }
     }
 }

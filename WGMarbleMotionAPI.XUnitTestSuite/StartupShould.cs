@@ -47,7 +47,7 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
             var startup = new Startup(configuration);
             startup.ConfigureServices(_services);
 
-            _expectedServicesCount = 192;
+            _expectedServicesCount = 195;
 
             foreach (ServiceDescriptor serv in _services)
             {
