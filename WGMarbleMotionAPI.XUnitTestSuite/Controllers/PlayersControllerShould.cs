@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,6 +24,8 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
     {
         private Mock<IUrlHelper> mockUrl;
         private static readonly string PLAYER_ID = "11111111-1111-1111-1111-11111111111";
+        private static readonly string GET_PLAYER_LIST_URL = "http://GetPlayers";
+        private static readonly string GET_PLAYER_URL = "https://players/";
         private ApplicationDbContext _context;
 
         /// <summary>
@@ -42,9 +45,8 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
 
             Controller = new PlayersController(_context);
             mockUrl = new Mock<IUrlHelper>();
-            mockUrl.Setup(r => r.Link("GetPlayers", null)).Returns("http://GetPlayers");
-            Guid playerId;
-            mockUrl.Setup(r => r.Link("GetPlayerAsync", It.IsAny<object>())).Returns("https://players/" + PLAYER_ID + 1);
+            mockUrl.Setup(r => r.Link("GetPlayers", null)).Returns(GET_PLAYER_LIST_URL);
+            mockUrl.Setup(r => r.Link("GetPlayerAsync", It.IsAny<object>())).Returns(GET_PLAYER_URL + PLAYER_ID + 1);
             Controller.Url = mockUrl.Object;
         }
 
@@ -65,34 +67,24 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
         }
 
         /// <summary>
-        /// The <see cref="PlayersController.GetPlayers"/> action should return a OkObjectResult
+        /// The <see cref="PlayersController.GetPlayersAsync"/> action should return a OkObjectResult
         /// </summary>
         [Fact]
         public void GetPlayersReturnsOkObjectResult()
         {
-            Assert.IsType<OkObjectResult>(Controller.GetPlayers(null));
+            Assert.IsType<OkObjectResult>(Controller.GetPlayersAsync());
         }
 
         /// <summary>
-        /// The <see cref="PlayersController.GetPlayers"/> action should return a OkObjectResult
+        /// The <see cref="PlayersController.GetPlayersAsync"/> action should return a OkObjectResult
         /// containing a self reference and a list of players when called with no args
         /// </summary>
         [Fact]
-        public void GetPlayersReturnsOkObjectResultWithPlayerLIst()
+        public void GetPlayersAsyncReturnsOkObjectResultWithPlayerLIst()
         {
-            OkObjectResult response = Controller.GetPlayers(null) as OkObjectResult;
-            var exp = new { href = "http://GetPlayers\nPlayers" };
-            Assert.Equal(exp.ToString(), response.Value.ToString());
-        }
-
-        /// <summary>
-        /// The <see cref="PlayersController.GetPlayer"/> action should throw a
-        /// not found exception when a non-existing player is requested
-        /// </summary>
-        [Fact]
-        public void GetPlayerThrowsNotFound()
-        {
-            Assert.Throws<ArgumentException>(() => Controller.GetPlayers(1000));
+            var res = Controller.GetPlayersAsync() as OkObjectResult;
+            Assert.IsType<Collection<PlayerModelResource>>(res.Value);
+            Assert.Single(((Collection<PlayerModelResource>)res.Value));
         }
 
         /// <summary>
@@ -102,18 +94,27 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
         [Fact]
         public async void GetPlayerAsyncReturnsPlayerData()
         {
+            // arrange
+            var expPlayer = new PlayerModelResource()
+            {
+                Href = GET_PLAYER_URL + PLAYER_ID + 1,
+                Score = 1,
+                XPosition = 10,
+                ZPosition = 100
+            };
+
+            // apply
             var res = await Controller.GetPlayerAsync(Guid.Parse(PLAYER_ID + 1), new CancellationToken());
 
+            // assert
             Assert.IsType<OkObjectResult>(res);
 
             PlayerModelResource player = ((OkObjectResult)res).Value as PlayerModelResource;
 
-            var expPlayer = new PlayerModelResource()
-            {
-                Href = "https://players/" + PLAYER_ID + 1,
-                Score = 1
-            };
-            Assert.Equal(expPlayer.ToString(), player.ToString());
+            Assert.Equal(expPlayer.Href, player.Href);
+            Assert.Equal(expPlayer.Score, player.Score);
+            Assert.Equal(expPlayer.XPosition, player.XPosition);
+            Assert.Equal(expPlayer.ZPosition, player.ZPosition);
         }
     }
 }

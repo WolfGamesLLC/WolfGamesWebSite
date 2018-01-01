@@ -26,7 +26,7 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
             Controller = new RootController();
             mockUrl = new Mock<IUrlHelper>();
             mockUrl.Setup(r => r.Link("GetRoot",null)).Returns("http://localhost:55687");
-            mockUrl.Setup(r => r.Link("GetPlayers", null)).Returns("http://localhost:55687/players");
+            mockUrl.Setup(r => r.Link("GetPlayersAsync", null)).Returns("http://localhost:55687/players");
             Controller.Url = mockUrl.Object;
         }
 

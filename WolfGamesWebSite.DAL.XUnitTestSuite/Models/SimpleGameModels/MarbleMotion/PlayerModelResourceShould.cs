@@ -39,5 +39,27 @@ namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models.SimpleGameModels.MarbleMoti
             ((PlayerModelResource)Model).Score = expected;
             Assert.Equal(expected, ((PlayerModelResource)Model).Score);
         }
+
+        /// <summary>
+        /// The X position should be set and retrieved
+        /// </summary>
+        [Fact]
+        public void ShouldSetAndGetXPosition()
+        {
+            int expected = 12345;
+            ((PlayerModelResource)Model).XPosition = expected;
+            Assert.Equal(expected, ((PlayerModelResource)Model).XPosition);
+        }
+
+        /// <summary>
+        /// The Y position should be set and retrieved
+        /// </summary>
+        [Fact]
+        public void ShouldSetAndGetYPosition()
+        {
+            int expected = 12345;
+            ((PlayerModelResource)Model).ZPosition = expected;
+            Assert.Equal(expected, ((PlayerModelResource)Model).ZPosition);
+        }
     }
 }

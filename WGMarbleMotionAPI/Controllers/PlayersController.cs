@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -34,20 +35,14 @@ namespace WGMarbleMotionAPI.Controllers
         /// Get a list of all the players of the Marble Motion game.
         /// </summary>
         /// <returns></returns>
-        [HttpGet(Name = nameof(GetPlayers))]
-        public IActionResult GetPlayers(long? id)
+        [HttpGet(Name = nameof(GetPlayersAsync))]
+        public IActionResult GetPlayersAsync()
         {
-            if (id == 1000)
+            var response = new Collection<PlayerModelResource>();
+            response.Add(new PlayerModelResource()
             {
-//                if (!ModelState.IsValid) return BadRequest(new ApiError(ModelState));
-                throw new ArgumentException();
-            }
-
-            var response = new
-            {
-                href = Url.Link(nameof(GetPlayers), null)
-            };
-
+                Href = Url.Link(nameof(GetPlayersAsync), null)
+            });
             return Ok(response);
         }
 
@@ -67,7 +62,9 @@ namespace WGMarbleMotionAPI.Controllers
             var player = new PlayerModelResource()
             {
                 Href = Url.Link(nameof(GetPlayerAsync), new { playerId = entity.Id }),
-                Score = entity.Score
+                Score = entity.Score,
+                XPosition = entity.XPosition,
+                ZPosition = entity.ZPosition
             };
 
             return Ok(player);
