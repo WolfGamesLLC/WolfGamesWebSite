@@ -2,30 +2,25 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-
-    <IsPackable>false</IsPackable>
-
-    <Description>Test suite that verifies the WolfGamesWebSite project objects</Description>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
+    <Description>Contains extension, wrapper and other classes helpfull for testing web site objects</Description>
+    <Copyright>2017 Wolf Games LLC.</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp2.0\WolfGamesWebSite.XUnitTestSuite.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netcoreapp2.0\WolfGamesWebSite.Test.Framework.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="Moq" Version="4.8.0" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WolfGamesWebSite.Common.XUnitTest\WolfGamesWebSite.Common.XUnitTest.csproj" />
-    <ProjectReference Include="..\WolfGamesWebSite.Test.Framework\WolfGamesWebSite.Test.Framework.csproj" />
-    <ProjectReference Include="..\WolfGamesWebSite\WolfGamesWebSite.csproj" />
+    <ProjectReference Include="..\WolfGamesWebSite.Common\WolfGamesWebSite.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

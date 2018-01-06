@@ -7,7 +7,7 @@ using Xunit;
 namespace WolfGamesWebSite.XUnitTestSuite.Models
 {
     /// <summary>
-    /// Test suite for the standard error view model
+    /// Test suite for the standard <see cref="ErrorViewModel"/>
     /// </summary>
     public class ErrorViewModelShould
     {

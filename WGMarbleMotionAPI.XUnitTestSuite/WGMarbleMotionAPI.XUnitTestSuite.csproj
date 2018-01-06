@@ -5,27 +5,27 @@
 
     <IsPackable>false</IsPackable>
 
-    <Description>Test suite that verifies the WolfGamesWebSite project objects</Description>
-  </PropertyGroup>
+    <Description>Wolf Games Marble Motion Game Web API Unit testing package</Description>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
+    <Copyright>2017 Wolf Games LLC</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp2.0\WolfGamesWebSite.XUnitTestSuite.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netcoreapp2.0\WGMarbleMotionAPI.XUnitTestSuite.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="Moq" Version="4.8.0" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WGMarbleMotionAPI\WGMarbleMotionAPI.csproj" />
     <ProjectReference Include="..\WolfGamesWebSite.Common.XUnitTest\WolfGamesWebSite.Common.XUnitTest.csproj" />
     <ProjectReference Include="..\WolfGamesWebSite.Test.Framework\WolfGamesWebSite.Test.Framework.csproj" />
-    <ProjectReference Include="..\WolfGamesWebSite\WolfGamesWebSite.csproj" />
   </ItemGroup>
 
   <ItemGroup>

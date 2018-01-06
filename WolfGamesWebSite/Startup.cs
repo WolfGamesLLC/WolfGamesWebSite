@@ -51,7 +51,7 @@ namespace WolfGamesWebSite
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("WolfGamesWebSite")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
             {

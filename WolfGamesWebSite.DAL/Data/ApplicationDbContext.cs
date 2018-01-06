@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WolfGamesWebSite.DAL.Models;
-using WolfGamesWebSite.DAL.Models.SimpleGameModels;
+using WolfGamesWebSite.DAL.Models.SimpleGameModels.MarbleMotion;
 
 namespace WolfGamesWebSite.DAL.Data
 {
@@ -38,8 +34,8 @@ namespace WolfGamesWebSite.DAL.Data
         }
 
         /// <summary>
-        /// The MarbleMotionModel db set
+        /// The PlayerModel db set
         /// </summary>
-        public DbSet<MarbleMotionModel> MarbleMotionModel { get; set; }
+        public DbSet<PlayerModel> PlayerModel { get; set; }
     }
 }
