@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using WolfGamesWebSite.Extensions;
 using Swashbuckle.AspNetCore.Swagger;
 using WolfGamesWebSite.DAL.Data;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace WolfGamesWebSite
 {
@@ -123,7 +124,19 @@ namespace WolfGamesWebSite
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
+            var provider = new FileExtensionContentTypeProvider();
+            provider.Mappings[".mem"] = "application/octet-stream";
+            provider.Mappings[".data"] = "application/octet-stream";
+            provider.Mappings[".unity3d"] = "application/octet-stream";
+            provider.Mappings[".memgz"] = "application/octet-stream";
+            provider.Mappings[".datagz"] = "application/octet-stream";
+            provider.Mappings[".unity3dgz"] = "application/octet-stream";
+            provider.Mappings[".jsgz"] = "application/octet-stream";
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                ContentTypeProvider = provider
+            });
 
             app.UseAuthentication();
 
