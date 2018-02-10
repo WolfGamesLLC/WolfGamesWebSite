@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using WolfGamesWebSite.Extensions;
 using Swashbuckle.AspNetCore.Swagger;
 using WolfGamesWebSite.DAL.Data;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace WolfGamesWebSite
 {
@@ -123,7 +124,21 @@ namespace WolfGamesWebSite
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
+            // Set up custom content types - associating file extension to MIME type
+            var provider = new FileExtensionContentTypeProvider();
+            // Add new mappings
+            provider.Mappings[".myapp"] = "application/x-msdownload";
+            provider.Mappings[".htm3"] = "text/html";
+            provider.Mappings[".image"] = "image/png";
+            // Replace an existing mapping
+            provider.Mappings[".rtf"] = "application/x-msdownload";
+            // Remove MP4 videos.
+            provider.Mappings.Remove(".mp4");
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                ContentTypeProvider = provider
+            });
 
             app.UseAuthentication();
 
