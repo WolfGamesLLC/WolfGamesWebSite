@@ -124,16 +124,14 @@ namespace WolfGamesWebSite
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            // Set up custom content types - associating file extension to MIME type
             var provider = new FileExtensionContentTypeProvider();
-            // Add new mappings
-            provider.Mappings[".myapp"] = "application/x-msdownload";
-            provider.Mappings[".htm3"] = "text/html";
-            provider.Mappings[".image"] = "image/png";
-            // Replace an existing mapping
-            provider.Mappings[".rtf"] = "application/x-msdownload";
-            // Remove MP4 videos.
-            provider.Mappings.Remove(".mp4");
+            provider.Mappings[".mem"] = "application/octet-stream";
+            provider.Mappings[".data"] = "application/octet-stream";
+            provider.Mappings[".unity3d"] = "application/octet-stream";
+            provider.Mappings[".memgz"] = "application/octet-stream";
+            provider.Mappings[".datagz"] = "application/octet-stream";
+            provider.Mappings[".unity3dgz"] = "application/octet-stream";
+            provider.Mappings[".jsgz"] = "application/octet-stream";
 
             app.UseStaticFiles(new StaticFileOptions
             {
