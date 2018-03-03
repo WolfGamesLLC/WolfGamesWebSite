@@ -35,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\Developers\WGUnityApps\" />
     <Folder Include="wwwroot\Developers\WGTest3rdPartyAPI\" />
     <Folder Include="wwwroot\Developers\WGWebApps\" />
     <Folder Include="wwwroot\Developers\WGLibraries\" />
