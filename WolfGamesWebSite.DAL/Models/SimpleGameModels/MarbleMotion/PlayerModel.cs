@@ -4,6 +4,9 @@ using System.Text;
 
 namespace WolfGamesWebSite.DAL.Models.SimpleGameModels.MarbleMotion
 {
+    /// <summary>
+    /// The player database table model
+    /// </summary>
     public class PlayerModel
     {
         /// <summary>
