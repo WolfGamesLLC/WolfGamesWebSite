@@ -16,6 +16,8 @@ using WGMarbleMotionAPI.Filters;
 using WolfGamesWebSite.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Swagger;
+using WolfGamesWebSite.DAL.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace WGMarbleMotionAPI
 {
@@ -49,7 +51,16 @@ namespace WGMarbleMotionAPI
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("WolfGamesWebSite")));
 
+            services.AddCors();            
             services.AddRouting(opt => opt.LowercaseUrls = true);
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
+            {
+                config.SignIn.RequireConfirmedEmail = true;
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
             services.AddMvc(opt =>
             {
                 opt.Filters.Add(typeof(JsonExceptionFilter));
@@ -103,6 +114,11 @@ namespace WGMarbleMotionAPI
                 opt.IncludeSubdomains();
                 opt.Preload();
             });
+
+            app.UseCors(builder => builder.WithOrigins("https://localhost:44357")
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader());
+//            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();

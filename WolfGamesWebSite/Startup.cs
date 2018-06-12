@@ -61,6 +61,12 @@ namespace WolfGamesWebSite
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = false;
+            });
+
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
@@ -125,13 +131,7 @@ namespace WolfGamesWebSite
             }
 
             var provider = new FileExtensionContentTypeProvider();
-            provider.Mappings[".mem"] = "application/octet-stream";
-            provider.Mappings[".data"] = "application/octet-stream";
-            provider.Mappings[".unity3d"] = "application/octet-stream";
-            provider.Mappings[".memgz"] = "application/octet-stream";
-            provider.Mappings[".datagz"] = "application/octet-stream";
-            provider.Mappings[".unity3dgz"] = "application/octet-stream";
-            provider.Mappings[".jsgz"] = "application/octet-stream";
+            provider.Mappings[".unityweb"] = "application/octet-stream";
 
             app.UseStaticFiles(new StaticFileOptions
             {
