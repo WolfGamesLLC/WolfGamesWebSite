@@ -5,6 +5,10 @@ using WolfGamesWebSite.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using WolfGamesWebSite.Common.XUnitTest.Controllers;
 using Xunit.Abstractions;
+using Microsoft.AspNetCore.Identity;
+using WolfGamesWebSite.DAL.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Moq;
 
 namespace WolfGamesWebSite.XUnitTestSuite
 {
@@ -81,7 +85,9 @@ namespace WolfGamesWebSite.XUnitTestSuite
         public HomeControllerShould(ITestOutputHelper testOutputHelper)
             : base(testOutputHelper)
         {
-            Controller = new HomeController();
+            var store = new Mock<IUserStore<ApplicationUser>>();
+            var manager = new UserManager<ApplicationUser>(store.Object, null, null, null, null, null, null, null, null);
+            Controller = new HomeController(manager);
         }
 
         /// <summary>

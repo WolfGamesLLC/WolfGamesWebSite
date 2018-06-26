@@ -61,12 +61,6 @@ namespace WolfGamesWebSite
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                // Cookie settings
-                options.Cookie.HttpOnly = false;
-            });
-
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 

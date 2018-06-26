@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WolfGamesWebSite.DAL.Models;
 
@@ -88,6 +89,17 @@ namespace WolfGamesWebSite.Controllers
     /// </summary>
     public class HomeController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        /// <summary>
+        /// Construct the Home controller object
+        /// </summary>
+        /// <param name="userManager">The user manager to use</param>
+        public HomeController(UserManager<ApplicationUser> userManager)
+        {
+            this._userManager = userManager;
+        }
+
         /// <summary>
         /// The basic Index action
         /// </summary>
@@ -135,6 +147,21 @@ namespace WolfGamesWebSite.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        /// <summary>
+        /// Launch the Marble Motion game
+        /// </summary>
+        /// <returns>The marble motion site</returns>
+        public async Task<IActionResult> MarbleMotion()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                Response.Cookies.Append("id", user.Id);
+            }
+
+            return Redirect("../SimpleGames/WebGl/MarbleMotion/index.html");
         }
     }
 }
