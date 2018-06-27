@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Identity;
 using WolfGamesWebSite.DAL.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Moq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace WolfGamesWebSite.XUnitTestSuite
 {
@@ -79,14 +81,16 @@ namespace WolfGamesWebSite.XUnitTestSuite
     /// </summary>
     public class HomeControllerShould : BaseControllerShould<HomeController>
     {
+        private Mock<IUserStore<ApplicationUser>> _store;
+
         /// <summary>
         /// The test initializer for the suite
         /// </summary>
         public HomeControllerShould(ITestOutputHelper testOutputHelper)
             : base(testOutputHelper)
         {
-            var store = new Mock<IUserStore<ApplicationUser>>();
-            var manager = new UserManager<ApplicationUser>(store.Object, null, null, null, null, null, null, null, null);
+            _store = new Mock<IUserStore<ApplicationUser>>();
+            var manager = new UserManager<ApplicationUser>(_store.Object, null, null, null, null, null, null, null, null);
             Controller = new HomeController(manager);
         }
 
@@ -129,6 +133,17 @@ namespace WolfGamesWebSite.XUnitTestSuite
         {
             Result = Controller.Contact() as ViewResult;
             Assert.IsType<ViewResult>(Result);
+            Assert.Equal(HomeControllerMessages.Contact(), Result.ViewData["Message"]);
+        }
+
+        /// <summary>
+        /// The MarbleMotion action returns a RedirectResult
+        /// </summary>
+        [Fact]
+        public async void MarbleMotionReturnsViewResultWithAboutMessage()
+        {
+            Result = await Controller.MarbleMotion() as ViewResult;
+            Assert.IsType<RedirectResult>(Result);
             Assert.Equal(HomeControllerMessages.Contact(), Result.ViewData["Message"]);
         }
     }
