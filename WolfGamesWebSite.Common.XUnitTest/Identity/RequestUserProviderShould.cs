@@ -1,16 +1,29 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Security.Claims;
+using System.Security.Principal;
+using System.Threading;
+using System.Threading.Tasks;
 using WolfGamesWebSite.Common.Identity;
 using WolfGamesWebSite.DAL.Models;
 using Xunit;
-using Moq;
-using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
 
 namespace WolfGamesWebSite.Common.XUnitTest.Identity
 {
+    internal class MockUserManager : UserManager<ApplicationUser>
+    {
+        public MockUserManager()
+        : base(new Mock<IUserStore<ApplicationUser>>().Object, null, null, null, null, null, null, null, null)
+        { }
+
+        public override Task<ApplicationUser> GetUserAsync(ClaimsPrincipal principal)
+        {
+            return Task.FromResult<ApplicationUser>(new ApplicationUser() { Id = "18" });
+        }
+    }
+
     /// <summary>
     /// Verify the request user provider bridge behaviors
     /// </summary>
@@ -30,16 +43,14 @@ namespace WolfGamesWebSite.Common.XUnitTest.Identity
         /// Verify the user can be retrieved from a principle
         /// </summary>
         [Fact]
-        public void GetUserAsyncWithPrinciple()
+        public async void GetUserAsyncWithPrinciple()
         {
-            var _store = new Mock<IUserStore<ApplicationUser>>();
-            var manager = new UserManager<ApplicationUser>(_store.Object, null, null, null, null, null, null, null, null);
-
+            var manager = new MockUserManager();
             RequestUserProvider provider = new RequestUserProvider(manager);
-            ClaimsPrincipal principle = new ClaimsPrincipal();
-            var user = provider.GetUserAsync(principle);
 
-            Assert.Equal("1", user.Id.ToString());
+            var user = await provider.GetUserAsync(new ClaimsPrincipal());
+
+            Assert.Equal("18", user.Id);
         }
     }
 }

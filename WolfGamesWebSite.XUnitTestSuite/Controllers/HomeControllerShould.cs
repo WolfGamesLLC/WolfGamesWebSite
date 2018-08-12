@@ -11,6 +11,12 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Moq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.AspNetCore.Http.Features;
+using System.Collections.Generic;
+using System.IO;
 
 namespace WolfGamesWebSite.XUnitTestSuite
 {
@@ -142,9 +148,24 @@ namespace WolfGamesWebSite.XUnitTestSuite
         [Fact]
         public async void MarbleMotionReturnsViewResultWithAboutMessage()
         {
-            Result = await Controller.MarbleMotion() as ViewResult;
+            var mockStore = new Mock<IUserStore<ApplicationUser>>();
+            var mockUserManager = new Mock<UserManager<ApplicationUser>>(mockStore.Object, null, null, null, null, null, null, null, null);
+            var user = new ApplicationUser() { Id = "1" };
+
+            mockUserManager.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+                .Returns(Task.FromResult(user)); 
+
+            var sut = new HomeController(mockUserManager.Object);
+            sut.ControllerContext = new ControllerContext();
+            var mockContext = new Mock<HttpContext>();
+            mockContext.Setup(x => x.Response.Cookies.Append(It.IsAny<string>(), It.IsAny<string>()));
+
+            sut.ControllerContext.HttpContext = mockContext.Object;
+            var Result = await sut.MarbleMotion() as RedirectResult;
+
             Assert.IsType<RedirectResult>(Result);
-            Assert.Equal(HomeControllerMessages.Contact(), Result.ViewData["Message"]);
+            Assert.Equal("../SimpleGames/WebGl/MarbleMotion/index.html", Result.Url);
+            mockContext.Verify(x => x.Response.Cookies.Append("id", user.Id));
         }
     }
 }
