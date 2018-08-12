@@ -87,7 +87,10 @@ namespace WolfGamesWebSite.XUnitTestSuite
     /// </summary>
     public class HomeControllerShould : BaseControllerShould<HomeController>
     {
-        private Mock<IUserStore<ApplicationUser>> _store;
+        private Mock<HttpContext> mockContext;
+        private Mock<IUserStore<ApplicationUser>> mockStore;
+        private Mock<UserManager<ApplicationUser>> mockUserManager;
+        private ApplicationUser user;
 
         /// <summary>
         /// The test initializer for the suite
@@ -95,9 +98,14 @@ namespace WolfGamesWebSite.XUnitTestSuite
         public HomeControllerShould(ITestOutputHelper testOutputHelper)
             : base(testOutputHelper)
         {
-            _store = new Mock<IUserStore<ApplicationUser>>();
-            var manager = new UserManager<ApplicationUser>(_store.Object, null, null, null, null, null, null, null, null);
-            Controller = new HomeController(manager);
+            mockContext = new Mock<HttpContext>();
+            mockStore = new Mock<IUserStore<ApplicationUser>>();
+            mockUserManager = new Mock<UserManager<ApplicationUser>>(mockStore.Object, null, null, null, null, null, null, null, null);
+            user = new ApplicationUser() { Id = "1" };
+            Controller = new HomeController(mockUserManager.Object);
+
+            Controller.ControllerContext = new ControllerContext();
+            Controller.ControllerContext.HttpContext = mockContext.Object;
         }
 
         /// <summary>
@@ -148,20 +156,12 @@ namespace WolfGamesWebSite.XUnitTestSuite
         [Fact]
         public async void MarbleMotionReturnsViewResultWithAboutMessage()
         {
-            var mockStore = new Mock<IUserStore<ApplicationUser>>();
-            var mockUserManager = new Mock<UserManager<ApplicationUser>>(mockStore.Object, null, null, null, null, null, null, null, null);
-            var user = new ApplicationUser() { Id = "1" };
-
             mockUserManager.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
                 .Returns(Task.FromResult(user)); 
 
-            var sut = new HomeController(mockUserManager.Object);
-            sut.ControllerContext = new ControllerContext();
-            var mockContext = new Mock<HttpContext>();
             mockContext.Setup(x => x.Response.Cookies.Append(It.IsAny<string>(), It.IsAny<string>()));
 
-            sut.ControllerContext.HttpContext = mockContext.Object;
-            var Result = await sut.MarbleMotion() as RedirectResult;
+            var Result = await base.Controller.MarbleMotion() as RedirectResult;
 
             Assert.IsType<RedirectResult>(Result);
             Assert.Equal("../SimpleGames/WebGl/MarbleMotion/index.html", Result.Url);
