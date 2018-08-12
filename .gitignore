@@ -260,3 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 /WolfGamesWebSite/wwwroot/Developers
+/WolfGamesWebSite/wwwroot/SimpleGames/WebGl/MarbleMotion
