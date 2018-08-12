@@ -151,10 +151,11 @@ namespace WolfGamesWebSite.XUnitTestSuite
         }
 
         /// <summary>
-        /// The MarbleMotion action returns a RedirectResult
+        /// The MarbleMotion action returns a RedirectResult with a cookie set to
+        /// the current users id
         /// </summary>
         [Fact]
-        public async void MarbleMotionReturnsViewResultWithAboutMessage()
+        public async void MarbleMotionReturnsRedirectResultWithUserIdCookie()
         {
             mockUserManager.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
                 .Returns(Task.FromResult(user)); 
@@ -165,7 +166,26 @@ namespace WolfGamesWebSite.XUnitTestSuite
 
             Assert.IsType<RedirectResult>(Result);
             Assert.Equal("../SimpleGames/WebGl/MarbleMotion/index.html", Result.Url);
-            mockContext.Verify(x => x.Response.Cookies.Append("id", user.Id));
+            mockContext.Verify(x => x.Response.Cookies.Append("id", user.Id), Times.Once);
+        }
+
+        /// <summary>
+        /// The MarbleMotion action returns a RedirectResult with no cookie set
+        /// when no user is logged in
+        /// </summary>
+        [Fact]
+        public async void MarbleMotionReturnsRedirectResultWithNoCookie()
+        {
+            mockUserManager.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+                .Returns(Task.FromResult<ApplicationUser>(null));
+
+            mockContext.Setup(x => x.Response.Cookies.Append(It.IsAny<string>(), It.IsAny<string>()));
+
+            var Result = await base.Controller.MarbleMotion() as RedirectResult;
+
+            Assert.IsType<RedirectResult>(Result);
+            Assert.Equal("../SimpleGames/WebGl/MarbleMotion/index.html", Result.Url);
+            mockContext.Verify(x => x.Response.Cookies.Append("id", user.Id), Times.Never);
         }
     }
 }
