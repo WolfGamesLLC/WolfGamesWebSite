@@ -11,6 +11,7 @@ using System.Net;
 using Moq;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System;
 
 namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
 {
@@ -29,7 +30,7 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
                 .UseStartup<WGMarbleMotionAPI.Startup>());
             _client = _server.CreateClient();
 
-            Route = "https://localhost:44340/Players";
+            Route = "https://localhost:44340/api/players";
         }
 
         /// <summary>
@@ -39,6 +40,9 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
         [Fact]
         public async Task ReturnOKResponse()
         {
+            // apply
+            _client.BaseAddress = new Uri("https://localhost:44357");
+
             // Act
             HttpResponseMessage response = await Request(Route);
 

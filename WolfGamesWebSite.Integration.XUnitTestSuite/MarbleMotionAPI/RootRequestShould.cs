@@ -26,7 +26,7 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
                 .UseStartup<WGMarbleMotionAPI.Startup>());
             _client = _server.CreateClient();
 
-            Route = "https://localhost";
+            Route = "https://localhost/api";
         }
 
         /// <summary>
