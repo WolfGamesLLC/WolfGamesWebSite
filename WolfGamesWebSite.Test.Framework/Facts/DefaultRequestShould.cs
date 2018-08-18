@@ -87,10 +87,10 @@ namespace WolfGamesWebSite.Test.Framework.Facts
         [Fact]
         public async Task RedirectNonSSLRequest()
         {
-            HttpResponseMessage response = await Request("http://localhost");
+            HttpResponseMessage response = await Request("http://localhost:55687/api");
 
             Assert.Equal(HttpStatusCode.Found, response.StatusCode);
-            Assert.Equal(new Uri("https://localhost"), response.Headers.Location);
+            Assert.Equal(new Uri("https://localhost/api"), response.Headers.Location);
         }
 
         /// <summary>

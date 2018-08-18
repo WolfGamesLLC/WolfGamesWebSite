@@ -51,7 +51,7 @@ namespace WGMarbleMotionAPI
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("WolfGamesWebSite")));
 
-//            services.AddCors();            
+            //            services.AddCors();            
             services.AddRouting(opt => opt.LowercaseUrls = true);
 
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
