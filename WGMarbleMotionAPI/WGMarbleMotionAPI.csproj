@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <Description>Wolf Games Marble Motion Game Web API</Description>
     <Copyright>2017 Wolf Games LLC.</Copyright>
+    <UserSecretsId>bfb65933-5442-4cfc-adc0-9138ff21633d</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
