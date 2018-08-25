@@ -51,7 +51,7 @@ namespace WGMarbleMotionAPI
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("WolfGamesWebSite")));
 
-            //            services.AddCors();            
+            services.AddCors();            
             services.AddRouting(opt => opt.LowercaseUrls = true);
 
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
@@ -118,7 +118,7 @@ namespace WGMarbleMotionAPI
 //            app.UseCors(builder => builder.WithOrigins("https://localhost:44357")
 //                                    .AllowAnyMethod()
 //                                    .AllowAnyHeader());
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+//            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();

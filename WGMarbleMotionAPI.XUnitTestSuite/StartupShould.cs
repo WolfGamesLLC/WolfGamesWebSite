@@ -19,6 +19,7 @@ using WolfGamesWebSite.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace WGMarbleMotionAPI.XUnitTestSuite
 {
@@ -131,6 +132,26 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
             var context = GetService<DbContextOptions>(_services);
             Assert.NotNull(context);
             Assert.Equal("WolfGamesWebSite.DAL.Data.ApplicationDbContext", context.ContextType.ToString());
+        }
+
+        /// <summary>
+        /// Verify the CORS service has been added
+        /// </summary>
+        [Fact]
+        public void AddCORSService()
+        {
+            var serv = GetService<ICorsService>(_services);
+            Assert.NotNull(serv);
+        }
+
+        /// <summary>
+        /// Verify the CORS policy has been added
+        /// </summary>
+        [Fact]
+        public void AddCORSPolicyProvider()
+        {
+            var prov = GetService<ICorsPolicyProvider>(_services);
+            Assert.NotNull(prov);
         }
 
         //  Arrange
