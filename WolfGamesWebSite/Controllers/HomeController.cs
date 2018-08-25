@@ -163,5 +163,14 @@ namespace WolfGamesWebSite.Controllers
 
             return Redirect("../SimpleGames/WebGl/MarbleMotion/index.html");
         }
+
+        /// <summary>
+        /// Launch the Marble Motion game
+        /// </summary>
+        /// <returns>The marble motion site</returns>
+        public IActionResult MMApiTest()
+        {
+            return Redirect("https://marblemotiondev.wolfgamesllc.com/api");
+        }
     }
 }
