@@ -48,51 +48,51 @@ namespace WGMarbleMotionAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("WolfGamesWebSite")));
-
-            services.AddCors();            
-            services.AddRouting(opt => opt.LowercaseUrls = true);
-
-            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
-            {
-                config.SignIn.RequireConfirmedEmail = true;
-            })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
-            services.AddMvc(opt =>
-            {
-                opt.Filters.Add(typeof(JsonExceptionFilter));
-//                opt.Filters.Add(typeof(LinkRewritingFilter));
+//            services.AddDbContext<ApplicationDbContext>(options =>
+//                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("WolfGamesWebSite")));
 //
-//                // Require HTTPS for all controllers
-//                opt.SslPort = _httpsPort;
-                opt.Filters.Add(typeof(RequireHttpsAttribute));
-
-                var jsonFormatter = opt.OutputFormatters.OfType<JsonOutputFormatter>().Single();
-                opt.OutputFormatters.Remove(jsonFormatter);
-                opt.OutputFormatters.Add(new IonOutputFormatter(jsonFormatter));
-
-//                opt.CacheProfiles.Add("Static", new CacheProfile { Duration = 86400 });
-//                opt.CacheProfiles.Add("Collection", new CacheProfile { Duration = 60 });
-//                opt.CacheProfiles.Add("Resource", new CacheProfile { Duration = 180 });
-            });
-
-            services.AddApiVersioning(opt =>
-            {
-                opt.ApiVersionReader = new MediaTypeApiVersionReader();
-                opt.AssumeDefaultVersionWhenUnspecified = true;
-                opt.ReportApiVersions = true;
-                opt.DefaultApiVersion = new ApiVersion(1, 0);
-                opt.ApiVersionSelector = new CurrentImplementationApiVersionSelector(opt);
-            });
-
-            // Register the Swagger generator, defining one or more Swagger documents
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "WG MarbleMotion API", Version = "v1" });
-            });
+//            services.AddCors();            
+//            services.AddRouting(opt => opt.LowercaseUrls = true);
+//
+//            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
+//            {
+//                config.SignIn.RequireConfirmedEmail = true;
+//            })
+//                .AddEntityFrameworkStores<ApplicationDbContext>()
+//                .AddDefaultTokenProviders();
+//
+//            services.AddMvc(opt =>
+//            {
+//                opt.Filters.Add(typeof(JsonExceptionFilter));
+////                opt.Filters.Add(typeof(LinkRewritingFilter));
+////
+////                // Require HTTPS for all controllers
+////                opt.SslPort = _httpsPort;
+//                opt.Filters.Add(typeof(RequireHttpsAttribute));
+//
+//                var jsonFormatter = opt.OutputFormatters.OfType<JsonOutputFormatter>().Single();
+//                opt.OutputFormatters.Remove(jsonFormatter);
+//                opt.OutputFormatters.Add(new IonOutputFormatter(jsonFormatter));
+//
+////                opt.CacheProfiles.Add("Static", new CacheProfile { Duration = 86400 });
+////                opt.CacheProfiles.Add("Collection", new CacheProfile { Duration = 60 });
+////                opt.CacheProfiles.Add("Resource", new CacheProfile { Duration = 180 });
+//            });
+//
+//            services.AddApiVersioning(opt =>
+//            {
+//                opt.ApiVersionReader = new MediaTypeApiVersionReader();
+//                opt.AssumeDefaultVersionWhenUnspecified = true;
+//                opt.ReportApiVersions = true;
+//                opt.DefaultApiVersion = new ApiVersion(1, 0);
+//                opt.ApiVersionSelector = new CurrentImplementationApiVersionSelector(opt);
+//            });
+//
+//            // Register the Swagger generator, defining one or more Swagger documents
+//            services.AddSwaggerGen(c =>
+//            {
+//                c.SwaggerDoc("v1", new Info { Title = "WG MarbleMotion API", Version = "v1" });
+//            });
         }
 
         /// <summary>
@@ -103,33 +103,33 @@ namespace WGMarbleMotionAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseHsts(opt => 
-            {
-                opt.MaxAge(days: 365);
-                opt.IncludeSubdomains();
-                opt.Preload();
-            });
-
-//            app.UseCors(builder => builder.WithOrigins("https://localhost:44357")
-//                                    .AllowAnyMethod()
-//                                    .AllowAnyHeader());
-//            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Marble Motion V1");
-            });
-
-            app.UseMvc();
+//            if (env.IsDevelopment())
+//            {
+//                app.UseDeveloperExceptionPage();
+//            }
+//
+//            app.UseHsts(opt => 
+//            {
+//                opt.MaxAge(days: 365);
+//                opt.IncludeSubdomains();
+//                opt.Preload();
+//            });
+//
+////            app.UseCors(builder => builder.WithOrigins("https://localhost:44357")
+////                                    .AllowAnyMethod()
+////                                    .AllowAnyHeader());
+////            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+//
+//            // Enable middleware to serve generated Swagger as a JSON endpoint.
+//            app.UseSwagger();
+//
+//            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+//            app.UseSwaggerUI(c =>
+//            {
+//                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Marble Motion V1");
+//            });
+//
+//            app.UseMvc();
         }
     }
 }
