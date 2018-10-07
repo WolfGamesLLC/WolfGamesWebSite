@@ -31,8 +31,8 @@ namespace WolfGamesWebSite.Test.Framework.Facts
 
 
             _configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(dict)
-            .Build();
+                .AddInMemoryCollection(dict)
+                .Build();
         }
 
         /// <summary>

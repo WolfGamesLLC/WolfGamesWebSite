@@ -40,13 +40,20 @@ namespace WGMarbleMotionAPI.Controllers
         [HttpGet(Name = nameof(GetPlayersAsync))]
         public IActionResult GetPlayersAsync()
         {
-            return Ok(new Collection<PlayerModelResource>
+            Collection<PlayerModelResource> playerResources = new Collection<PlayerModelResource>();
+            var players = _context.PlayerModel.ToList();
+            foreach (PlayerModel player in players)
             {
-                new PlayerModelResource()
+                playerResources.Add(new PlayerModelResource
                 {
-                    Href = Url.Link(nameof(GetPlayersAsync), null)
-                }
-            });
+                    Href = Url.Link(nameof(GetPlayersAsync), null),
+                    Score = player.Score,
+                    XPosition = player.XPosition,
+                    ZPosition = player.ZPosition
+                });
+            }
+
+            return Ok(playerResources);
         }
 
         /// <summary>

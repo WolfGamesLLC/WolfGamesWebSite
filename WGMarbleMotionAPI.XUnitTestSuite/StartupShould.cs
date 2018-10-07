@@ -20,6 +20,8 @@ using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
 
 namespace WGMarbleMotionAPI.XUnitTestSuite
 {
@@ -45,7 +47,7 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
             .AddInMemoryCollection(dict)
             .Build();
 
-            var startup = new Startup(configuration);
+            var startup = new Startup(new WebHostBuilder().Build().Services.GetService<IHostingEnvironment>(), new TestStartupConfigurationService<ApplicationDbContext>());
             startup.ConfigureServices(_services);
 
             _expectedServicesCount = 233;

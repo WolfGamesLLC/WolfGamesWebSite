@@ -6,12 +6,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using WolfGamesWebSite.Test.Framework.Facts;
+using WolfGamesWebSite.DAL.Data;
 using Microsoft.AspNetCore.Http;
 using System.Net;
 using Moq;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System;
+using WGMarbleMotionAPI;
+using WolfGamesWebSite.DAL.Models.SimpleGameModels.MarbleMotion;
+using Newtonsoft;
+using Newtonsoft.Json;
 
 namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
 {
@@ -25,9 +31,12 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
         /// </summary>
         public PlayersRequestShould()
         {
-            _server = new TestServer(new WebHostBuilder()
-                .UseConfiguration(_configuration)
-                .UseStartup<WGMarbleMotionAPI.Startup>());
+            var webHostBuilder = new WebHostBuilder();
+            webHostBuilder.ConfigureServices(
+                s => s.AddSingleton<IStartupConfigurationService, TestStartupConfigurationService<ApplicationDbContext>>());
+            webHostBuilder.UseConfiguration(_configuration);
+            webHostBuilder.UseStartup<WGMarbleMotionAPI.Startup>();
+            _server = new TestServer(webHostBuilder);
             _client = _server.CreateClient();
 
             Route = "https://localhost:44340/api/players";
@@ -97,6 +106,46 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
 
             // Assert
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        }
+
+        [Fact]
+        public void TestScenario()
+        {
+            PlayerModelResource[] data =
+            {
+                new PlayerModelResource()
+                {
+                    Href = "http://localhost/api/Players",
+                    Score = 0,
+                    XPosition = 1,
+                    ZPosition = 2
+                },
+
+                new PlayerModelResource()
+                {
+                    Href = "http://localhost/api/Players",
+                    Score = 10,
+                    XPosition = 11,
+                    ZPosition = 12
+                },
+            };
+
+            var webHostBuilder = new WebHostBuilder();
+            webHostBuilder.ConfigureServices(
+                s => s.AddSingleton < IStartupConfigurationService, TestStartupConfigurationService <ApplicationDbContext >> ());
+            webHostBuilder.UseStartup<WGMarbleMotionAPI.Startup>();
+            var testServer = new TestServer(webHostBuilder);
+
+            var response = testServer.CreateClient().GetAsync("/api/players").Result;
+            response.EnsureSuccessStatusCode();
+
+            var result = JsonConvert.DeserializeObject<PlayerModelResource[]>(response.Content.ReadAsStringAsync().Result);
+
+            Assert.Equal(data.Length, result.Length);
+            for (int i = 0; i < data.Length; i++)
+            {
+                Assert.Equal(data[i], result[i]);
+            }
         }
     }
 }
