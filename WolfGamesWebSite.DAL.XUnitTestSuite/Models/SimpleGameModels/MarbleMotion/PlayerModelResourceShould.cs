@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using WolfGamesWebSite.DAL.Models.SimpleGameModels.MarbleMotion;
@@ -24,7 +25,7 @@ namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models.SimpleGameModels.MarbleMoti
         /// Verify the model can be created
         /// </summary>
         [Fact]
-        public void ShouldCreateAMarbleMotionModel()
+        public void CreateAMarbleMotionModel()
         {
             Assert.NotNull(new PlayerModelResource());
         }
@@ -33,7 +34,7 @@ namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models.SimpleGameModels.MarbleMoti
         /// The score should be set and retrieved
         /// </summary>
         [Fact]
-        public void ShouldSetAndGetScore()
+        public void SetAndGetScore()
         {
             int expected = 100;
             ((PlayerModelResource)Model).Score = expected;
@@ -44,7 +45,7 @@ namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models.SimpleGameModels.MarbleMoti
         /// The X position should be set and retrieved
         /// </summary>
         [Fact]
-        public void ShouldSetAndGetXPosition()
+        public void SetAndGetXPosition()
         {
             int expected = 12345;
             ((PlayerModelResource)Model).XPosition = expected;
@@ -55,11 +56,37 @@ namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models.SimpleGameModels.MarbleMoti
         /// The Y position should be set and retrieved
         /// </summary>
         [Fact]
-        public void ShouldSetAndGetYPosition()
+        public void SetAndGetYPosition()
         {
             int expected = 12345;
             ((PlayerModelResource)Model).ZPosition = expected;
             Assert.Equal(expected, ((PlayerModelResource)Model).ZPosition);
+        }
+
+        private class PlayerModelResourceTestGenerator : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[]
+                {
+                    new PlayerModelResource {},
+                    new PlayerModelResource {Href="a"},
+                };
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="playerModelResource"></param>
+        [Theory]
+        [ClassData(typeof(PlayerModelResourceTestGenerator))]
+        public void BeEqual(PlayerModelResource dut, PlayerModelResource expected)
+        {
+            this test should fail
+            Assert.Equal(expected, dut);
         }
     }
 }
