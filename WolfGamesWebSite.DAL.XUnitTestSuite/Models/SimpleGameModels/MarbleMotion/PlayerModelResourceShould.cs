@@ -63,10 +63,40 @@ namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models.SimpleGameModels.MarbleMoti
             Assert.Equal(expected, ((PlayerModelResource)Model).ZPosition);
         }
 
-        private class PlayerModelResourceTestGenerator : IEnumerable<object[]>
+        private class PlayerModelResourceEqualTestGenerator : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()
             {
+                yield return new object[]
+                {
+                    new PlayerModelResource {Href="a"},
+                    new PlayerModelResource {Href="a"},
+                };
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        };
+
+        /// <summary>
+        /// Verify equality operations
+        /// </summary>
+        /// <param name="playerModelResource"></param>
+        [Theory]
+        [ClassData(typeof(PlayerModelResourceEqualTestGenerator))]
+        public void BeEqual(PlayerModelResource dut, PlayerModelResource expected)
+        {
+            Assert.Equal(expected, dut);
+        }
+
+        private class PlayerModelResourceNotEqualTestGenerator : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[]
+                {
+                    new PlayerModelResource {Href="a"},
+                    null,
+                };
                 yield return new object[]
                 {
                     new PlayerModelResource {},
@@ -76,17 +106,15 @@ namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models.SimpleGameModels.MarbleMoti
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         };
-
         /// <summary>
-        /// 
+        /// Verify not equal operations
         /// </summary>
         /// <param name="playerModelResource"></param>
         [Theory]
-        [ClassData(typeof(PlayerModelResourceTestGenerator))]
-        public void BeEqual(PlayerModelResource dut, PlayerModelResource expected)
+        [ClassData(typeof(PlayerModelResourceNotEqualTestGenerator))]
+        public void NotBeEqual(PlayerModelResource dut, PlayerModelResource expected)
         {
-            this test should fail
-            Assert.Equal(expected, dut);
+            Assert.NotEqual(expected, dut);
         }
     }
 }

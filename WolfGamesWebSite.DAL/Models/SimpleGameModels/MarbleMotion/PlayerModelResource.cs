@@ -32,6 +32,7 @@ namespace WolfGamesWebSite.DAL.Models.SimpleGameModels.MarbleMotion
         public bool Equals(PlayerModelResource other)
         {
             return other != null &&
+                   Href == other.Href &&
                    Score == other.Score &&
                    XPosition == other.XPosition &&
                    ZPosition == other.ZPosition;
