@@ -72,6 +72,21 @@ namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models.SimpleGameModels.MarbleMoti
                     new PlayerModelResource {Href="a"},
                     new PlayerModelResource {Href="a"},
                 };
+                yield return new object[]
+                {
+                    new PlayerModelResource {Score=1},
+                    new PlayerModelResource {Score=1},
+                };
+                yield return new object[]
+                {
+                    new PlayerModelResource {XPosition=1},
+                    new PlayerModelResource {XPosition=1},
+                };
+                yield return new object[]
+                {
+                    new PlayerModelResource {ZPosition=1},
+                    new PlayerModelResource {ZPosition=1},
+                };
             }
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -83,9 +98,9 @@ namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models.SimpleGameModels.MarbleMoti
         /// <param name="playerModelResource"></param>
         [Theory]
         [ClassData(typeof(PlayerModelResourceEqualTestGenerator))]
-        public void BeEqual(PlayerModelResource dut, PlayerModelResource expected)
+        public void BeEqual(PlayerModelResource rt, PlayerModelResource lt)
         {
-            Assert.Equal(expected, dut);
+            Assert.Equal(lt, rt);
         }
 
         private class PlayerModelResourceNotEqualTestGenerator : IEnumerable<object[]>
@@ -94,13 +109,33 @@ namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models.SimpleGameModels.MarbleMoti
             {
                 yield return new object[]
                 {
-                    new PlayerModelResource {Href="a"},
+                    new PlayerModelResource {},
                     null,
                 };
                 yield return new object[]
                 {
                     new PlayerModelResource {},
                     new PlayerModelResource {Href="a"},
+                };
+                yield return new object[]
+                {
+                    new PlayerModelResource {Href="b"},
+                    new PlayerModelResource {Href="a"},
+                };
+                yield return new object[]
+                {
+                    new PlayerModelResource {Score=1},
+                    new PlayerModelResource {Score=2},
+                };
+                yield return new object[]
+                {
+                    new PlayerModelResource {XPosition=1},
+                    new PlayerModelResource {XPosition=2},
+                };
+                yield return new object[]
+                {
+                    new PlayerModelResource {ZPosition=1},
+                    new PlayerModelResource {ZPosition=2},
                 };
             }
 
@@ -112,9 +147,9 @@ namespace WolfGamesWebSite.DAL.XUnitTestSuite.Models.SimpleGameModels.MarbleMoti
         /// <param name="playerModelResource"></param>
         [Theory]
         [ClassData(typeof(PlayerModelResourceNotEqualTestGenerator))]
-        public void NotBeEqual(PlayerModelResource dut, PlayerModelResource expected)
+        public void NotBeEqual(PlayerModelResource rt, PlayerModelResource lt)
         {
-            Assert.NotEqual(expected, dut);
+            Assert.NotEqual(lt, rt);
         }
     }
 }
