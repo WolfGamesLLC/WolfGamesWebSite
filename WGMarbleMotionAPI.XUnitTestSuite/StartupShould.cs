@@ -47,7 +47,7 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
             .AddInMemoryCollection(dict)
             .Build();
 
-            var startup = new Startup(new WebHostBuilder().Build().Services.GetService<IHostingEnvironment>(), new TestStartupConfigurationService<ApplicationDbContext>());
+            var startup = new Startup(new WebHostBuilder().Build().Services.GetService<IHostingEnvironment>(), configuration, new TestStartupConfigurationService<ApplicationDbContext>());
             startup.ConfigureServices(_services);
 
             _expectedServicesCount = 233;

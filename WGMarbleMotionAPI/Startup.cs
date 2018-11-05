@@ -30,7 +30,7 @@ namespace WGMarbleMotionAPI
 
         void ConfigureEnvironment(IHostingEnvironment env);
 
-        void ConfigureService(IServiceCollection services, IConfigurationRoot configuration);
+        void ConfigureService(IServiceCollection services, IConfiguration configuration);
     }
 
     public class TestStartupConfigurationService<TDbContext> : IStartupConfigurationService
@@ -46,7 +46,7 @@ namespace WGMarbleMotionAPI
             env.EnvironmentName = "Test";
         }
 
-        public virtual void ConfigureService(IServiceCollection services, IConfigurationRoot configuration)
+        public virtual void ConfigureService(IServiceCollection services, IConfiguration configuration)
         {
             ConfigureStore(services);
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
@@ -101,7 +101,7 @@ namespace WGMarbleMotionAPI
 
         public virtual void ConfigureEnvironment(IHostingEnvironment env) { }
 
-        public virtual void ConfigureService(IServiceCollection services, IConfigurationRoot configuration)
+        public virtual void ConfigureService(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext <ApplicationDbContext> (options =>
                       options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("WolfGamesWebSite")));
@@ -111,9 +111,11 @@ namespace WGMarbleMotionAPI
     public class Startup
     {
         private IStartupConfigurationService externalStartupConfiguration;
+        private IConfiguration configuration;
 
-        public Startup(IHostingEnvironment env, IStartupConfigurationService externalStartupConfiguration)
+        public Startup(IHostingEnvironment env, IConfiguration configuration, IStartupConfigurationService externalStartupConfiguration)
         {
+            this.configuration = configuration;
             this.externalStartupConfiguration = externalStartupConfiguration;
             this.externalStartupConfiguration.ConfigureEnvironment(env);
         }
@@ -123,17 +125,17 @@ namespace WGMarbleMotionAPI
             services.AddMvc();
 
             // Pass configuration (IConfigurationRoot) to the configuration service if needed
-            this.externalStartupConfiguration.ConfigureService(services, null);
+            this.externalStartupConfiguration.ConfigureService(services, configuration);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             this.externalStartupConfiguration.Configure(app, env, loggerFactory);
 
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                serviceScope.ServiceProvider.GetService <ApplicationDbContext>().Database.EnsureCreated();
-            }
+      //      using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+      //      {
+      //          serviceScope.ServiceProvider.GetService <ApplicationDbContext>().Database.EnsureCreated();
+      //      }
 
             app.UseMvc();
         }
