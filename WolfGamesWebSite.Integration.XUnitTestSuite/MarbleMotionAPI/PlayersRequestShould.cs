@@ -136,7 +136,12 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
             webHostBuilder.UseStartup<WGMarbleMotionAPI.Startup>();
             var testServer = new TestServer(webHostBuilder);
 
-            var response = testServer.CreateClient().GetAsync("/api/players").Result;
+            var Client = testServer.CreateClient();
+            Client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeader, AuthenticatedTestRequestMiddleware.TestingHeaderValue);
+            Client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeaderName, "test");
+            Client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeaderId, "12345");
+
+            var response = Client.GetAsync("/api/players").Result;
             response.EnsureSuccessStatusCode();
 
             var result = JsonConvert.DeserializeObject<PlayerModelResource[]>(response.Content.ReadAsStringAsync().Result);

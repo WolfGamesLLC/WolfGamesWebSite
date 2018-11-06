@@ -21,6 +21,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using WolfGamesWebSite.DAL.Models.SimpleGameModels.MarbleMotion;
 using System.Threading;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace WGMarbleMotionAPI
 {
@@ -32,6 +34,84 @@ namespace WGMarbleMotionAPI
 
         void ConfigureService(IServiceCollection services, IConfiguration configuration);
     }
+    #region TEST Code should be movede to test name space
+    public class AuthenticatedTestRequestMiddleware
+
+    {
+
+        public const string TestingCookieAuthentication = "TestCookieAuthentication";
+
+        public const string TestingHeader = "X-Integration-Testing";
+
+        public const string TestingHeaderValue = "abcde-12345";
+
+        public const string TestingHeaderName = "my_name";
+
+        public const string TestingHeaderId = "my_id";
+
+        private readonly RequestDelegate _next;
+
+
+
+        public AuthenticatedTestRequestMiddleware(RequestDelegate next)
+
+        {
+
+            _next = next;
+
+        }
+
+
+
+        public async Task Invoke(HttpContext context)
+
+        {
+
+            if (context.Request.Headers.Keys.Contains(TestingHeader) &&
+
+                context.Request.Headers[TestingHeader].First().Equals(TestingHeaderValue))
+
+            {
+
+                if (context.Request.Headers.Keys.Contains(TestingHeaderName))
+
+                {
+
+                    var name =
+
+                        context.Request.Headers[TestingHeaderName].First();
+
+                    var id =
+
+                        context.Request.Headers.Keys.Contains(TestingHeaderId)
+
+                            ? context.Request.Headers[TestingHeaderId].First() : "";
+
+                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(new List<Claim>
+
+                {
+
+                    new Claim(ClaimTypes.Name, name),
+
+                    new Claim(ClaimTypes.NameIdentifier, id),
+
+                }, TestingCookieAuthentication);
+
+                    ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+                    context.User = claimsPrincipal;
+
+                }
+
+            }
+
+
+
+            await _next(context);
+
+        }
+
+    }
 
     public class TestStartupConfigurationService<TDbContext> : IStartupConfigurationService
     where TDbContext : DbContext
@@ -39,6 +119,8 @@ namespace WGMarbleMotionAPI
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             SetupStore(app);
+
+            app.UseMiddleware<AuthenticatedTestRequestMiddleware>();
         }
 
         public virtual void ConfigureEnvironment(IHostingEnvironment env)
@@ -94,6 +176,7 @@ namespace WGMarbleMotionAPI
             services.AddDbContext<TDbContext>(options => options.UseSqlite(connection));
         }
     }
+    #endregion
 
     public class StartupConfigurationService : IStartupConfigurationService
     {
@@ -105,6 +188,13 @@ namespace WGMarbleMotionAPI
         {
             services.AddDbContext <ApplicationDbContext> (options =>
                       options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("WolfGamesWebSite")));
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
+            {
+                config.SignIn.RequireConfirmedEmail = true;
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
         }
     }
 
@@ -130,6 +220,8 @@ namespace WGMarbleMotionAPI
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseAuthentication();
+
             this.externalStartupConfiguration.Configure(app, env, loggerFactory);
 
       //      using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())

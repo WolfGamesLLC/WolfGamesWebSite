@@ -19,7 +19,7 @@ namespace WGMarbleMotionAPI.Controllers
     /// </summary>
     [Route("/api/[controller]")]
     [ApiVersion("1.0")]
-//    [Authorize]
+    [Authorize]
     public class PlayersController : Controller
     {
         private readonly ApplicationDbContext _context;
