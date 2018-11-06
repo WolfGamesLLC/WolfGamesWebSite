@@ -10,7 +10,6 @@ using WolfGamesWebSite.DAL.Data;
 using Microsoft.AspNetCore.Http;
 using System.Net;
 using Moq;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System;
@@ -18,6 +17,10 @@ using WGMarbleMotionAPI;
 using WolfGamesWebSite.DAL.Models.SimpleGameModels.MarbleMotion;
 using Newtonsoft;
 using Newtonsoft.Json;
+using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Builder;
+using WolfGamesWebSite.Test.Framework.Fixtures;
 
 namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
 {

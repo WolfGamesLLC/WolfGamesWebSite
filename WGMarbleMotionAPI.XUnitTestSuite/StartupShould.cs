@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using WolfGamesWebSite.Test.Framework.Fixtures;
 
 namespace WGMarbleMotionAPI.XUnitTestSuite
 {
@@ -47,7 +48,8 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
             .AddInMemoryCollection(dict)
             .Build();
 
-            var startup = new Startup(new WebHostBuilder().Build().Services.GetService<IHostingEnvironment>(), configuration, new TestStartupConfigurationService<ApplicationDbContext>());
+            var startup = new Startup(new WebHostBuilder().Build().Services.GetService<IHostingEnvironment>(), configuration, 
+                new TestStartupConfigurationService<ApplicationDbContext>());
             startup.ConfigureServices(_services);
 
             _expectedServicesCount = 233;
