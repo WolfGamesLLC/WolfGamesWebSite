@@ -45,13 +45,6 @@ namespace WGMarbleMotionAPI
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("WolfGamesWebSite")));
-
-            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
-            {
-                config.SignIn.RequireConfirmedEmail = true;
-            })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
         }
     }
 
@@ -73,6 +66,13 @@ namespace WGMarbleMotionAPI
 
             // Pass configuration (IConfigurationRoot) to the configuration service if needed
             this.externalStartupConfiguration.ConfigureService(services, configuration);
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
+            {
+                config.SignIn.RequireConfirmedEmail = true;
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -165,7 +165,7 @@ namespace WGMarbleMotionAPI
     //        }
     //
     //        /// <summary>
-    //        /// The configure method allows the MVC pipeline to be configured
+    //        /// The configure method allows the HTTP request pipeline to be configured
     //        /// </summary>
     //        /// <param name="app">An object that implements IApplicationBuilder</param>
     //        /// <param name="env">An object that implements IHostingEnvironment</param>

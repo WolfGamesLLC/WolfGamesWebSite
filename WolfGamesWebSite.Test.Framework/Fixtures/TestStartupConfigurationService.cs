@@ -35,12 +35,6 @@ namespace WolfGamesWebSite.Test.Framework.Fixtures
         public virtual void ConfigureService(IServiceCollection services, IConfiguration configuration)
         {
             ConfigureStore(services);
-            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
-            {
-                config.SignIn.RequireConfirmedEmail = true;
-            })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
         }
 
         protected virtual void SetupStore(IApplicationBuilder app)
