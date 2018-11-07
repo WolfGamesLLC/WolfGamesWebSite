@@ -3,23 +3,14 @@ using Microsoft.AspNetCore.TestHost;
 using System.Net.Http;
 using Microsoft.AspNetCore.Hosting;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Http.Headers;
 using WolfGamesWebSite.Test.Framework.Facts;
 using WolfGamesWebSite.DAL.Data;
-using Microsoft.AspNetCore.Http;
 using System.Net;
-using Moq;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
 using System;
 using WGMarbleMotionAPI;
 using WolfGamesWebSite.DAL.Models.SimpleGameModels.MarbleMotion;
-using Newtonsoft;
 using Newtonsoft.Json;
-using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Builder;
 using WolfGamesWebSite.Test.Framework.Fixtures;
 
 namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
@@ -112,7 +103,7 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
         }
 
         [Fact]
-        public void TestScenario()
+        public void ReturnPlayerModelResourcesFromGet()
         {
             PlayerModelResource[] data =
             {
@@ -133,18 +124,11 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
                 },
             };
 
-            var webHostBuilder = new WebHostBuilder();
-            webHostBuilder.ConfigureServices(
-                s => s.AddSingleton < IStartupConfigurationService, TestStartupConfigurationService <ApplicationDbContext >> ());
-            webHostBuilder.UseStartup<WGMarbleMotionAPI.Startup>();
-            var testServer = new TestServer(webHostBuilder);
+            _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeader, AuthenticatedTestRequestMiddleware.TestingHeaderValue);
+            _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeaderName, "test");
+            _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeaderId, "12345");
 
-            var Client = testServer.CreateClient();
-            Client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeader, AuthenticatedTestRequestMiddleware.TestingHeaderValue);
-            Client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeaderName, "test");
-            Client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeaderId, "12345");
-
-            var response = Client.GetAsync("/api/players").Result;
+            var response = _client.GetAsync("/api/players").Result;
             response.EnsureSuccessStatusCode();
 
             var result = JsonConvert.DeserializeObject<PlayerModelResource[]>(response.Content.ReadAsStringAsync().Result);
