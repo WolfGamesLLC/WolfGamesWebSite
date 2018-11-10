@@ -8,6 +8,8 @@
     <Description>Wolf Games Marble Motion Game Web API Unit testing package</Description>
 
     <Copyright>2017 Wolf Games LLC</Copyright>
+
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

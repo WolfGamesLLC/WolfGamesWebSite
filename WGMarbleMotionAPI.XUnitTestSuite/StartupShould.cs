@@ -43,12 +43,12 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
                 { "ConnectionStrings:DefaultConnection", "hello" }
             };
 
-
             var configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(dict)
             .Build();
 
-            var startup = new Startup(new WebHostBuilder().Build().Services.GetService<IHostingEnvironment>(), configuration, 
+            var mock_HostEnv = new Mock<IHostingEnvironment>();
+            var startup = new Startup(mock_HostEnv.Object, configuration, 
                 new TestStartupConfigurationService<ApplicationDbContext>());
             startup.ConfigureServices(_services);
 
