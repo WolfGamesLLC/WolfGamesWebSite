@@ -88,7 +88,7 @@ namespace WGMarbleMotionAPI.XUnitTestSuite.Controllers
         {
             var res = Controller.GetPlayersAsync() as OkObjectResult;
             Assert.IsType<Collection<PlayerModelResource>>(res.Value);
-            Assert.Single(((Collection<PlayerModelResource>)res.Value));
+            Assert.Equal(3, ((Collection<PlayerModelResource>)res.Value).Count);
         }
 
         /// <summary>
