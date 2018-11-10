@@ -71,6 +71,15 @@ namespace WGMarbleMotionAPI
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddApiVersioning(opt =>
+            {
+                opt.ApiVersionReader = new MediaTypeApiVersionReader();
+                opt.AssumeDefaultVersionWhenUnspecified = true;
+                opt.ReportApiVersions = true;
+                opt.DefaultApiVersion = new ApiVersion(1, 0);
+                opt.ApiVersionSelector = new CurrentImplementationApiVersionSelector(opt);
+            });
+
             services.AddMvc();
         }
 
