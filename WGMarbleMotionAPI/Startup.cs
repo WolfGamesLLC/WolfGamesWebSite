@@ -62,9 +62,6 @@ namespace WGMarbleMotionAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-
-            // Pass configuration (IConfigurationRoot) to the configuration service if needed
             this.externalStartupConfiguration.ConfigureService(services, configuration);
 
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
@@ -73,6 +70,8 @@ namespace WGMarbleMotionAPI
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddMvc();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -80,11 +79,6 @@ namespace WGMarbleMotionAPI
             app.UseAuthentication();
 
             this.externalStartupConfiguration.Configure(app, env, loggerFactory);
-
-            //      using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            //      {
-            //          serviceScope.ServiceProvider.GetService <ApplicationDbContext>().Database.EnsureCreated();
-            //      }
 
             app.UseMvc();
         }

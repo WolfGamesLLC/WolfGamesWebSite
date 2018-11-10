@@ -17,9 +17,11 @@ using WGMarbleMotionAPI;
 
 namespace WolfGamesWebSite.Test.Framework.Fixtures
 {
-    public class TestStartupConfigurationService<TDbContext> : IStartupConfigurationService
+    public class TestStartupConfigurationService<TDbContext> : IStartupConfigurationService, IDisposable
     where TDbContext : DbContext
     {
+        TDbContext _context = null;
+
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             SetupStore(app);
@@ -34,44 +36,39 @@ namespace WolfGamesWebSite.Test.Framework.Fixtures
 
         public virtual void ConfigureService(IServiceCollection services, IConfiguration configuration)
         {
-            ConfigureStore(services);
+            services.AddDbContext<TDbContext>(options => options.UseInMemoryDatabase(configuration.GetConnectionString("DefaultConnection")));
         }
 
         protected virtual void SetupStore(IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                var dbContext = serviceScope.ServiceProvider.GetService<TDbContext>();
+                var _context = serviceScope.ServiceProvider.GetService<TDbContext>();
 
-                dbContext.Database.OpenConnection();
-                dbContext.Database.EnsureCreated();
+                _context.Database.EnsureCreated();
 
-                dbContext.Add(new PlayerModel()
+                _context.Add(new PlayerModel()
                 {
                     Score = 0,
                     XPosition = 1,
                     ZPosition = 2
                 });
 
-                dbContext.Add(new PlayerModel()
+                _context.Add(new PlayerModel()
                 {
                     Score = 10,
                     XPosition = 11,
                     ZPosition = 12
                 });
 
-                if (!dbContext.SaveChangesAsync(new CancellationToken()).IsCompletedSuccessfully)
+                if (!_context.SaveChangesAsync(new CancellationToken()).IsCompletedSuccessfully)
                     throw new InvalidOperationException("Could not create the player.");
             }
         }
 
-        protected virtual void ConfigureStore(IServiceCollection services)
+        public void Dispose()
         {
-            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
-            var connectionString = connectionStringBuilder.ToString();
-            var connection = new SqliteConnection(connectionString);
-
-            services.AddDbContext<TDbContext>(options => options.UseSqlite(connection));
+            _context.Database.EnsureDeleted();
         }
     }
 }
