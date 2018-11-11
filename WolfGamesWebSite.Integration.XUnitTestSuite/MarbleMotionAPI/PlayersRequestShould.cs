@@ -109,7 +109,7 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
             {
                 new PlayerModelResource()
                 {
-                    Href = "http://localhost/api/Players",
+                    Href = "http://localhost/api/players",
                     Score = 0,
                     XPosition = 1,
                     ZPosition = 2
@@ -117,7 +117,7 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
 
                 new PlayerModelResource()
                 {
-                    Href = "http://localhost/api/Players",
+                    Href = "http://localhost/api/players",
                     Score = 10,
                     XPosition = 11,
                     ZPosition = 12
