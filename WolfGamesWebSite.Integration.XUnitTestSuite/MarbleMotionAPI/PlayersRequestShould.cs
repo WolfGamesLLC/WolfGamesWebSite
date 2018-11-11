@@ -12,6 +12,7 @@ using WGMarbleMotionAPI;
 using WolfGamesWebSite.DAL.Models.SimpleGameModels.MarbleMotion;
 using Newtonsoft.Json;
 using WolfGamesWebSite.Test.Framework.Fixtures;
+using System.Collections.Generic;
 
 namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
 {
@@ -131,8 +132,10 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
             var response = _client.GetAsync("/api/players").Result;
             response.EnsureSuccessStatusCode();
 
-            var result = JsonConvert.DeserializeObject<PlayerModelResource[]>(response.Content.ReadAsStringAsync().Result);
+            IEnumerable<string> iList;
+            Assert.True(response.Headers.TryGetValues("api-supported-versions", out iList));
 
+            var result = JsonConvert.DeserializeObject<PlayerModelResource[]>(response.Content.ReadAsStringAsync().Result);
             Assert.Equal(data.Length, result.Length);
             for (int i = 0; i < data.Length; i++)
             {
