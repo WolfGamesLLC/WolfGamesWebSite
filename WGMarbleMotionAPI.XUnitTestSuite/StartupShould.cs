@@ -66,7 +66,11 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
         [Fact]
         public void UseOnlyLowerCaseRouting()
         {
-            Assert.NotNull(GetService<IConfigureOptions<RouteOptions>>(_services));
+            var ConfigRoutOptions = GetService<IConfigureOptions<RouteOptions>>(_services);
+            Assert.NotNull(ConfigRoutOptions);
+            var routOptions = new RouteOptions();
+            ConfigRoutOptions.Configure(routOptions);
+            Assert.True(routOptions.LowercaseUrls);
         }
 
         /// <summary>

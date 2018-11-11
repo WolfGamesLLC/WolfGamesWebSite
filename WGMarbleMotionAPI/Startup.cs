@@ -80,6 +80,8 @@ namespace WGMarbleMotionAPI
                 opt.ApiVersionSelector = new CurrentImplementationApiVersionSelector(opt);
             });
 
+            services.AddRouting(opt => opt.LowercaseUrls = true);
+
             services.AddMvc();
         }
 
@@ -120,18 +122,8 @@ namespace WGMarbleMotionAPI
     //        // This method gets called by the runtime. Use this method to add services to the container.
     //        public void ConfigureServices(IServiceCollection services)
     //        {
-    ////            services.AddDbContext<ApplicationDbContext>(options =>
-    ////                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("WolfGamesWebSite")));
-    ////
     ////            services.AddCors();            
     ////            services.AddRouting(opt => opt.LowercaseUrls = true);
-    ////
-    ////            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
-    ////            {
-    ////                config.SignIn.RequireConfirmedEmail = true;
-    ////            })
-    ////                .AddEntityFrameworkStores<ApplicationDbContext>()
-    ////                .AddDefaultTokenProviders();
     ////
     ////            services.AddMvc(opt =>
     ////            {
