@@ -22,7 +22,7 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
     public class PlayersRequestShould : DefaultRequestShould
     {
         /// <summary>
-        /// Varify a default request
+        /// Verify a default request
         /// </summary>
         public PlayersRequestShould()
         {
@@ -45,6 +45,7 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
         public async Task ReturnOKResponse()
         {
             // apply
+            SetupRequestAuthenticationHeaders();
             _client.BaseAddress = new Uri("https://localhost:44357");
 
             // Act
@@ -62,7 +63,8 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
         [Fact]
         public async Task ReturnErrorResponseWithJsonDetail()
         {
-            Route += "/update?=1000";
+            SetupRequestAuthenticationHeaders();
+            Route += "https://localhost/api/update?=1000";
             
             // Act
             HttpResponseMessage response = await Request(Route);
@@ -78,6 +80,7 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
         [Fact (Skip = "Until I can add an in memory db to be used by these tests")]
         public async Task ReturnCreatedResponse()
         {
+            SetupRequestAuthenticationHeaders();
             Route += "/create?score=1&xposition=2&zposition=3";
 
             // Act
@@ -94,6 +97,7 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
         [Fact (Skip = "Until I can add an in memory db to be used by these tests")]
         public async Task ReturnUpdatedResponse()
         {
+            SetupRequestAuthenticationHeaders();
             Route += "/update?id=11111111-1111-1111-1111-111111111112&score=1&xposition=2&zposition=3";
 
             // Act
@@ -110,7 +114,7 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
             {
                 new PlayerModelResource()
                 {
-                    Href = "http://localhost/api/players",
+                    Href = "https://localhost/api/players",
                     Score = 0,
                     XPosition = 1,
                     ZPosition = 2
@@ -118,18 +122,16 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
 
                 new PlayerModelResource()
                 {
-                    Href = "http://localhost/api/players",
+                    Href = "https://localhost/api/players",
                     Score = 10,
                     XPosition = 11,
                     ZPosition = 12
                 },
             };
 
-            _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeader, AuthenticatedTestRequestMiddleware.TestingHeaderValue);
-            _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeaderName, "test");
-            _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeaderId, "12345");
+            SetupRequestAuthenticationHeaders();
 
-            var response = _client.GetAsync("/api/players").Result;
+            var response = _client.GetAsync("https://localhost/api/players").Result;
             response.EnsureSuccessStatusCode();
 
             IEnumerable<string> iList;

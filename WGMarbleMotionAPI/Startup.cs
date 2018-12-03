@@ -135,36 +135,4 @@ namespace WGMarbleMotionAPI
             app.UseMvc();
         }
     }
-
-    //        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-    //        {
-    ////            if (env.IsDevelopment())
-    ////            {
-    ////                app.UseDeveloperExceptionPage();
-    ////            }
-    ////
-    ////            app.UseHsts(opt => 
-    ////            {
-    ////                opt.MaxAge(days: 365);
-    ////                opt.IncludeSubdomains();
-    ////                opt.Preload();
-    ////            });
-    ////
-    //////            app.UseCors(builder => builder.WithOrigins("https://localhost:44357")
-    //////                                    .AllowAnyMethod()
-    //////                                    .AllowAnyHeader());
-    //////            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-    ////
-    ////            // Enable middleware to serve generated Swagger as a JSON endpoint.
-    ////            app.UseSwagger();
-    ////
-    ////            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
-    ////            app.UseSwaggerUI(c =>
-    ////            {
-    ////                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Marble Motion V1");
-    ////            });
-    ////
-    ////            app.UseMvc();
-    //        }
-    //    }
 }

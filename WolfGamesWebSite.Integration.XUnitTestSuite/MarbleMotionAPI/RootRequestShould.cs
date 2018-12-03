@@ -8,6 +8,10 @@ using System.Net.Http.Headers;
 using WolfGamesWebSite.Test.Framework.Facts;
 using System.Net;
 using System;
+using WGMarbleMotionAPI;
+using WolfGamesWebSite.Test.Framework.Fixtures;
+using WolfGamesWebSite.DAL.Data;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
 {
@@ -22,8 +26,12 @@ namespace WolfGamesWebSite.Integration.XUnitTestSuite.MarbleMotionApi
         public RootRequestShould()
         {
             // Arrange
-            _server = new TestServer(new WebHostBuilder()
-                .UseStartup<WGMarbleMotionAPI.Startup>());
+            var webHostBuilder = new WebHostBuilder();
+            webHostBuilder.ConfigureServices(
+                s => s.AddSingleton<IStartupConfigurationService, TestStartupConfigurationService<ApplicationDbContext>>());
+            webHostBuilder.UseConfiguration(_configuration);
+            webHostBuilder.UseStartup<WGMarbleMotionAPI.Startup>();
+            _server = new TestServer(webHostBuilder);
             _client = _server.CreateClient();
 
             Route = "https://localhost/api";
