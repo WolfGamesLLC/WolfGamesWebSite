@@ -44,7 +44,7 @@ namespace WolfGamesWebSite.Test.Framework.Facts
         /// <summary>
         /// Helper function to allow tests to authenticate
         /// </summary>
-        public void SetupRequestAuthenticationHeaders()
+        protected void SetupRequestAuthenticationHeaders()
         {
             _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeader, AuthenticatedTestRequestMiddleware.TestingHeaderValue);
             _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeaderName, "test");
