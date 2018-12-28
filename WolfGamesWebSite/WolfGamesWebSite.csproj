@@ -5,8 +5,8 @@
     <UserSecretsId>aspnet-WolfGamesWebSite-C86BA8C5-A36A-447C-9936-21E29869B6E8</UserSecretsId>
     <Description>The Wolf Games LLC Web Site project</Description>
     <Copyright>Wolf Games LLC 2017</Copyright>
-    <ApplicationInsightsResourceId>/subscriptions/4b6ebd1c-89ef-49c1-b199-ad85a3ade597/resourcegroups/WolfGamesDevWebSite/providers/microsoft.insights/components/WolfGamesDevWebSite</ApplicationInsightsResourceId>
-    <ApplicationInsightsAnnotationResourceId>/subscriptions/4b6ebd1c-89ef-49c1-b199-ad85a3ade597/resourcegroups/WolfGamesDevWebSite/providers/microsoft.insights/components/WolfGamesDevWebSite</ApplicationInsightsAnnotationResourceId>
+    <ApplicationInsightsResourceId>/subscriptions/4b6ebd1c-89ef-49c1-b199-ad85a3ade597/resourcegroups/WolfGames/providers/microsoft.insights/components/WolfGamesSite</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/4b6ebd1c-89ef-49c1-b199-ad85a3ade597/resourceGroups/WolfGames/providers/microsoft.insights/components/WolfGamesSite</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
