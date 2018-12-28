@@ -118,10 +118,10 @@ namespace WGMarbleMotionAPI
                 opt.Preload();
             });
 
-//            app.UseCors(builder => builder.WithOrigins("https://localhost:44357")
-//                                    .AllowAnyMethod()
-//                                    .AllowAnyHeader());
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(builder => builder.WithOrigins("https://localhost:44357")
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader());
+//            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
