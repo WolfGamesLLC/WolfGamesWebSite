@@ -19,6 +19,10 @@ using WolfGamesWebSite.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using WolfGamesWebSite.Test.Framework.Fixtures;
 
 namespace WGMarbleMotionAPI.XUnitTestSuite
 {
@@ -39,15 +43,16 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
                 { "ConnectionStrings:DefaultConnection", "hello" }
             };
 
-
             var configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(dict)
             .Build();
 
-            var startup = new Startup(configuration);
+            var mock_HostEnv = new Mock<IHostingEnvironment>();
+            var startup = new Startup(mock_HostEnv.Object, configuration, 
+                new TestStartupConfigurationService<ApplicationDbContext>());
             startup.ConfigureServices(_services);
 
-            _expectedServicesCount = 195;
+            _expectedServicesCount = 233;
 
             foreach (ServiceDescriptor serv in _services)
             {
@@ -61,7 +66,11 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
         [Fact]
         public void UseOnlyLowerCaseRouting()
         {
-            Assert.NotNull(GetService<IConfigureOptions<RouteOptions>>(_services));
+            var ConfigRoutOptions = GetService<IConfigureOptions<RouteOptions>>(_services);
+            Assert.NotNull(ConfigRoutOptions);
+            var routOptions = new RouteOptions();
+            ConfigRoutOptions.Configure(routOptions);
+            Assert.True(routOptions.LowercaseUrls);
         }
 
         /// <summary>
@@ -131,6 +140,26 @@ namespace WGMarbleMotionAPI.XUnitTestSuite
             var context = GetService<DbContextOptions>(_services);
             Assert.NotNull(context);
             Assert.Equal("WolfGamesWebSite.DAL.Data.ApplicationDbContext", context.ContextType.ToString());
+        }
+
+        /// <summary>
+        /// Verify the CORS service has been added
+        /// </summary>
+        [Fact]
+        public void AddCORSService()
+        {
+            var serv = GetService<ICorsService>(_services);
+            Assert.NotNull(serv);
+        }
+
+        /// <summary>
+        /// Verify the CORS policy has been added
+        /// </summary>
+        [Fact]
+        public void AddCORSPolicyProvider()
+        {
+            var prov = GetService<ICorsPolicyProvider>(_services);
+            Assert.NotNull(prov);
         }
 
         //  Arrange

@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using WolfGamesWebSite.Test.Framework.Fixtures;
 using Xunit;
 
 namespace WolfGamesWebSite.Test.Framework.Facts
@@ -31,14 +32,24 @@ namespace WolfGamesWebSite.Test.Framework.Facts
 
 
             _configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(dict)
-            .Build();
+                .AddInMemoryCollection(dict)
+                .Build();
         }
 
         /// <summary>
         /// The route to be used in base integration tests
         /// </summary>
         public string Route { get; set; }
+
+        /// <summary>
+        /// Helper function to allow tests to authenticate
+        /// </summary>
+        protected void SetupRequestAuthenticationHeaders()
+        {
+            _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeader, AuthenticatedTestRequestMiddleware.TestingHeaderValue);
+            _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeaderName, "test");
+            _client.DefaultRequestHeaders.Add(AuthenticatedTestRequestMiddleware.TestingHeaderId, "12345");
+        }
 
         /// <summary>
         /// Helper function that does the actual request and reads the response
@@ -59,6 +70,8 @@ namespace WolfGamesWebSite.Test.Framework.Facts
         [Fact]
         public async Task UseIonPlusJsonContentType()
         {
+            SetupRequestAuthenticationHeaders();
+
             // Act
             HttpResponseMessage response = await Request(Route);
 
@@ -73,6 +86,8 @@ namespace WolfGamesWebSite.Test.Framework.Facts
         [Fact]
         public async Task HaveDefaultVersion()
         {
+            SetupRequestAuthenticationHeaders();
+
             // Act
             HttpResponseMessage response = await Request(Route);
 
@@ -87,10 +102,12 @@ namespace WolfGamesWebSite.Test.Framework.Facts
         [Fact]
         public async Task RedirectNonSSLRequest()
         {
-            HttpResponseMessage response = await Request("http://localhost");
+            SetupRequestAuthenticationHeaders();
+
+            HttpResponseMessage response = await Request("http://localhost:55687/api");
 
             Assert.Equal(HttpStatusCode.Found, response.StatusCode);
-            Assert.Equal(new Uri("https://localhost"), response.Headers.Location);
+            Assert.Equal(new Uri("https://localhost/api"), response.Headers.Location);
         }
 
         /// <summary>
@@ -101,6 +118,7 @@ namespace WolfGamesWebSite.Test.Framework.Facts
         public async Task AddHstsHeaders()
         {
             // arrange
+            SetupRequestAuthenticationHeaders();
             var expectedValues = new WGSystem.Collections.Generic.WGGenericCollectionsFactory().CreateList<string>();
             expectedValues.Add("max-age=31536000; includeSubDomains; preload");
 

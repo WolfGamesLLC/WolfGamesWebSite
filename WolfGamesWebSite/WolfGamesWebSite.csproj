@@ -1,12 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>aspnet-WolfGamesWebSite-C86BA8C5-A36A-447C-9936-21E29869B6E8</UserSecretsId>
     <Description>The Wolf Games LLC Web Site project</Description>
     <Copyright>Wolf Games LLC 2017</Copyright>
-    <ApplicationInsightsResourceId>/subscriptions/4b6ebd1c-89ef-49c1-b199-ad85a3ade597/resourcegroups/WolfGamesDevWebSite/providers/microsoft.insights/components/WolfGamesDevWebSite</ApplicationInsightsResourceId>
-    <ApplicationInsightsAnnotationResourceId>/subscriptions/4b6ebd1c-89ef-49c1-b199-ad85a3ade597/resourcegroups/WolfGamesDevWebSite/providers/microsoft.insights/components/WolfGamesDevWebSite</ApplicationInsightsAnnotationResourceId>
+    <ApplicationInsightsResourceId>/subscriptions/4b6ebd1c-89ef-49c1-b199-ad85a3ade597/resourcegroups/WolfGames/providers/microsoft.insights/components/WolfGamesSite</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/4b6ebd1c-89ef-49c1-b199-ad85a3ade597/resourceGroups/WolfGames/providers/microsoft.insights/components/WolfGamesSite</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -15,16 +15,14 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.2.1" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" PrivateAssets="All" />
     <PackageReference Include="Sendgrid" Version="9.9.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="2.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
-    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
 

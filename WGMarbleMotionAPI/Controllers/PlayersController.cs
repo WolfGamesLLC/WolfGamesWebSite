@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,8 +17,9 @@ namespace WGMarbleMotionAPI.Controllers
     /// The wolf games <see cref="WGMarbleMotionAPI.Controllers.PlayersController"/> 
     /// allows access to the player data for the Marble Motion game.
     /// </summary>
-    [Route("/[controller]")]
+    [Route("/api/[controller]")]
     [ApiVersion("1.0")]
+    [Authorize]
     public class PlayersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -38,13 +40,20 @@ namespace WGMarbleMotionAPI.Controllers
         [HttpGet(Name = nameof(GetPlayersAsync))]
         public IActionResult GetPlayersAsync()
         {
-            return Ok(new Collection<PlayerModelResource>
+            Collection<PlayerModelResource> playerResources = new Collection<PlayerModelResource>();
+            var players = _context.PlayerModel.ToList();
+            foreach (PlayerModel player in players)
             {
-                new PlayerModelResource()
+                playerResources.Add(new PlayerModelResource
                 {
-                    Href = Url.Link(nameof(GetPlayersAsync), null)
-                }
-            });
+                    Href = Url.Link(nameof(GetPlayersAsync), null),
+                    Score = player.Score,
+                    XPosition = player.XPosition,
+                    ZPosition = player.ZPosition
+                });
+            }
+
+            return Ok(playerResources);
         }
 
         /// <summary>

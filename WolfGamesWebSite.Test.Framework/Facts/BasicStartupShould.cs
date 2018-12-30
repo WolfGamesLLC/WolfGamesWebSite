@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Routing.Internal;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.ObjectPool;
 
 namespace WolfGamesWebSite.Test.Framework.Facts
 {
@@ -67,11 +68,10 @@ namespace WolfGamesWebSite.Test.Framework.Facts
             Assert.NotNull(GetService<UrlEncoder>(_services));
         }
 
-        [Fact]
-        public void AddUriBindingContextObjectPoolToServicePipeline()
+        [Fact(Skip = "Until I understand why it can't be found in the service collection")]
+        public void AddUriBuildingContextObjectPoolToServicePipeline()
         {
-            Assert.True(true);
-            //            Assert.NotNull(GetService<ObjectPool<UriBuildingContext>>(_mockServices));
+            Assert.NotNull(GetService<ObjectPool<UriBuildingContext>>(_services));
         }
 
         [Fact]

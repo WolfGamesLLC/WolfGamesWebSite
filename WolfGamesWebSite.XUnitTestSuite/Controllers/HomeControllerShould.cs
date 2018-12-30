@@ -5,6 +5,18 @@ using WolfGamesWebSite.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using WolfGamesWebSite.Common.XUnitTest.Controllers;
 using Xunit.Abstractions;
+using Microsoft.AspNetCore.Identity;
+using WolfGamesWebSite.DAL.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Moq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Authentication;
+using Microsoft.AspNetCore.Http.Features;
+using System.Collections.Generic;
+using System.IO;
 
 namespace WolfGamesWebSite.XUnitTestSuite
 {
@@ -75,13 +87,25 @@ namespace WolfGamesWebSite.XUnitTestSuite
     /// </summary>
     public class HomeControllerShould : BaseControllerShould<HomeController>
     {
+        private Mock<HttpContext> mockContext;
+        private Mock<IUserStore<ApplicationUser>> mockStore;
+        private Mock<UserManager<ApplicationUser>> mockUserManager;
+        private ApplicationUser user;
+
         /// <summary>
         /// The test initializer for the suite
         /// </summary>
         public HomeControllerShould(ITestOutputHelper testOutputHelper)
             : base(testOutputHelper)
         {
-            Controller = new HomeController();
+            mockContext = new Mock<HttpContext>();
+            mockStore = new Mock<IUserStore<ApplicationUser>>();
+            mockUserManager = new Mock<UserManager<ApplicationUser>>(mockStore.Object, null, null, null, null, null, null, null, null);
+            user = new ApplicationUser() { Id = "1" };
+            Controller = new HomeController(mockUserManager.Object);
+
+            Controller.ControllerContext = new ControllerContext();
+            Controller.ControllerContext.HttpContext = mockContext.Object;
         }
 
         /// <summary>
@@ -124,6 +148,44 @@ namespace WolfGamesWebSite.XUnitTestSuite
             Result = Controller.Contact() as ViewResult;
             Assert.IsType<ViewResult>(Result);
             Assert.Equal(HomeControllerMessages.Contact(), Result.ViewData["Message"]);
+        }
+
+        /// <summary>
+        /// The MarbleMotion action returns a RedirectResult with a cookie set to
+        /// the current users id
+        /// </summary>
+        [Fact]
+        public async void MarbleMotionReturnsRedirectResultWithUserIdCookie()
+        {
+            mockUserManager.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+                .Returns(Task.FromResult(user)); 
+
+            mockContext.Setup(x => x.Response.Cookies.Append(It.IsAny<string>(), It.IsAny<string>()));
+
+            var Result = await base.Controller.MarbleMotion() as RedirectResult;
+
+            Assert.IsType<RedirectResult>(Result);
+            Assert.Equal("../SimpleGames/WebGl/MarbleMotion/index.html", Result.Url);
+            mockContext.Verify(x => x.Response.Cookies.Append("id", user.Id), Times.Once);
+        }
+
+        /// <summary>
+        /// The MarbleMotion action returns a RedirectResult with no cookie set
+        /// when no user is logged in
+        /// </summary>
+        [Fact]
+        public async void MarbleMotionReturnsRedirectResultWithNoCookie()
+        {
+            mockUserManager.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+                .Returns(Task.FromResult<ApplicationUser>(null));
+
+            mockContext.Setup(x => x.Response.Cookies.Append(It.IsAny<string>(), It.IsAny<string>()));
+
+            var Result = await base.Controller.MarbleMotion() as RedirectResult;
+
+            Assert.IsType<RedirectResult>(Result);
+            Assert.Equal("../SimpleGames/WebGl/MarbleMotion/index.html", Result.Url);
+            mockContext.Verify(x => x.Response.Cookies.Append("id", user.Id), Times.Never);
         }
     }
 }
